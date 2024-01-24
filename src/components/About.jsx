@@ -8,6 +8,7 @@ const About = () =>{
             <div className='flex flex-col bg-secondary h-screen w-screen'>
                 <h1 className='mt-36 mb-8'>Corn Hub</h1>
                 <h2>NPM Packages & Third party Library used</h2>
+                <p className='mx-5'>Vite</p>
                 <p className='mx-5'>Tailwind</p>
                 <h3 className='mx-5'>React Libraries:</h3>
                 <ul className='items-start mx-8'>

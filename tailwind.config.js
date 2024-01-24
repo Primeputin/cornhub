@@ -21,6 +21,9 @@ export default {
       dropShadow: {
         'yellow': '0 10px 15px rgba(235, 255, 50, 0.8)',
       },
+      backgroundImage: {
+        'search-icon': "url('./assets/searchicon.png')",
+      },
 
     },
   },

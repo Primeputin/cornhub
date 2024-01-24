@@ -18,7 +18,7 @@ const Post = () => {
                     <div className='p-5 mx-9 bg-tertiary rounded-md'>
                             My description
                     </div>
-            </div>
+                </div>
             </div>
 
             
