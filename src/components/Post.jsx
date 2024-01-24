@@ -1,10 +1,9 @@
-import Nav from './Nav'
+import { Nav } from '../hocs'
 
 const Post = () => {
 
     return (
         <>
-            <Nav />
             <div className='flex items-center justify-center bg-secondary h-screen w-screen'>
                 <div className='flex items-center justify-center bg-secondary h-screen w-screen'>
                     <div className='flex flex-col items-center justify-center'>
@@ -25,4 +24,4 @@ const Post = () => {
         </>
     )
 }
-export default Post;
+export default Nav(Post);

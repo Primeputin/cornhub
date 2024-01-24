@@ -1,6 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { Begin, Register, Login, Home, About, Profile, Post } from './components'
-
+import { Begin, Register, Login, Home, About, Profile, Post } from './components';
 
 function App() {
 

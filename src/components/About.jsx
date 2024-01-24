@@ -1,10 +1,9 @@
-import Nav from './Nav';
+import Nav from '../hocs/Nav';
 
 const About = () =>{
 
     return (
         <>
-            <Nav />
             <div className='flex flex-col bg-secondary h-screen w-screen'>
                 <h1 className='mt-36 mb-8'>Corn Hub</h1>
                 <h2>NPM Packages & Third party Library used</h2>
@@ -43,4 +42,4 @@ const About = () =>{
     )
 }
 
-export default About;
+export default Nav(About);

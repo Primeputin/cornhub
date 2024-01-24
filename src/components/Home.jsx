@@ -1,10 +1,9 @@
-import Nav from './Nav'
+import { Nav } from '../hocs'
 
 const Home = () => {
 
     return (
         <>
-            <Nav />
             <div className='flex items-center justify-center bg-secondary h-screen w-screen'>
                 
             </div>
@@ -14,4 +13,4 @@ const Home = () => {
     )
 }
 
-export default Home;
+export default Nav(Home);
