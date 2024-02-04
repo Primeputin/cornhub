@@ -88,7 +88,7 @@ const Nav = (Component) => {
 
                         {/* side panel */}
                         <div 
-                        className={`${!toggle ? "hidden": "flex"} flex-col p-6 bg-primary absolute top-20 right-0 mx-8 my-2 rounded-xl text-tertiary drop-shadow-2xl`}>
+                        className={`${!toggle ? "hidden opacity-0": "flex opacity-100"} transition ease-out delay-150 duration-150 flex-col p-6 bg-primary absolute top-20 right-0 mx-8 my-2 rounded-xl text-tertiary drop-shadow-2xl`}>
                             <ul>
 
                                 <li onClick={()=>navigate("/Profile")} className='hover:text-white cursor-pointer '>

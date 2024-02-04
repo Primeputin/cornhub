@@ -21,8 +21,8 @@ const Home = () => {
 
     return (
         <>
-            <div className='bg-secondary h-screen w-screen'>
-                <div className='flex flex-col items-center justify-center bg-secondary mt-20'>
+            <div className='bg-secondary h-screen w-screen pt-28'>
+                <div className='flex flex-col items-center justify-center bg-secondary'>
                     {posts && posts.map((post)=>(
                         <PostDetails key={post._id} post={post}/>
 
