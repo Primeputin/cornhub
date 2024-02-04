@@ -1,5 +1,8 @@
 {
     "scripts": {
-      "start": "cd backend && npm run dev & cd frontend && npm run dev"
+        "start": "cd backend && npm run dev & cd frontend && npm run dev"
+    },
+    "dependencies": {
+        "react-dropzone": "^14.2.3"
     }
-  }
+}

@@ -5,6 +5,7 @@ import Home from './Home'
 import About from './About'
 import Profile from './Profile'
 import Post from './Post'
+import CreatePost from './CreatePost'
 
 export
 {
@@ -14,6 +15,7 @@ export
     Home,
     About,
     Profile,
-    Post
+    Post,
+    CreatePost,
 
 }

@@ -12,6 +12,7 @@ const postSchema = new Schema({
         max: 100,
         require: true,
     },
+    tags:[String],
     createdAt:{
         type: Date,
         require: true,

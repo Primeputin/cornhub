@@ -19,6 +19,7 @@ mongoose
 `React Libraries`:
 react-dom,
 react-router-dom
+react-dropzone
 
 **To install dependencies**
 

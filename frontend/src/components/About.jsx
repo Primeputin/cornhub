@@ -32,6 +32,9 @@ const About = () =>{
                     <li>
                         react-router-dom
                     </li>
+                    <li>
+                        react-dropzone
+                    </li>
                 </ul>
 
                 <h3 className='mx-5'>Contributors:</h3>
