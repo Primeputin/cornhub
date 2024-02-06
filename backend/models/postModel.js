@@ -7,7 +7,7 @@ const postSchema = new Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'userModel', 
-        required: true,
+        required: false, // change this back to true
     },
     title:{
         type: String,
@@ -19,7 +19,7 @@ const postSchema = new Schema({
         max: 100,
         required: true,
     },
-    tags:[String],
+    tags: [String],
     createdAt:{
         type: Date,
         required: true,

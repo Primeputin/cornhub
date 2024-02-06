@@ -46,8 +46,9 @@ const WholePostDetails = ( {post} )=>{
                 <h4 className="text-2xl font-bold">{post.title}</h4>
                 <span className="text-teal-400 text-xs">Posted at: {monthMap[month]} {day}, {year}</span>
                 <div className='flex'>
-                    <span className='bg-blue-200 rounded-lg px-2 mr-1'>food</span>
-                    <span className='bg-yellow-200 rounded-lg px-2 mr-1'>corn</span>
+                    {post.tags.length > 0 && post.tags.map((tag)=>(
+                        <span className='bg-yellow-200 rounded-lg px-2 mr-1'>{tag}</span>
+                    ))} 
                 </div>
                 <p className='mt-2'>
                     {post.desc}
