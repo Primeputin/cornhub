@@ -3,6 +3,7 @@ import coloredlike from '../assets/coloredlike.png'
 import dislike from '../assets/dislike.png'
 import coloreddislike from '../assets/coloreddislike.png'
 
+import { useNavigate } from 'react-router-dom';
 import { useState } from 'react'
 
 const PostDetails = ({ post })=>{
@@ -10,6 +11,9 @@ const PostDetails = ({ post })=>{
     const createdTimeStamp = new Date(post.createdAt);
     const [isLiked, setLiked] = useState(false);
     const [isDisliked, setDisliked] = useState(false);
+
+
+    const navigate = useNavigate();
 
     // Extracting date components
     const year = createdTimeStamp.getFullYear();
@@ -59,7 +63,7 @@ const PostDetails = ({ post })=>{
                         <img src={isDisliked ? coloreddislike : dislike} width="15rem" height="15rem"/>
                     </button>
                 </div>
-                <button className='text-xs'>Comment</button>
+                <button className='text-xs' onClick={()=>navigate(`/SinglePost/${post._id}`)}>Comment</button>
             </div>
         </div>
     )

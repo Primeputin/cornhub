@@ -6,6 +6,7 @@ import About from './About'
 import Profile from './Profile'
 import Post from './Post'
 import CreatePost from './CreatePost'
+import SinglePost from './SinglePost'
 
 export
 {
@@ -17,5 +18,6 @@ export
     Profile,
     Post,
     CreatePost,
+    SinglePost,
 
 }

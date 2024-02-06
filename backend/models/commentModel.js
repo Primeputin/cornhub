@@ -8,11 +8,6 @@ const commentSchema = new Schema({
         ref: 'userModel', 
         required: true,
     },
-    password:{
-        type: String,
-        max: 50,
-        required: true,
-    },
     createdAt:{
         type: Date,
         required: true,

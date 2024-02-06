@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { Begin, Register, Login, Home, About, Profile, Post, CreatePost } from './components';
+import { Begin, Register, Login, Home, About, Profile, Post, CreatePost, SinglePost } from './components';
 
 function App() {
 
@@ -17,6 +17,7 @@ function App() {
             <Route path="/Profile" element={<Profile />} />
             <Route path="/Post" element={<Post />} />
             <Route path="/CreatePost" element={<CreatePost />} />
+            <Route path="/SinglePost/:id" element={<SinglePost />} />
           </Routes>
       </BrowserRouter>
 
