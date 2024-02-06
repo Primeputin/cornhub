@@ -53,6 +53,8 @@ const WholePostDetails = ( {post} )=>{
                 <p className='mt-2'>
                     {post.desc}
                 </p>
+                {/* hardcoded image for now */}
+                <img src='https://cdn.britannica.com/36/167236-050-BF90337E/Ears-corn.jpg' className='w-full h-full rounded-sm'/>
                 <div className="flex items-center justify-around mt-5">
                     <div className="flex items-center justify-center">
                         <button onClick={() => setLiked((prevToggle) => !prevToggle)} className='mr-1'>

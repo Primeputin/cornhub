@@ -2,6 +2,7 @@ import like from '../assets/like.jpeg'
 import coloredlike from '../assets/coloredlike.png'
 import dislike from '../assets/dislike.png'
 import coloreddislike from '../assets/coloreddislike.png'
+import edit from '../assets/edit.png'
 
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react'
@@ -37,12 +38,22 @@ const PostDetails = ({ post })=>{
 
     return (
         <div className="bg-tertiary px-5 pt-5 pb-3 rounded-lg max-w-xl w-1/2 my-5 shadow-lg">
-            <div className='flex'>
-                <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" 
-                            className="rounded-full cursor-pointer mr-2"
-                            width="25rem" height = "25rem"
-                            />
-                <span>Username</span>
+            <div className='flex justify-between'>
+                <div className='flex items-center'>
+                    <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" 
+                                className="rounded-full cursor-pointer mr-2"
+                                width="25rem" height = "25rem"
+                                />
+                    <span>Username</span>
+                </div>
+                
+                <button className='bg-tertiary' onClick={()=>navigate(`/EditPost/${post._id}`)}>
+                    <img src={edit}
+                                className="rounded-full cursor-pointer"
+                                width="15rem" height = "15rem"
+                                />
+                </button>
+                
             </div>
             
             <h4 className="text-2xl font-bold">{post.title}</h4>
@@ -55,6 +66,8 @@ const PostDetails = ({ post })=>{
             <p className='mt-2'>
                 {post.desc}
             </p>
+            {/* hardcoded image for now */}
+            <img src='https://cdn.britannica.com/36/167236-050-BF90337E/Ears-corn.jpg' className='w-full h-full rounded-sm'/>
             <div className="flex items-center justify-around mt-5">
                 <div className="flex items-center justify-center">
                     <button onClick={() => setLiked((prevToggle) => !prevToggle)} className='mr-1'>
