@@ -1,9 +1,9 @@
 import { Nav } from '../hocs'
-import WholePostDetails from './WholePostDetails';
+import EditPostForm from './EditPostForm';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
-const EditPost = () => {
+const SinglePost = () => {
 
     const [post, setPost] = useState(null);
     const [loading, setLoading] = useState(true); // Added loading state
@@ -37,7 +37,7 @@ const EditPost = () => {
                     {loading ? (
                         <p>Loading...</p>
                         ) : post ? (
-                        <WholePostDetails post={post} />
+                        <EditPostForm post={post} />
                         ) : (
                         <p>No post found</p>
                         )}
@@ -51,4 +51,4 @@ const EditPost = () => {
     )
 }
 
-export default Nav(EditPost);
+export default Nav(SinglePost);
