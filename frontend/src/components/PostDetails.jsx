@@ -70,10 +70,27 @@ const PostDetails = ({ post })=>{
             <img src='https://cdn.britannica.com/36/167236-050-BF90337E/Ears-corn.jpg' className='w-full h-full rounded-sm'/>
             <div className="flex items-center justify-around mt-5">
                 <div className="flex items-center justify-center">
-                    <button onClick={() => setLiked((prevToggle) => !prevToggle)} className='mr-1'>
+                    <button onClick={() => {
+                            setLiked((prevToggle) => 
+                            {
+                                if (!prevToggle) // if liked
+                                {
+                                    setDisliked(false);
+                                }
+                                return !prevToggle;
+                            });
+                    }} className='mr-1'>
                         <img src={isLiked ? coloredlike : like} width="15rem" height="15rem"/>
                     </button>
-                    <button onClick={() => setDisliked((prevToggle) => !prevToggle)}>
+                    <button onClick={() => {
+                        setDisliked((prevToggle)=>{
+                            if (!prevToggle) // if disliked
+                            {
+                                setLiked(false);
+                            }
+                            return !prevToggle;
+                        });
+                    }}>
                         <img src={isDisliked ? coloreddislike : dislike} width="15rem" height="15rem"/>
                     </button>
                 </div>
