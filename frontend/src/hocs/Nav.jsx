@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import corn from '../assets/corn.png'
+import corn from '../assets/corn.png';
+import menubar from '../assets/menubar.png';
+import xicon from '../assets/x.png';
 
 const Nav = (Component) => {
     return function hoc(){
@@ -9,6 +11,9 @@ const Nav = (Component) => {
 
         const [toLog, setToLog] = useState(false);
         const dialogRef = useRef(null);
+
+        const [menuBar, setMenuBar] = useState(false);
+        const menuBarRef = useRef(null);
 
         useEffect(()=>{
             const handleClickOutside = (event) => {
@@ -26,6 +31,41 @@ const Nav = (Component) => {
             document.removeEventListener('click', handleClickOutside);
             };
         }, []);
+
+        useEffect(()=>{
+            const handleClickOutside = (event) => {
+                if (menuBarRef.current && !menuBarRef.current.contains(event.target)) {
+                // Clicked outside the div, hide the menu bar
+                setMenuBar(false);
+                }
+            };
+            
+        
+            document.addEventListener('click', handleClickOutside);
+        
+            
+            return () => {
+            document.removeEventListener('click', handleClickOutside);
+            };
+        }, []);
+
+        useEffect(() => {
+            const handleResize = () => {
+              // Update state based on screen width
+              if (window.innerWidth <= 768)
+              {
+                setMenuBar(false);
+              }
+            };
+        
+
+            handleResize();
+        
+            window.addEventListener('resize', handleResize);
+        
+            
+            return () => window.removeEventListener('resize', handleResize);
+          }, []); 
 
         useEffect(()=>{
             const outsideDialog = (event) => {
@@ -57,10 +97,34 @@ const Nav = (Component) => {
             <>
             
                 <div className={`${!toLog ? 'opacity-100' : 'opacity-50'} w-full flex items-center justify-between py-5 fixed top-0 z-20 bg-primary backdrop-blur-md`}>
-                    <div className='flex'>
+                    <div className='md:flex hidden'>
                         <h2 onClick={()=>navigate("/Home")} className="text-tertiary hover:text-white font-medium cursor-pointer px-2 mx-2">Home</h2>
+                        <h2 onClick={()=>navigate("/Popular")} className="text-tertiary hover:text-white font-medium cursor-pointer px-2 mx-2">Popular</h2>
                         <h2 onClick={()=>navigate("/About")} className="text-tertiary hover:text-white font-medium cursor-pointer px-2 mx-2">About</h2>
                     </div>
+
+                    <div ref={menuBarRef} onClick = {() => setMenuBar((prevToggle) => !prevToggle)} className='md:hidden flex'>
+                        <div className='px-2 mx-2'>
+                            <img src={menuBar ? xicon : menubar} className='size-8'/>
+                        </div>
+
+                    </div>
+                    {/* extra menu bar */}
+                    <div 
+                        className={`${!menuBar ? "hidden opacity-0": "flex opacity-100"} transition ease-out delay-150 duration-150 flex-col p-6 bg-primary absolute top-20 right-100 mx-8 my-2 rounded-xl text-tertiary drop-shadow-2xl`}>
+                            <ul>
+
+                                <li onClick={()=>navigate("/Home")} className='hover:text-white cursor-pointer '>
+                                    Home
+                                </li>
+                                <li onClick={()=>navigate("/Popular")} className='hover:text-white cursor-pointer'>
+                                    Popular
+                                </li>
+                                <li onClick={()=>navigate("/About")} className='hover:text-white cursor-pointer'>
+                                    About
+                                </li>
+                            </ul>
+                        </div>
 
                     <div>
                         <form className='bg-white rounded-lg'>
