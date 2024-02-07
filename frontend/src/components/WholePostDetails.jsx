@@ -91,7 +91,12 @@ const WholePostDetails = ( {post} )=>{
                             className="rounded-full cursor-pointer p-1 mx-1 mr-2"
                             width="50"
                             height="50"/>
-                            <p>I also like corns!!!</p>
+                            <div className='flex flex-col'>
+                                <span className="text-teal-400 text-xs">Commented at: {monthMap[month]} {day}, {year}</span>
+                                <p>I also like corns!!!</p>
+                            </div>
+                            
+                            
 
                         </section>
                         <div className='bg-tertiary flex justify-around'> 
