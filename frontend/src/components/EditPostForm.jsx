@@ -44,7 +44,7 @@ const EditPostForm = ( {post} )=>{
                         <span>Username</span>
                     </div>
                     
-                    <input type="text" name="title" className='rounded-lg px-2 text-2xl font-bold my-2' placeholder={post.title} value={post.title}/>
+                    <input type="text" name="title" className='rounded-lg px-2 text-2xl font-bold my-2 w-full' placeholder={post.title} value={post.title}/>
                     <div className='flex'>
                         {post.tags.length > 0 && post.tags.map((tag)=>(
                             <span className='bg-yellow-200 rounded-lg px-2 mr-1'>{tag}</span>
