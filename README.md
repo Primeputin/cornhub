@@ -34,10 +34,23 @@ npm install
 cd..
 ```
 
-**To run the server**
+**To run the servers**
 
 ```
 npm start
+```
+
+**If that doesn't work to run**
+Make sure to run this command in different terminal/command prompt sessions in the same directory.
+
+```
+cd backend
+npm run dev
+```
+
+```
+cd frontend
+npm run dev
 ```
 
 As always, stay corny:)

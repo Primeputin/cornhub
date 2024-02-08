@@ -1,9 +1,3 @@
-import like from '../assets/like.jpeg'
-import coloredlike from '../assets/coloredlike.png'
-import dislike from '../assets/dislike.png'
-import coloreddislike from '../assets/coloreddislike.png'
-import reply from '../assets/reply.png'
-
 import { useState } from 'react'
 
 const EditPostForm = ( {post} )=>{
@@ -32,7 +26,7 @@ const EditPostForm = ( {post} )=>{
         12: 'December'
       };
 
-    return (
+    return (  
         <>
             <div className="bg-tertiary px-5 pt-5 pb-3 rounded-lg max-w-xl w-1/2 my-5 shadow-lg">
                 <form submit="">

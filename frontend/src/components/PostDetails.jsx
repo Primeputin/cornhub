@@ -11,8 +11,7 @@ const PostDetails = ({ post })=>{
 
     const createdTimeStamp = new Date(post.createdAt);
     const [isLiked, setLiked] = useState(false);
-    const [isDisliked, setDisliked] = useState(false);
-
+    const [isDisliked, setDisliked] = useState(false);    
 
     const navigate = useNavigate();
 
