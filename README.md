@@ -26,7 +26,12 @@ react-dropzone
 - Run these commands in the main folder directory
 
 ```
+cd backend
 npm install
+cd ..
+cd frontend
+npm install
+cd..
 ```
 
 **To run the server**
