@@ -4,6 +4,7 @@ require('dotenv').config()
 const express = require('express');
 const mongoose = require('mongoose');
 const postRoutes = require('./routes/posts');
+const commentRoutes = require('./routes/comments');
 const cors = require('cors');
 
 // express app
@@ -21,6 +22,7 @@ app.use((req, res, next) => {
 
 // routes
 app.use("/api/posts", postRoutes)
+app.use("/api/comments", commentRoutes)
 
 // connect to db
 mongoose.connect(process.env.MONGURI).then(()=>{

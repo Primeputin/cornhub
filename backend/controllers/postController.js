@@ -15,14 +15,14 @@ const getPost = async (req, res)=>{
     // checks if the obj id is valid before proceeind to prevent an error in the db side
     if (!mongoose.Types.ObjectId.isValid(id))
     {
-        return res.status(404).json.error({error: "No such post found :("});
+        return res.status(404).json({error: "No such post found :("});
     }
 
     const post = await Post.findById(id);
 
     if (!post)
     {
-        return res.status(404).json.error({error: "No such post found :("});
+        return res.status(404).json({error: "No such post found :("});
     }
     res.status(200).json(post);
 }
@@ -48,14 +48,14 @@ const deletePost = async (req, res)=>{
     // checks if the obj id is valid before proceeind to prevent an error in the db side
     if (!mongoose.Types.ObjectId.isValid(id))
     {
-        return res.status(404).json.error({error: "No such post found :("});
+        return res.status(404).json({error: "No such post found :("});
     }
 
     const post = await Post.findOneAndDelete({_id: id});
 
     if (!post)
     {
-        return res.status(404).json.error({error: "No such post found :("});
+        return res.status(404).json({error: "No such post found :("});
     }
     res.status(200).json(post);
 }
@@ -66,14 +66,14 @@ const updatePost = async (req, res)=>{
     // checks if the obj id is valid before proceeind to prevent an error in the db side
     if (!mongoose.Types.ObjectId.isValid(id))
     {
-        return res.status(404).json.error({error: "No such post found :("});
+        return res.status(404).json({error: "No such post found :("});
     }
 
     const post = await Post.findOneAndUpdate({_id: id}, {...req.body});
 
     if (!post)
     {
-        return res.status(404).json.error({error: "No such post found :("});
+        return res.status(404).json({error: "No such post found :("});
     }
     res.status(200).json(post);
 }

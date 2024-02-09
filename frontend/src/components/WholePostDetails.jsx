@@ -2,9 +2,11 @@ import like from '../assets/like.jpeg'
 import coloredlike from '../assets/coloredlike.png'
 import dislike from '../assets/dislike.png'
 import coloreddislike from '../assets/coloreddislike.png'
-import reply from '../assets/reply.png'
 
-import { useState } from 'react'
+import CommentsDetails from './CommentsDetails'
+
+import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 
 const WholePostDetails = ( {post} )=>{
 
@@ -32,6 +34,32 @@ const WholePostDetails = ( {post} )=>{
         12: 'December'
       };
 
+    // for comments
+    const [comments, setComments] = useState(null);
+    const [loading, setLoading] = useState(true); // Added loading state
+    const params = useParams();
+    useEffect(()=>{
+        const fetchComments = async()=>{
+            try{
+                const response = await fetch(`http://localhost:3000/api/comments/`);
+                if (response.ok)
+                {
+                    const json = await response.json();
+                    setComments(json);
+                }
+            }
+            catch (error)
+            {
+                console.error("Error fetching post:", error);
+            }
+            finally {
+                setLoading(false); // Set loading to false regardless of success or error
+             }
+        }
+        
+        fetchComments();
+    }, [])
+
     return (
         <>
             <div className="bg-tertiary px-5 pt-5 pb-3 rounded-lg max-w-xl w-1/2 my-5 shadow-lg">
@@ -46,8 +74,8 @@ const WholePostDetails = ( {post} )=>{
                 <h4 className="text-2xl font-bold">{post.title}</h4>
                 <span className="text-teal-400 text-xs">Posted at: {monthMap[month]} {day}, {year}</span>
                 <div className='flex'>
-                    {post.tags.length > 0 && post.tags.map((tag)=>(
-                        <span className='bg-yellow-200 rounded-lg px-2 mr-1'>{tag}</span>
+                    {post.tags.length > 0 && post.tags.map((tag, index)=>(
+                        <span key={index} className='bg-yellow-200 rounded-lg px-2 mr-1'>{tag}</span>
                     ))} 
                 </div>
                 <p className='mt-2'>
@@ -67,58 +95,14 @@ const WholePostDetails = ( {post} )=>{
                 </div>
             </div>
 
-            {/* sample comments */}
-            <div className='p-5 w-full'>
-                <h2 className='bg-primary rounded-t-lg px-5 text-white p-3 text-lg'>Comments</h2>
-                <div className='flex flex-col w-full h-full bg-slate-100'>
-                   <div className='flex flex-col'>
-                        <section className='bg-primary p-2'>
-                            {/* create comment */}
-                            <form action="">
-                                <textarea name="desc" className='bg-white p-2 resize-none rounded-md max-h-40 max-w-50 w-full overflow-y-auto'>
-                                </textarea>
-                                <br/>
-                                <input className="bg-secondary rounded-md px-2" type="submit" value="Comment"/>
-                            </form>
-
-                        </section>
-
-                    </div>
-
-                    <div className='flex flex-col'>
-                        <section className='bg-tertiary flex items-center py-2'>
-                            <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" 
-                            className="rounded-full cursor-pointer p-1 mx-1 mr-2"
-                            width="50"
-                            height="50"/>
-                            <div className='flex flex-col'>
-                                <span className="text-teal-400 text-xs">Commented at: {monthMap[month]} {day}, {year}</span>
-                                <p>I also like corns!!!</p>
-                            </div>
-                            
-                            
-
-                        </section>
-                        <div className='bg-tertiary flex justify-around'> 
-                            <button className='mr-1 mb-2'>
-                                <img src={reply} width="15rem" height="15rem"/>
-                            </button>
-                            <button className='mr-1 mb-2'>
-                                <p className='underline underline-offset-2'> Edit </p>
-                            </button>
-                            <button className='mr-1 mb-2'>
-                                <p className='underline underline-offset-2'> Delete </p>
-                            </button>
-                            <button className='mr-1 mb-2'>
-                                <p className='underline underline-offset-2'> More replies </p>
-                            </button>
-                            
-                        </div>
-                        
-
-                    </div>
-                </div>
-            </div>
+            {loading ? (
+                        <p>Loading...</p>
+                        ) : post ? (
+                        <CommentsDetails comments={comments} />
+                        ) : (
+                        <p>No comments found</p>
+                        )}
+            
         </>
     )
 }
