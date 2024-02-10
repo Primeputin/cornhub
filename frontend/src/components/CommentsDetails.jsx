@@ -1,6 +1,6 @@
 import reply from '../assets/reply.png'
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 
 const CommentsDetails = ({comments})=>{
@@ -72,12 +72,29 @@ const CommentsDetails = ({comments})=>{
 }
 
 const CommentItem = ({ comment, onDeleteComment })=>{
-    const createdTimeStamp = new Date(comment.createdAt);
 
-    // Extracting date components
-    const year = createdTimeStamp.getFullYear();
-    const month = createdTimeStamp.getMonth() + 1; // Months are zero-indexed
-    const day = createdTimeStamp.getDate();
+    const [commentState, setCommentState] = useState(comment);
+
+    const getThreeTime = (timeString)=>{
+        const createdTimeStamp = new Date(timeString);
+
+        // Extracting date components
+        const year = createdTimeStamp.getFullYear();
+        const month = createdTimeStamp.getMonth() + 1; // Months are zero-indexed
+        const day = createdTimeStamp.getDate();
+        const time = createdTimeStamp.getTime();
+
+        return {
+            year: year,
+            month: month,
+            day: day,
+            time: time,
+        }
+    }
+
+    const { year, month, day, time } = getThreeTime(comment.createdAt);
+    let { year: updatedYear, month: updatedMonth, day: updatedDay, time: updatedTime } = getThreeTime(comment.updatedAt);
+    const [isUpdated, setUpdated] = useState(day !== updatedDay || month !== updatedMonth || year !== updatedYear || time !== updatedTime);
 
     const monthMap = {
         1: 'January',
@@ -95,7 +112,7 @@ const CommentItem = ({ comment, onDeleteComment })=>{
         };
 
     const [commentBody, setCommentBody] = useState('');
-    const [repliesState, setRepliesState] = useState([...comment.replies]);
+    const [repliesState, setRepliesState] = useState([...commentState.replies]);
     const onComment = async ()=>{
         // new comment object for the reply
         const newComment = {
@@ -112,7 +129,7 @@ const CommentItem = ({ comment, onDeleteComment })=>{
 
             const newReplies = [...repliesState, createdComment._id]
             // update the comment being replied to
-            await axios.patch('http://localhost:3000/api/comments/' + comment._id, { replies: newReplies });
+            await axios.patch('http://localhost:3000/api/comments/' + commentState._id, { replies: newReplies });
             // Update the comment being replied to
             setRepliesState(newReplies);
 
@@ -157,8 +174,8 @@ const CommentItem = ({ comment, onDeleteComment })=>{
 
         try {
             // delete comment
-            onDeleteComment(comment._id); // to update the top level comment if ever
-            await axios.delete('http://localhost:3000/api/comments/' + comment._id);
+            onDeleteComment(commentState._id); // to update the top level comment if ever
+            await axios.delete('http://localhost:3000/api/comments/' + commentState._id);
             
             
 
@@ -170,14 +187,11 @@ const CommentItem = ({ comment, onDeleteComment })=>{
 
     const onDeleteReplies = (commentId) => {
         // Filter out the deleted comment from the comments array
-        console.log("before", repliesState);
-        
-        console.log(commentId)
         
         const updatedState = repliesState.filter(objid => {
             return objid !== commentId;
         });
-        console.log("after", updatedState);
+        
         setRepliesState(updatedState);
         fetchReplies(updatedState);
     };
@@ -188,16 +202,15 @@ const CommentItem = ({ comment, onDeleteComment })=>{
     const onEdit = async ()=>{
 
         try {
-
-            // Update the comment being replied to
-            comment.replies.push(createdComment._id);
             // update the comment being replied to
-            await axios.patch('http://localhost:3000/api/comments/' + comment._id, { comment: editBody });
-            setRepliesState([...comment.replies]);
-
+            const response = await axios.patch('http://localhost:3000/api/comments/' + commentState._id, { comment: editBody });
+            setCommentState(response.data);
+            // put parenthesis around or else js will get confused
+            ({ year: updatedYear, month: updatedMonth, day: updatedDay, time: updatedTime } = getThreeTime(commentState.updatedAt));
+            setUpdated(true) ;
 
         } catch (error) {
-            console.error('Error creating a reply:', error);
+            console.error('Error in editing a comment', error);
         }
 
         setEditBody('');
@@ -213,19 +226,24 @@ const CommentItem = ({ comment, onDeleteComment })=>{
                 <div>
                     <div>
                         <div className='bg-secondary px-2 py-4'>
+                           
                             <textarea
-                                onChange={(event)=>{setCommentBody(event.target.value)}}
-                                value={comment.comment}
+                                onChange={(event)=>{setEditBody(event.target.value)}}
+                                defaultValue={commentState.comment}
                                 className='bg-white p-2 resize-none rounded-md max-h-40 max-w-50 w-full overflow-y-auto'/>
+                            <br/>
                         </div>
                         
 
                         <div className='bg-secondary flex justify-around'> 
 
-                            <button onClick={()=>setIsEditing(false)} className='mr-1 my-2 text-xs'>
+                            <button onClick={()=>{
+                                onEdit();
+                                setIsEditing(false);
+                            }} className='mr-1 my-2 text-xs hover:bg-primary hover:text-white'>
                                 <p className='underline underline-offset-2'> Save </p>
                             </button>
-                            <button onClick={()=>setIsEditing(false)} className='mr-1 my-2 text-xs'>
+                            <button onClick={()=>setIsEditing(false)} className='mr-1 my-2 text-xs text-xs hover:bg-rose-500 hover:text-white'>
                                 <p className='underline underline-offset-2'> Cancel </p>
                             </button>
                             
@@ -243,8 +261,21 @@ const CommentItem = ({ comment, onDeleteComment })=>{
                         width="50"
                         height="50"/>
                         <div className='flex flex-col'>
-                            <span className="text-teal-400 text-xs">Commented at: {monthMap[month]} {day}, {year}</span>
-                            <p>{comment.comment}</p>
+                            {
+                                isUpdated ? 
+                                (
+                                    <span className="text-teal-400 text-xs">
+                                        Edited at: {monthMap[updatedMonth]} {updatedDay}, {updatedYear}
+                                    </span>
+                                ):
+                                (
+                                    <span className="text-teal-400 text-xs">
+                                        Commented at: {monthMap[month]} {day}, {year}
+                                    </span>
+                                )
+
+                            }
+                            <p>{commentState.comment}</p>
                             
                         </div>
                         
@@ -259,7 +290,7 @@ const CommentItem = ({ comment, onDeleteComment })=>{
                         <button onClick={()=>setIsEditing(true)} className='mr-1 mb-2 text-xs'>
                             <p className='underline underline-offset-2'> Edit </p>
                         </button>
-                        <button onClick={deleteComment}className='mr-1 mb-2 text-xs'>
+                        <button onClick={deleteComment}className='mr-1 mb-2 text-xs hover:bg-rose-500 hover:text-white'>
                             <p className='underline underline-offset-2'> Delete </p>
                         </button>
                         <button onClick={()=>setIsShowReplies((prev)=>!prev)} className='mr-1 mb-2 text-xs'>

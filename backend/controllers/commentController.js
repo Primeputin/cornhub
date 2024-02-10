@@ -86,22 +86,31 @@ const deleteComment = async (req, res) => {
 
 
 // update a Comment
-const updateComment = async (req, res)=>{
-    const { id } = req.params
-    // checks if the obj id is valid before proceeind to prevent an error in the db side
-    if (!mongoose.Types.ObjectId.isValid(id))
-    {
-        return res.status(404).json({error: "No such post found :("});
+const updateComment = async (req, res) => {
+    const { id } = req.params;
+
+    // Check if the object id is valid before proceeding to prevent an error in the database side
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(404).json({ error: "No such post found :(" });
     }
 
-    const comment = await Comment.findOneAndUpdate({_id: id}, {...req.body});
+    try {
+        const updatedComment = await Comment.findOneAndUpdate(
+            { _id: id },
+            { ...req.body },
+            { new: true } // Return the updated document
+        );
 
-    if (!comment)
-    {
-        return res.status(404).json({error: "No such post found :("});
+        if (!updatedComment) {
+            return res.status(404).json({ error: "No such post found :(" });
+        }
+
+        res.status(200).json(updatedComment);
+    } catch (error) {
+        console.error("Error updating comment:", error);
+        res.status(500).json({ error: "Internal server error" });
     }
-    res.status(200).json(comment);
-}
+};
 
 
 module.exports = { getComments , getComment, createComment, deleteComment, updateComment }

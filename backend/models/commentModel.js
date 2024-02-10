@@ -30,4 +30,10 @@ const commentSchema = new Schema({
     }],
 });
 
+// This will run every time the object is being saved
+commentSchema.pre('save', function (next) {
+    this.updatedAt = new Date(); // will the update the updatedAt field every time something is edited
+    next(); // Call the next middleware
+});
+
 module.exports = mongoose.model("commentModel", commentSchema);
