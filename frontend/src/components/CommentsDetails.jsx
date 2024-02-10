@@ -6,7 +6,7 @@ import axios from 'axios';
 const CommentsDetails = ({comments})=>{
 
     const [commentBody, setCommentBody] = useState('');
-
+    const [commentsState, setCommentsState] = useState(comments);
     const onComment = async ()=>{
         // new comment object
         const newComment = {
@@ -16,17 +16,21 @@ const CommentsDetails = ({comments})=>{
 
         try {
             // Send HTTP request to create a new comment
-            await axios.post('http://localhost:3000/api/comments/', newComment);
-
+            const response = await axios.post('http://localhost:3000/api/comments/', newComment);
+            commentsState.unshift(response.data); // insert in the beginning of the array
             // Clear the textarea after successful submission
             setCommentBody('');
         } catch (error) {
             console.error('Error creating comment:', error);
         }
 
-        comments.unshift(newComment); // insert in the beginning of the array
         setCommentBody('');
     }
+
+    const onDeleteComment = (commentId) => {
+        // Filter out the deleted comment from the comments array
+        setCommentsState(commentsState.filter(comment => comment._id !== commentId));
+    };
 
     return (
         <>
@@ -52,8 +56,8 @@ const CommentsDetails = ({comments})=>{
                     </div>
 
                     <div className='flex flex-col'>
-                        {comments && comments.map((comment)=>(
-                            <CommentItem key={comment._id} comment={comment}/>
+                        {commentsState && commentsState.map((comment)=>(
+                            <CommentItem key={comment._id} comment={comment} onDeleteComment={onDeleteComment}/>
                         ))
 
                         }
@@ -67,7 +71,7 @@ const CommentsDetails = ({comments})=>{
     )
 }
 
-const CommentItem = ({comment})=>{
+const CommentItem = ({ comment, onDeleteComment })=>{
     const createdTimeStamp = new Date(comment.createdAt);
 
     // Extracting date components
@@ -156,9 +160,9 @@ const CommentItem = ({comment})=>{
         try {
             // delete comment
             await axios.delete('http://localhost:3000/api/comments/' + comment._id);
-            comment.replies = comment.replies.filter(item => item !== comment._id);
+            comment.replies = comment.replies.filter(item => item._id !== comment._id);
             setRepliesState([...comment.replies]);
-
+            onDeleteComment(comment._id); // to update the top level comment if ever
 
         } catch (error) {
             console.error('Error deleting comment:', error);
@@ -176,6 +180,7 @@ const CommentItem = ({comment})=>{
                 <div className='flex flex-col'>
                     <span className="text-teal-400 text-xs">Commented at: {monthMap[month]} {day}, {year}</span>
                     <p>{comment.comment}</p>
+                    
                 </div>
                 
                 
