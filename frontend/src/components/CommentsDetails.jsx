@@ -95,7 +95,7 @@ const CommentItem = ({ comment, onDeleteComment })=>{
         };
 
     const [commentBody, setCommentBody] = useState('');
-    const [repliesState, setRepliesState] = useState([]);
+    const [repliesState, setRepliesState] = useState([...comment.replies]);
     const onComment = async ()=>{
         // new comment object for the reply
         const newComment = {
@@ -110,12 +110,13 @@ const CommentItem = ({ comment, onDeleteComment })=>{
             // Get the newly created comment/reply from the response
             const createdComment = response.data;
 
-            // Update the comment being replied to
-            comment.replies.push(createdComment._id);
+            const newReplies = [...repliesState, createdComment._id]
             // update the comment being replied to
-            await axios.patch('http://localhost:3000/api/comments/' + comment._id, { replies: comment.replies });
-            setRepliesState([...comment.replies]);
+            await axios.patch('http://localhost:3000/api/comments/' + comment._id, { replies: newReplies });
+            // Update the comment being replied to
+            setRepliesState(newReplies);
 
+            fetchReplies(newReplies);
 
         } catch (error) {
             console.error('Error creating a reply:', error);
@@ -130,39 +131,36 @@ const CommentItem = ({ comment, onDeleteComment })=>{
 
     // for the replies of the comment
     const [repliesData, setRepliesData] = useState([]);
-    useEffect (()=>{
 
-        const fetchReplies = async () => {
-            try {
-                if (isShowReplies) {
-                    // Fetch comment data for each reply ObjectId
-                    const promises = comment.replies.map(async (replyId) => {
-                        console.log(replyId)
-                        const response = await axios.get(`http://localhost:3000/api/comments/${replyId}`);
-                        return response.data;
-                    });
-                    const commentsData = await Promise.all(promises);
-                    setRepliesData(commentsData);
-                }
-            } catch (error) {
-                console.error('Error fetching replies:', error);
-            }
-        };
-        fetchReplies();
-    }, [repliesState, isShowReplies]);
+    const fetchReplies = async (newRepliesState) => {
+        try {
+                // Fetch comment data for each reply ObjectId
+                const promises = newRepliesState.map(async (replyId) => {
+                    
+                    const response = await axios.get(`http://localhost:3000/api/comments/${replyId}`);
+                    return response.data;
+                });
+                const commentsData = await Promise.all(promises);
+                setRepliesData(commentsData);
+            
+        } catch (error) {
+            console.error('Error fetching replies:', error);
+        }
+    };
+
+        
 
     const [isReplying, setIsReplying] = useState(false);
-    const [isEditing, setIsEditing] = useState(false);
 
 
     const deleteComment = async()=>{
 
         try {
             // delete comment
-            await axios.delete('http://localhost:3000/api/comments/' + comment._id);
-            comment.replies = comment.replies.filter(item => item._id !== comment._id);
-            setRepliesState([...comment.replies]);
             onDeleteComment(comment._id); // to update the top level comment if ever
+            await axios.delete('http://localhost:3000/api/comments/' + comment._id);
+            
+            
 
         } catch (error) {
             console.error('Error deleting comment:', error);
@@ -170,39 +168,109 @@ const CommentItem = ({ comment, onDeleteComment })=>{
 
     }
 
+    const onDeleteReplies = (commentId) => {
+        // Filter out the deleted comment from the comments array
+        console.log("before", repliesState);
+        
+        console.log(commentId)
+        
+        const updatedState = repliesState.filter(objid => {
+            return objid !== commentId;
+        });
+        console.log("after", updatedState);
+        setRepliesState(updatedState);
+        fetchReplies(updatedState);
+    };
+
+    const [isEditing, setIsEditing] = useState(false);
+    const [editBody, setEditBody] = useState('');
+
+    const onEdit = async ()=>{
+
+        try {
+
+            // Update the comment being replied to
+            comment.replies.push(createdComment._id);
+            // update the comment being replied to
+            await axios.patch('http://localhost:3000/api/comments/' + comment._id, { comment: editBody });
+            setRepliesState([...comment.replies]);
+
+
+        } catch (error) {
+            console.error('Error creating a reply:', error);
+        }
+
+        setEditBody('');
+        setIsEditing(false);
+
+    }
+
+
+
     return (
         <div>
-            <section className='bg-tertiary flex items-center py-2'>
-                <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" 
-                className="rounded-full cursor-pointer p-1 mx-1 mr-2"
-                width="50"
-                height="50"/>
-                <div className='flex flex-col'>
-                    <span className="text-teal-400 text-xs">Commented at: {monthMap[month]} {day}, {year}</span>
-                    <p>{comment.comment}</p>
-                    
+            {isEditing ? (
+                <div>
+                    <div>
+                        <div className='bg-secondary px-2 py-4'>
+                            <textarea
+                                onChange={(event)=>{setCommentBody(event.target.value)}}
+                                value={comment.comment}
+                                className='bg-white p-2 resize-none rounded-md max-h-40 max-w-50 w-full overflow-y-auto'/>
+                        </div>
+                        
+
+                        <div className='bg-secondary flex justify-around'> 
+
+                            <button onClick={()=>setIsEditing(false)} className='mr-1 my-2 text-xs'>
+                                <p className='underline underline-offset-2'> Save </p>
+                            </button>
+                            <button onClick={()=>setIsEditing(false)} className='mr-1 my-2 text-xs'>
+                                <p className='underline underline-offset-2'> Cancel </p>
+                            </button>
+                            
+                        </div>
+
+                    </div>
                 </div>
-                
-                
 
-            </section>
 
-            <div className='bg-tertiary flex justify-around'> 
-                <button onClick={()=>setIsReplying((prev)=>!prev)} className='mr-1 mb-2 text-xs'>
-                    <img src={reply} width="15rem" height="15rem"/>
-                </button>
-                <button onClick={()=>setIsEditing((prev)=>!prev)} className='mr-1 mb-2 text-xs'>
-                    <p className='underline underline-offset-2'> Edit </p>
-                </button>
-                <button onClick={deleteComment}className='mr-1 mb-2 text-xs'>
-                    <p className='underline underline-offset-2'> Delete </p>
-                </button>
-                <button onClick={()=>setIsShowReplies((prev)=>!prev)} className='mr-1 mb-2 text-xs'>
-                    <p className='underline underline-offset-2'> More replies </p>
-                </button>
-                
-            </div>
+            ) : (
+                <div>
+                     <section className='bg-tertiary flex items-center py-2'>
+                        <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" 
+                        className="rounded-full cursor-pointer p-1 mx-1 mr-2"
+                        width="50"
+                        height="50"/>
+                        <div className='flex flex-col'>
+                            <span className="text-teal-400 text-xs">Commented at: {monthMap[month]} {day}, {year}</span>
+                            <p>{comment.comment}</p>
+                            
+                        </div>
+                        
+                        
 
+                    </section>
+
+                    <div className='bg-tertiary flex justify-around'> 
+                        <button onClick={()=>setIsReplying((prev)=>!prev)} className='mr-1 mb-2 text-xs'>
+                            <img src={reply} width="15rem" height="15rem"/>
+                        </button>
+                        <button onClick={()=>setIsEditing(true)} className='mr-1 mb-2 text-xs'>
+                            <p className='underline underline-offset-2'> Edit </p>
+                        </button>
+                        <button onClick={deleteComment}className='mr-1 mb-2 text-xs'>
+                            <p className='underline underline-offset-2'> Delete </p>
+                        </button>
+                        <button onClick={()=>setIsShowReplies((prev)=>!prev)} className='mr-1 mb-2 text-xs'>
+                            <p className='underline underline-offset-2'> More replies </p>
+                        </button>
+                        
+                    </div>
+
+                </div>
+            )}
+           
             {/* reply to a comment */}
             {isReplying && 
                 (
@@ -223,7 +291,7 @@ const CommentItem = ({ comment, onDeleteComment })=>{
 
             {isShowReplies && repliesData && repliesData.map(reply => (
                 <div className='ml-2' key={`reply-${reply._id}`}>
-                    <CommentItem comment={reply} />
+                    <CommentItem comment={reply} onDeleteComment={onDeleteReplies}/>
                 </div>
             ))}
            
