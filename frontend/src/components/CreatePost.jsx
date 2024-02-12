@@ -1,8 +1,29 @@
 import { useCallback, useState, useRef } from 'react';
 import { Nav } from '../hocs';
 import { useDropzone } from 'react-dropzone';
-import  Tag  from './Tag';
+
 const CreatePost = ()=>{
+
+    // for tags
+    const [tags, setTags] = useState([]);
+    const inputId = "tagInput"; // Define a constant for input id
+
+    function handleKeyDown(e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            const value = e.target.value.trim();
+            if (value) {
+                setTags([...tags, value]);
+                e.target.value = '';
+            }
+        }
+    }
+
+    function removeTag(index) {
+        setTags(tags.filter((_, i) => i !== index));
+    }
+
+    // for uploading images
     const [uploadedFiles, setUploadedFiles] = useState([]);
 
     const dropZoneDialog = useRef(null);
@@ -64,9 +85,23 @@ const CreatePost = ()=>{
                 <div className='bg-secondary h-max w-screen p-28 flex flex-col'>
                     <form>
                         <input type="text" name="title" className='rounded-lg px-2 text-2xl font-bold my-2 w-full' placeholder='Add a Title'/>
+                        
                         <div>
-                        <Tag />
+                                <div className="flex flex-wrap">
+                                    {tags.map((tag, index) => (
+                                    <div className="flex items-center mb-5 mr-5" key={index}>
+                                        <span className="bg-yellow-200 rounded-lg px-2 mr-1">{tag}</span>
+                                        <span className="bg-red-500 rounded-full p-2 text-white w-4 h-4 ml-0 flex items-center justify-center cursor-pointer" onClick={() => removeTag(index)}>&times;</span>
+                                    </div>
+                                ))}
+                    
+                                </div>
+                                    <div>
+                                    <label className = "bg-primary text-white rounded-md px-2 py-1 mr-2" htmlFor={inputId}>Add a Tag: </label>
+                                    <input id={inputId} onKeyDown={handleKeyDown} type="text" className="rounded-md px-2" placeholder= "Type something" />
+                                </div>
                         </div>
+
                         <textarea name="desc" className='p-2 mt-5 mb-3 rounded-md w-full h-36 overflow-y-auto resize-none' >Add some Details</textarea>
                         <div>
                             <label htmlFor="file">Upload Files:</label>
