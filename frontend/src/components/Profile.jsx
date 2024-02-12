@@ -1,6 +1,9 @@
 import { Nav } from '../hocs'
+import { useNavigate } from 'react-router-dom';
 
 const Profile = () => {
+
+    const navigate = useNavigate();
 
     return (
         <>
@@ -11,6 +14,8 @@ const Profile = () => {
                         width="150" height = "150"
                         />
                     <span>Username</span>
+                    {/* temporary user id that is harcoded */}
+                    <button onClick={()=>{navigate('/EditProfPic/' + '123')}} className='bg-primary text-white rounded-md px-2'>Change image</button>
                 </div>
                 
                 <div className='p-5 mx-9 bg-primary rounded-md w-1/2c'>

@@ -9,6 +9,8 @@ import Post from './Post'
 import CreatePost from './CreatePost'
 import EditPost from './EditPost'
 import SinglePost from './SinglePost'
+import EditProfPic from './EditProfPic'
+
 export
 {
     Begin,
@@ -22,4 +24,5 @@ export
     CreatePost,
     SinglePost,
     EditPost,
+    EditProfPic,
 }

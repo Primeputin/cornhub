@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { Begin, Register, Login, Home, Popular, About, Profile, Post, CreatePost, EditPost, SinglePost } from './components';
+import { Begin, Register, Login, Home, Popular, About, Profile, Post, CreatePost, EditPost, SinglePost, EditProfPic } from './components';
 
 function App() {
 
@@ -16,6 +16,7 @@ function App() {
             <Route path="/Popular" element={<Popular />} />
             <Route path="/About" element={<About />} />
             <Route path="/Profile" element={<Profile />} />
+            <Route path="/EditProfPic/:id" element={<EditProfPic />} />
             <Route path="/Post" element={<Post />} />
             <Route path="/CreatePost" element={<CreatePost />} />
             <Route path="/EditPost/:id" element={<EditPost />} />
