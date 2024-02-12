@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+
 
 function Tag() {
     const [tags, setTags] = useState([]);
@@ -40,5 +41,8 @@ function Tag() {
 }
 
 export default Tag;
+<<<<<<< HEAD
 
+=======
+>>>>>>> edit_post_etc
 
