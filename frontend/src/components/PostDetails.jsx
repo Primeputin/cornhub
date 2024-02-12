@@ -5,13 +5,15 @@ import coloreddislike from '../assets/coloreddislike.png'
 import edit from '../assets/edit.png'
 
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 const PostDetails = ({ post })=>{
 
     const createdTimeStamp = new Date(post.createdAt);
     const [isLiked, setLiked] = useState(false);
+    const [numLiked, setNumLiked] = useState(0); // bound to be changed with backend
     const [isDisliked, setDisliked] = useState(false);    
+    const [numDisliked, setNumDisliked] = useState(0); // bound to be changed with backend
 
     const navigate = useNavigate();
 
@@ -72,26 +74,49 @@ const PostDetails = ({ post })=>{
                     <button onClick={() => {
                             setLiked((prevToggle) => 
                             {
+                                
+                                if (prevToggle) // if to stop like
+                                {
+                                    setNumLiked(numLiked - 1);
+                                }
                                 if (!prevToggle) // if liked
                                 {
+                                    if (isDisliked)
+                                    {
+                                        setNumDisliked(numDisliked - 1);
+                                    }
+
                                     setDisliked(false);
+                                    setNumLiked(numLiked + 1)
                                 }
                                 return !prevToggle;
                             });
                     }} className='mr-1'>
-                        <img src={isLiked ? coloredlike : like} width="15rem" height="15rem"/>
+                        <img src={isLiked ? coloredlike : like} width="12rem" height="12rem"/>
                     </button>
+                    <span className='px-2 text-xs'>{numLiked}</span>
                     <button onClick={() => {
                         setDisliked((prevToggle)=>{
+                            if (prevToggle) // if to stop dislike
+                            {
+                                setNumDisliked(numDisliked - 1)
+                            }
                             if (!prevToggle) // if disliked
                             {
+                                if (isLiked)
+                                {
+                                    setNumLiked(numLiked - 1);
+                                }
+
                                 setLiked(false);
+                                setNumDisliked(numDisliked + 1)
                             }
                             return !prevToggle;
                         });
                     }}>
-                        <img src={isDisliked ? coloreddislike : dislike} width="15rem" height="15rem"/>
+                        <img src={isDisliked ? coloreddislike : dislike} width="12rem" height="12rem"/>
                     </button>
+                    <span className='px-2 text-xs'>{numDisliked}</span>
                 </div>
                 <button className='text-xs' onClick={()=>navigate(`/SinglePost/${post._id}`)}>Comment</button>
             </div>
