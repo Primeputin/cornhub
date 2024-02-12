@@ -41,8 +41,4 @@ function Tag() {
 }
 
 export default Tag;
-<<<<<<< HEAD
-
-=======
->>>>>>> edit_post_etc
 
