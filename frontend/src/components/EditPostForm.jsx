@@ -2,30 +2,6 @@ import { useState } from 'react'
 
 const EditPostForm = ( {post} )=>{
 
-    const createdTimeStamp = new Date(post.createdAt);
-    const [isLiked, setLiked] = useState(false);
-    const [isDisliked, setDisliked] = useState(false);
-
-    // Extracting date components
-    const year = createdTimeStamp.getFullYear();
-    const month = createdTimeStamp.getMonth() + 1; // Months are zero-indexed
-    const day = createdTimeStamp.getDate();
-
-    const monthMap = {
-        1: 'January',
-        2: 'February',
-        3: 'March',
-        4: 'April',
-        5: 'May',
-        6: 'June',
-        7: 'July',
-        8: 'August',
-        9: 'September',
-        10: 'October',
-        11: 'November',
-        12: 'December'
-      };
-
     return (  
         <>
             <div className="bg-tertiary px-5 pt-5 pb-3 rounded-lg max-w-xl w-1/2 my-5 shadow-lg">
@@ -38,11 +14,12 @@ const EditPostForm = ( {post} )=>{
                         <span>Username</span>
                     </div>
                     
-                    <input type="text" name="title" className='rounded-lg px-2 text-2xl font-bold my-2 w-full' placeholder={post.title} value={post.title}/>
+                    <input type="text" name="title" className='rounded-lg px-2 text-2xl font-bold my-2 w-full' placeholder={post.title} defaultValue={post.title}/>
                     <div className='flex'>
-                        {post.tags.length > 0 && post.tags.map((tag)=>(
+                        <EditTag tagarr={post.tags}/>
+                        {/* {post.tags.length > 0 && post.tags.map((tag)=>(
                             <span className='bg-yellow-200 rounded-lg px-2 mr-1'>{tag}</span>
-                        ))} 
+                        ))}  */}
                     </div>
                     <textarea name="desc" className='p-2 mt-5 mb-3 rounded-md w-full h-36 overflow-y-auto resize-none' defaultValue={post.desc}></textarea>
 
@@ -57,4 +34,44 @@ const EditPostForm = ( {post} )=>{
         </>
     )
 }
+
+function EditTag({tagarr}) {
+    const [tags, setTags] = useState(tagarr);
+    const inputId = "tagInput"; // Define a constant for input id
+
+    function handleKeyDown(e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            const value = e.target.value.trim();
+            if (value) {
+                setTags([...tags, value]);
+                e.target.value = '';
+            }
+        }
+    }
+
+    function removeTag(index) {
+        setTags(tags.filter((_, i) => i !== index));
+    }
+
+    return (
+        <div>
+            <div className="flex flex-wrap">
+                {tags.map((tag, index) => (
+                <div className="flex items-center mb-5 mr-5" key={index}>
+                     <span className="bg-yellow-200 rounded-lg px-2 mr-1">{tag}</span>
+                     <span className="bg-red-500 rounded-full p-2 text-white w-4 h-4 ml-0 flex items-center justify-center cursor-pointer" onClick={() => removeTag(index)}>&times;</span>
+                </div>
+             ))}
+ 
+         </div>
+                <div>
+                  <label className = "bg-primary text-white rounded-md px-2 py-1 mr-2" htmlFor={inputId}>Add a Tag: </label>
+                  <input id={inputId} onKeyDown={handleKeyDown} type="text" className="rounded-md px-2" placeholder= "Type something" />
+               </div>
+        </div>
+  
+     );
+}
+
 export default EditPostForm;
