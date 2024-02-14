@@ -33,5 +33,5 @@ mongoose.connect(process.env.MONGURI).then(()=>{
 
 // listens for request
 app.listen(process.env.PORT, ()=>{
-    console.log("Listening on port 3000");
+    console.log("Listening on port", process.env.PORT);
 })

@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const User = require("./userModel");
 const Comment = require("./commentModel");
+const Image = require("./imageModel");
 
 const Schema = mongoose.Schema;
 const postSchema = new Schema({
@@ -20,6 +21,11 @@ const postSchema = new Schema({
         required: true,
     },
     tags: [String],
+    postedImages: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'imageModel',
+        required: false,
+    }],
     createdAt:{
         type: Date,
         required: true,
