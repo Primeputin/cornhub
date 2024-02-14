@@ -68,7 +68,11 @@ const PostDetails = ({ post })=>{
                 {post.desc}
             </p>
             {/* hardcoded image for now */}
-            <img src='https://cdn.britannica.com/36/167236-050-BF90337E/Ears-corn.jpg' className='w-full h-full rounded-sm'/>
+            <div className='w-full h-full flex flex-nowrap gap-2 overflow-x-auto snap snap-x snap-mandatory scroll scroll-smooth rounded-sm'>
+                <img src='https://cdn.britannica.com/36/167236-050-BF90337E/Ears-corn.jpg' className='w-full h-full rounded-sm snap-center'/>
+                <img src='https://cdn.britannica.com/36/167236-050-BF90337E/Ears-corn.jpg' className='w-full h-full rounded-sm snap-center'/>
+            </div>
+
             <div className="flex items-center justify-around mt-5">
                 <div className="flex items-center justify-center">
                     <button onClick={() => {

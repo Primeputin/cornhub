@@ -24,7 +24,10 @@ const EditPostForm = ( {post} )=>{
                     <textarea name="desc" className='p-2 mt-5 mb-3 rounded-md w-full h-36 overflow-y-auto resize-none' defaultValue={post.desc}></textarea>
 
                     {/* hardcoded image for now */}
-                    <img src='https://cdn.britannica.com/36/167236-050-BF90337E/Ears-corn.jpg' className='w-full h-full rounded-sm'/>
+                    <div className='w-full h-full flex flex-nowrap gap-2 overflow-x-auto snap snap-x snap-mandatory scroll scroll-smooth rounded-sm'>
+                        <img src='https://cdn.britannica.com/36/167236-050-BF90337E/Ears-corn.jpg' className='w-full h-full rounded-sm snap-center'/>
+                        <img src='https://cdn.britannica.com/36/167236-050-BF90337E/Ears-corn.jpg' className='w-full h-full rounded-sm snap-center'/>
+                    </div>
                     <input type="submit" value = "Save" className='bg-primary text-white mt-5 px-2 pt-1 rounded-lg text-lg hover:shadow-lg mr-5'/>
                     <input type="submit" value = "Delete" className='bg-rose-500 text-white mt-5 px-2 pt-1 rounded-lg text-lg hover:shadow-lg'/>
                 </form>
