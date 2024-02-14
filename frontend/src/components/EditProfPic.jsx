@@ -1,20 +1,31 @@
 import { useCallback, useState, useRef } from 'react';
 import { Nav } from '../hocs';
 import { useDropzone } from 'react-dropzone';
+import axios from 'axios';
 
 const EditProfPic = ()=>{
-    const [uploadedFile, setUploadedFile] = useState([]);
-
+    const [uploadedFile, setUploadedFile] = useState(null); // for previewing images
+    const [toBeUploadedFile, setToBeUploadedFile] = useState(null); // for getting the actual file
     const dropZoneDialog = useRef(null);
 
-    const submitImage = (event)=>{
+    const submitImage = async (event)=>{
         event.preventDefault();
 
         const formData = new FormData();
-        formData.append("image". uploadedFile);
-
-        // this function should be used for onSubmit in the form tag
-        // there are more things to be added here in the future 
+        formData.append("image", toBeUploadedFile); // first parameter will say that the fieldname for this file is image
+        try {
+            const response = await axios.post('http://localhost:3000/api/uploads/', formData, {
+              headers: {
+                'Content-Type': 'multipart/form-data'
+              }
+            });
+            console.log('Image uploaded:', response.data.filename);
+        } catch (error) {
+            console.error('Error uploading image:', error);
+        } finally {
+            // clear formData
+            formData.delete("image");
+        }
 
     }
     const onDrop = useCallback((acceptedFiles, rejectedFiles) => {
@@ -22,6 +33,7 @@ const EditProfPic = ()=>{
         // check if there is any accepted files
         if (acceptedFiles?.length) {
             const file = acceptedFiles[0]; // Get the first accepted file
+            setToBeUploadedFile(file);
             const uniqueFileName = `${file.name}-${Date.now()}`; // Create a unique name
             setUploadedFile({
                 ...file,
@@ -78,7 +90,7 @@ const EditProfPic = ()=>{
                             </div>
                         </div>
 
-                        <button type="submit" className='bg-tertiary my-2 mr-8'>Submit</button>                       
+                        <button onClick={submitImage} type="submit" className='bg-tertiary my-2 mr-8'>Submit</button>                       
                         <span ref={dropZoneDialog} className='text-rose-500'></span>
                     </form>
                   

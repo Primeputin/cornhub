@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Image = require("./imageModel");
 
 const Schema = mongoose.Schema;
 const userSchema = new Schema({
@@ -17,6 +18,11 @@ const userSchema = new Schema({
         type: String,
         max: 30,
         required: true,
+    },
+    profpic: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'imageModel', 
+        required: false, 
     },
 
 });
