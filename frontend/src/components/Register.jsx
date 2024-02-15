@@ -10,7 +10,7 @@ const Register = () => {
                 <input type="password" placeholder="password" className="border border-primary rounded-md"/>
           </form>
           <div className="flex gap-x-8 mt-4">
-              <button onClick={navigate("/")}>Register</button>
+              <button onClick={()=>{navigate("/")}}>Register</button>
           </div>
         </div>
     )
