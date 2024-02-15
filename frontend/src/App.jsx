@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { Begin, Register, Login, Home, Popular, About, Profile, Post, CreatePost, EditPost, SinglePost, EditProfPic } from './components';
+import { Begin, Register, Login, Home, Popular, About, Profile, 
+  Post, CreatePost, EditPost, SinglePost, EditProfPic, AllPosts, AllComments } from './components';
 
 function App() {
 
@@ -21,6 +22,8 @@ function App() {
             <Route path="/CreatePost" element={<CreatePost />} />
             <Route path="/EditPost/:id" element={<EditPost />} />
             <Route path="/SinglePost/:id" element={<SinglePost />} />
+            <Route path="/AllPosts/:id" element={<AllPosts />} />
+            <Route path="/AllComments/:id" element={<AllComments />} />
           </Routes>
       </BrowserRouter>
 

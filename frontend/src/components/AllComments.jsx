@@ -1,26 +1,10 @@
 import { Nav } from '../hocs'
 import PostDetails from './PostDetails';
 import { useState, useEffect } from 'react'
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
-const Post = () => {
-
-    const navigate = useNavigate();
-    const [posts, setPosts] = useState(null);
-    useEffect(()=>{
-        const fetchPosts = async()=>{
-            const response = await fetch("http://localhost:3000/api/posts/");
-            if (response.ok)
-            {
-                const json = await response.json();
-                setPosts(json);
-            }
-        }
-
-        fetchPosts();
-
-    }, [])
+const AllComments = () => {
 
     // for comments
     const [comments, setComments] = useState(null);
@@ -49,37 +33,11 @@ const Post = () => {
 
     return (
         <div className='h-screen w-screen bg-secondary pt-24'>
-            <div className='flex items-center justify-center bg-secondary'>
-                    <div className='flex flex-col items-center justify-center'>
-                        <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" 
-                            className="rounded-full cursor-pointer"
-                            width="150" height = "150"
-                            />
-                        <span>Username</span>
-                    </div>
-                    
-                    <div className='p-5 mx-9 bg-tertiary rounded-md'>
-                            My description
-                    </div>
-
-            </div>
-            <h1 className='bg-secondary m-5 xs:max-lg:text-md'>Latest Posts</h1>
-            {/* random number for now */}
-            <button onClick={()=>{navigate('/AllPosts/' + 123)}} className='ml-5 mt-1 bg-primary text-white'>All posts</button>
-
-            
-            <div className='flex flex-col items-center justify-center bg-secondary'>
-                    
-                    {posts && posts.map((post)=>(
-                        <PostDetails key={post._id} post={post}/>
-
-                    ))}
-            </div>
+       
             
             <div className='bg-secondary w-full'>
                  <h1 className='p-5 xs:max-lg:text-md'>Latest Comments</h1>
-                 {/* random number for now */}
-                 <button onClick={()=>{navigate('/AllComments/' + 123)}} className='ml-5 mt-1 mb-3 bg-primary text-white'>All comments</button>
+                 <button className='ml-5 mt-1 mb-3 bg-primary text-white'>All comments</button>
 
             </div>
             
@@ -260,4 +218,4 @@ const SingleComment = ({ comment, refresh })=>{
     )
 }
 
-export default Nav(Post);
+export default Nav(AllComments);

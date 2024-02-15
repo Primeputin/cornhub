@@ -10,6 +10,8 @@ import CreatePost from './CreatePost'
 import EditPost from './EditPost'
 import SinglePost from './SinglePost'
 import EditProfPic from './EditProfPic'
+import AllPosts from './AllPosts'
+import AllComments from './AllComments'
 
 export
 {
@@ -25,4 +27,6 @@ export
     SinglePost,
     EditPost,
     EditProfPic,
+    AllComments,
+    AllPosts,
 }
