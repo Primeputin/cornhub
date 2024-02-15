@@ -21,6 +21,9 @@ const About = () =>{
                         express
                     </li>
                     <li>
+                        multer
+                    </li>
+                    <li>
                         mongoose
                     </li>
                 </ul>

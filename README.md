@@ -14,6 +14,7 @@ This project uses HTML, CSS, Tailwind, React, JavaScript.
 cors,
 dotenv,
 express,
+multer,
 mongoose
 
 `React Libraries`:
