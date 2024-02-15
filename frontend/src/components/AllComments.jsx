@@ -37,7 +37,6 @@ const AllComments = () => {
             
             <div className='bg-secondary w-full'>
                  <h1 className='p-5 xs:max-lg:text-md'>Latest Comments</h1>
-                 <button className='ml-5 mt-1 mb-3 bg-primary text-white'>All comments</button>
 
             </div>
             
