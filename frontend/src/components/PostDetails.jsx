@@ -57,7 +57,7 @@ const PostDetails = ({ post })=>{
                 
             </div>
             
-            <h4 className="text-2xl font-bold">{post.title}</h4>
+            <h4 onClick={()=>navigate(`/SinglePost/${post._id}`)} className="text-2xl font-bold cursor-pointer hover:text-primary">{post.title}</h4>
             <span className="text-teal-400 text-xs">Posted at: {monthMap[month]} {day}, {year}</span>
             <div className='flex flex-wrap'>
                 {post.tags.length > 0 && post.tags.map((tag, index)=>(
