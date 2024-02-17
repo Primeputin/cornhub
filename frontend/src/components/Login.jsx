@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../hocs';
 import axios from 'axios';
 
 const Login = () => {
@@ -7,18 +8,31 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const [invalid, setInvalid] = useState(false);
     const navigate = useNavigate();
+    const { isLoggedIn, login, userId } = useContext(AuthContext);
+
+    console.log(isLoggedIn);
+
+    useEffect(()=>{
+        if (isLoggedIn) {
+            navigate("/Home/" + userId);  
+        }
+    }, [])
+    
+
     const handleLogin = async () => {
+        
         const user = {
             username: username,
             password: password,
         };
     
         try {
-            // Send HTTP request to create a new comment
+            // Send HTTP request to check users
             const response = await axios.post('http://localhost:3000/api/users/check/', user);
-                
-                // go the home page
-                navigate("/Home/" + response.data._id);           
+            // set login state to true for context
+            login(); 
+            // go the home page
+            navigate("/Home/" + response.data._id);           
     
             
         } catch (error) {
@@ -47,7 +61,7 @@ const Login = () => {
               <button onClick={handleLogin}>Login</button>
               
           </div>
-          {invalid ? (<span className='text-rose-500'>Username already used</span>): (<div></div>)}
+          {invalid ? (<span className='text-rose-500'>Invalid!</span>): (<div></div>)}
         </div>
     )
    

@@ -9,14 +9,14 @@ const Register = () => {
     const navigate = useNavigate();
 
     const registerUser = async ()=>{
-        // new comment object
+        // new user object
         const newUser = {
             username: username,
             password: password,
         };
     
         try {
-            // Send HTTP request to create a new comment
+            // Send HTTP request to create a new user
             const response = await axios.post('http://localhost:3000/api/users/', newUser);
     
             // go the beginning page

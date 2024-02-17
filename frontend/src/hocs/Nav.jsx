@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import corn from '../assets/corn.png';
 import menubar from '../assets/menubar.png';
 import xicon from '../assets/x.png';
+import { AuthContext } from '../hocs';
 
 const Nav = (Component) => {
     return function hoc(){
@@ -14,6 +15,8 @@ const Nav = (Component) => {
 
         const [menuBar, setMenuBar] = useState(false);
         const menuBarRef = useRef(null);
+
+        const { isLoggedIn, logout, userId } = useContext(AuthContext);
 
         useEffect(()=>{
             const handleClickOutside = (event) => {
@@ -136,9 +139,11 @@ const Nav = (Component) => {
                     </div>
 
                     <div className="flex items-center justify-center px-2 mr-16">
-                        <button onClick = {() => setToLog((prevToggle) => !prevToggle)} className="bg-primary text-center px-4 py-2 text-white font-bold rounded-lg mx-2">
-                            Login
-                        </button>
+                        {!isLoggedIn && (
+                            <button onClick={() => setToLog((prevToggle) => !prevToggle)} className="bg-primary text-center px-4 py-2 text-white font-bold rounded-lg mx-2">
+                                Login
+                            </button>
+                        )}
                         <button onClick={()=>navigate("/CreatePost")} className="bg-primary text-center px-4 py-2 text-white font-bold rounded-lg mx-2">
                             +
                         </button>
@@ -161,7 +166,10 @@ const Nav = (Component) => {
                                 <li onClick={()=>navigate("/Post")} className='hover:text-white cursor-pointer'>
                                     My Posts
                                 </li>
-                                <li onClick={()=>navigate("/")} className='hover:text-white cursor-pointer'>
+                                <li onClick={()=>{
+                                    logout();
+                                    navigate("/");
+                                }} className='hover:text-white cursor-pointer'>
                                     Logout
                                 </li>
                             </ul>
