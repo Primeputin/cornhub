@@ -7,12 +7,12 @@ const userSchema = new Schema({
         type: String,
         max: 24,
         required: true,
+        unique: true,
     },
     desc:{
         type: String,
         max: 50,
-        required: true,
-        default: "",
+        default: ()=>"",
     },
     password:{
         type: String,

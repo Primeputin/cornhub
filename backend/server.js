@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 const postRoutes = require('./routes/posts');
 const commentRoutes = require('./routes/comments');
 const imageRoutes = require('./routes/images');
+const userRoutes = require('./routes/users');
 const cors = require('cors');
 
 // express app
@@ -25,6 +26,7 @@ app.use((req, res, next) => {
 app.use("/api/posts", postRoutes)
 app.use("/api/comments", commentRoutes)
 app.use("/api/uploads", imageRoutes)
+app.use("/api/users", userRoutes)
 
 // connect to db
 mongoose.connect(process.env.MONGURI).then(()=>{
