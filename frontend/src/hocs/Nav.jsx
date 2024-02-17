@@ -18,6 +18,26 @@ const Nav = (Component) => {
 
         const { isLoggedIn, logout, userId } = useContext(AuthContext);
 
+        const [user, setUser] = useState(null);
+
+        useEffect(() => {
+        
+        
+            const fetchUser = async()=>{
+                const response = await fetch("http://localhost:3000/api/users/" + userId);
+                if (response.ok)
+                {
+                    const json = await response.json();
+                    setUser(json);
+                }
+            }
+            if (isLoggedIn)
+            {
+                fetchUser();
+            }
+        
+        }, []);
+
         useEffect(()=>{
             const handleClickOutside = (event) => {
                 if (sideRef.current && !sideRef.current.contains(event.target)) {
@@ -95,7 +115,6 @@ const Nav = (Component) => {
 
         const navigate = useNavigate();
 
-
         return (
             <>
             
@@ -149,7 +168,12 @@ const Nav = (Component) => {
                         </button>
                         <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" 
                         className="rounded-full cursor-pointer p-1 mx-1"
-                        onClick = {() => setToggle((prevToggle) => !prevToggle)}
+                        onClick = {() => {
+                            if (isLoggedIn)
+                            {
+                                setToggle((prevToggle) => !prevToggle);
+                            }
+                        }}
                         width="50" height = "50"
                         ref={sideRef}
                         />
@@ -191,7 +215,10 @@ const Nav = (Component) => {
                 </dialog>
 
                 <div className={`${!toLog ? 'opacity-100' : 'opacity-50'}`}>
-                    <Component />
+                        
+                        <Component />
+                        
+                    
                 </div>
                 
             </>

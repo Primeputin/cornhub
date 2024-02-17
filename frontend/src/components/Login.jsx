@@ -10,8 +10,6 @@ const Login = () => {
     const navigate = useNavigate();
     const { isLoggedIn, login, userId } = useContext(AuthContext);
 
-    console.log(isLoggedIn);
-
     useEffect(()=>{
         if (isLoggedIn) {
             navigate("/Home/" + userId);  
@@ -30,9 +28,9 @@ const Login = () => {
             // Send HTTP request to check users
             const response = await axios.post('http://localhost:3000/api/users/check/', user);
             // set login state to true for context
-            login(); 
+            login(response.data._id); 
             // go the home page
-            navigate("/Home/" + response.data._id);           
+            navigate("/Home");           
     
             
         } catch (error) {

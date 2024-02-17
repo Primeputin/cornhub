@@ -18,7 +18,7 @@ const getUser = async (req, res)=>{
         return res.status(404).json({error: "No such user found :("});
     }
 
-    const user = await Post.findById(id);
+    const user = await User.findById(id);
 
     if (!user)
     {
@@ -96,9 +96,9 @@ const updateUser = async (req, res)=>{
         return res.status(404).json({error: "No such user found :("});
     }
 
-    const user = await Post.findOneAndUpdate({_id: id}, {...req.body});
+    const user = await User.findOneAndUpdate({_id: id}, {...req.body});
 
-    if (!post)
+    if (!user)
     {
         return res.status(404).json({error: "No such user found :("});
     }
