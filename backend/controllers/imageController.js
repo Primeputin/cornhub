@@ -33,7 +33,6 @@ const getActualImage = async (req, res) => {
     try {
         const filename = req.params.filename;
 
-        console.log('hey')
         // construct an actual path to the actual image file
         const imagePath = path.join(__dirname, '../uploads', filename);
 
@@ -107,4 +106,32 @@ const deleteImage = async (req, res)=>{
     }
 }
 
-module.exports = { getImages, getImage, getActualImage, createImage, deleteImage }
+const deleteImageById = async (id)=>{
+    
+    // checks if the obj id is valid before proceeding to prevent an error in the db side
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        console.log("No such image found:(")
+    }
+
+    try {
+        const image = await Image.findOneAndDelete({ _id: id });
+
+        if (!image) {
+            console.error("No such image found:(");
+            return;
+        }
+
+        // Delete the file with using the image's file path
+        fs.unlink(image.path, (err) => {
+            if (err) {
+                console.error('Error deleting file:', err);
+                return;
+            }
+            console.log('File deleted successfully');
+        });
+    } catch (error) {
+        console.error('Error deleting image:', error);
+    }
+}
+
+module.exports = { getImages, getImage, getActualImage, createImage, deleteImage, deleteImageById }

@@ -166,7 +166,7 @@ const Nav = (Component) => {
                         <button onClick={()=>navigate("/CreatePost")} className="bg-primary text-center px-4 py-2 text-white font-bold rounded-lg mx-2">
                             +
                         </button>
-                        <img src={user ? "http://localhost:3000/api/uploads/actual/" + user.profpic.filename :"https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"} 
+                        <img src={user && user.profpic ? "http://localhost:3000/api/uploads/actual/" + user.profpic.filename :"https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"} 
                         className="rounded-full cursor-pointer p-1 mx-1"
                         onClick = {() => {
                             if (isLoggedIn)

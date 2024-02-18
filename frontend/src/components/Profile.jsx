@@ -9,7 +9,7 @@ const Profile = ({userProp}) => {
     const [user, setUser] = useState(userProp);
     const [descBody, setDescBody] = useState('description');
 
-    const { userId } = useContext(AuthContext);
+    const { userId, logout } = useContext(AuthContext);
 
 
     useEffect(() => {
@@ -52,11 +52,21 @@ const Profile = ({userProp}) => {
 
     }
 
+    const deleteUser = async ()=>{
+        try {
+            const response = await axios.delete('http://localhost:3000/api/users/' + userId);
+            logout();
+            navigate("/");
+        } catch (error) {
+            console.error('Error deleting current user', error);
+        }
+    }
+
     return (
         <div className='bg-secondary h-screen w-screen flex flex-col justify-center items-center'>
             <div className='flex items-center justify-center bg-secondary flex-wrap'>
                 <div className='flex flex-col items-center justify-center'>
-                    <img src={user ? "http://localhost:3000/api/uploads/actual/" + user.profpic.filename :"https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"}
+                    <img src={user && user.profpic ? "http://localhost:3000/api/uploads/actual/" + user.profpic.filename :"https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"}
                         className="rounded-full cursor-pointer"
                         width="150" height = "150"
                         />
@@ -74,7 +84,7 @@ const Profile = ({userProp}) => {
                 </div>
             </div>
 
-            <button className='bg-rose-500 text-white rounded-md px-2 mt-5'>Delete user</button>
+            <button onClick={deleteUser} className='bg-rose-500 text-white rounded-md px-2 mt-5'>Delete user</button>
         </div>
         
     )

@@ -1,4 +1,5 @@
 const User = require("../models/userModel");
+const { deleteImageById } = require("./imageController")
 const mongoose = require('mongoose');
 
 
@@ -85,13 +86,27 @@ const deleteUser = async (req, res)=>{
         return res.status(404).json({error: "No such user found :("});
     }
 
-    const user = await User.findOneAndDelete({_id: id});
+    try {
+        // Find the user and populate the imageModel field
+        const user = await User.findById(id).populate('profpic');
 
-    if (!user)
-    {
-        return res.status(404).json({error: "No such user found :("});
+        if (!user) {
+            return res.status(404).json({ error: "No such user found :(" });
+        }
+
+        // If the user has an imageModel, delete it first
+        if (user.profpic) {
+            await deleteImageById(user.profpic._id);
+        }
+
+        // Delete the user
+        await User.findByIdAndDelete(id);
+
+        res.status(200).json({ message: "User and associated image deleted successfully" });
+    } catch (error) {
+        console.error("Error deleting user:", error);
+        res.status(500).json({ error: "Internal Server Error" });
     }
-    res.status(200).json(user);
 }
 
 // update a user
