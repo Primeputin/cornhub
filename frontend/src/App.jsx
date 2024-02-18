@@ -21,7 +21,7 @@ function App() {
               <Route path="/Popular" element={<Popular />} />
               <Route path="/About" element={<About />} />
               <Route path="/Profile/" element={<Profile />} />
-              <Route path="/EditProfPic/:id" element={<EditProfPic />} />
+              <Route path="/EditProfPic/" element={<EditProfPic />} />
               <Route path="/Post" element={<Post />} />
               <Route path="/CreatePost" element={<CreatePost />} />
               <Route path="/EditPost/:id" element={<EditPost />} />

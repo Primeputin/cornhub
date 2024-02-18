@@ -16,13 +16,20 @@ const Profile = ({userProp}) => {
         
         
         const fetchUser = async()=>{
-            const response = await fetch("http://localhost:3000/api/users/" + userId);
-            if (response.ok)
+            try
             {
-                const json = await response.json();
-                setUser(json);
-                setDescBody(json.desc);
+                const response = await axios.get("http://localhost:3000/api/users/" + userId);
+
+                setUser(response.data);
+                setDescBody(response.data.desc);
             }
+            catch (error)
+            {
+                console.error('Error in fetching user data', error);
+            }
+            
+                
+            
         }
 
         fetchUser();
@@ -39,7 +46,7 @@ const Profile = ({userProp}) => {
 
 
         } catch (error) {
-            console.error('Error in editing a comment', error);
+            console.error('Error in editing the description of the user', error);
         }
 
 
@@ -49,12 +56,12 @@ const Profile = ({userProp}) => {
         <div className='bg-secondary h-screen w-screen flex flex-col justify-center items-center'>
             <div className='flex items-center justify-center bg-secondary flex-wrap'>
                 <div className='flex flex-col items-center justify-center'>
-                    <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" 
+                    <img src={user ? "http://localhost:3000/api/uploads/actual/" + user.profpic.filename :"https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"}
                         className="rounded-full cursor-pointer"
                         width="150" height = "150"
                         />
                     <span className='my-3 font-bold'>{user ? user.username: "username"}</span>
-                    <button onClick={()=>{navigate('/EditProfPic/' + userId)}} className='bg-primary text-white rounded-md px-2'>Change image</button>
+                    <button onClick={()=>{navigate('/EditProfPic')}} className='bg-primary text-white rounded-md px-2'>Change image</button>
                 </div>
                 
                 <div className='p-5 mx-9 bg-primary rounded-md w-1/2c'>
@@ -62,7 +69,7 @@ const Profile = ({userProp}) => {
                         <textarea onChange={(event)=>{setDescBody(event.target.value)}} name="desc" className='w-full bg-tertiary p-2 resize-none rounded-md' value={descBody}>
                         </textarea>
                         <br/>
-                        <input onClick={()=>{updateDesc()}} className="bg-secondary rounded-md px-2" type="submit" value="Save"/>
+                        <input onClick={()=>{updateDesc()}} className="bg-secondary rounded-md px-2 shadow hover:shadow-xl hover:text-primary" type="submit" value="Save"/>
                     
                 </div>
             </div>

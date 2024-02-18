@@ -1,12 +1,15 @@
-import { useCallback, useState, useRef } from 'react';
+import { useCallback, useState, useRef, useContext } from 'react';
 import { Nav } from '../hocs';
 import { useDropzone } from 'react-dropzone';
 import axios from 'axios';
+import { AuthContext } from '../hocs';
 
 const EditProfPic = ()=>{
     const [uploadedFile, setUploadedFile] = useState(null); // for previewing images
     const [toBeUploadedFile, setToBeUploadedFile] = useState(null); // for getting the actual file
     const dropZoneDialog = useRef(null);
+
+    const { userId } = useContext(AuthContext);
 
     const submitImage = async (event)=>{
         event.preventDefault();
@@ -20,6 +23,14 @@ const EditProfPic = ()=>{
               }
             });
             console.log('Image uploaded:', response.data.filename);
+            const user = await axios.get("http://localhost:3000/api/users/" + userId);
+
+            if (user.data.hasOwnProperty('profpic'))
+            {
+                await axios.delete('http://localhost:3000/api/uploads/' + user.data.profpic._id);
+                console.log("Changed Image")
+            }
+            await axios.patch('http://localhost:3000/api/users/' + userId, {profpic: response.data._id});
         } catch (error) {
             console.error('Error uploading image:', error);
         } finally {

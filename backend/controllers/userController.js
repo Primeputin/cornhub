@@ -18,13 +18,20 @@ const getUser = async (req, res)=>{
         return res.status(404).json({error: "No such user found :("});
     }
 
-    const user = await User.findById(id);
-
-    if (!user)
-    {
-        return res.status(404).json({error: "No such user found :("});
+    try {
+        const user = await User.findById(id).populate('profpic');
+    
+        if (!user) {
+            return res.status(404).json({ error: "No such user found :(" });
+        }
+    
+        return res.status(200).json(user);
+    } catch (error) {
+        // Handle any unexpected errors
+        console.error("Error retrieving user:", error);
+        return res.status(500).json({ error: "Internal Server Error" });
     }
-    res.status(200).json(user);
+
 }
 
 // create a user
@@ -96,7 +103,7 @@ const updateUser = async (req, res)=>{
         return res.status(404).json({error: "No such user found :("});
     }
 
-    const user = await User.findOneAndUpdate({_id: id}, {...req.body});
+    const user = await User.findOneAndUpdate({_id: id}, {...req.body}).populate("profpic");
 
     if (!user)
     {
