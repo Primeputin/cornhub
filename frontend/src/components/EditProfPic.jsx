@@ -1,5 +1,6 @@
 import { useCallback, useState, useRef, useContext } from 'react';
 import { Nav } from '../hocs';
+import { useNavigate } from 'react-router-dom';
 import { useDropzone } from 'react-dropzone';
 import axios from 'axios';
 import { AuthContext } from '../hocs';
@@ -9,6 +10,8 @@ const EditProfPic = ()=>{
     const [toBeUploadedFile, setToBeUploadedFile] = useState(null); // for getting the actual file
     const dropZoneDialog = useRef(null);
 
+    const navigate = useNavigate();
+
     const { userId } = useContext(AuthContext);
 
     const submitImage = async (event)=>{
@@ -16,6 +19,7 @@ const EditProfPic = ()=>{
 
         const formData = new FormData();
         formData.append("image", toBeUploadedFile); // first parameter will say that the fieldname for this file is image
+        let success = false;
         try {
             const response = await axios.post('http://localhost:3000/api/uploads/', formData, {
               headers: {
@@ -31,13 +35,17 @@ const EditProfPic = ()=>{
                 console.log("Changed Image")
             }
             await axios.patch('http://localhost:3000/api/users/' + userId, {profpic: response.data._id});
+            success = true;
         } catch (error) {
             console.error('Error uploading image:', error);
         } finally {
             // clear formData
             formData.delete("image");
         }
-
+        if (success)
+        {
+            navigate("/Profile");
+        }
     }
     const onDrop = useCallback((acceptedFiles, rejectedFiles) => {
        
