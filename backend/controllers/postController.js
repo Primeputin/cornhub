@@ -29,11 +29,12 @@ const getPost = async (req, res)=>{
 
 // create a post
 const createPost =  async (req, res)=>{
-
-    const {title, desc, tags} = req.body
     try
-    {   
-        const post = await Post.create({title, desc, tags});
+    {  
+        const {title, desc, tags, postedImages} = req.body 
+
+        const post = await Post.create({title, desc, tags, postedImages});
+
         res.status(200).json(post);
     }
     catch(error)

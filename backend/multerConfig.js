@@ -17,12 +17,6 @@ const storage = multer.diskStorage({
 const upload = multer({
     storage: storage,
     limits: { fileSize: 1024 * 1024 * 5 } // 5MB file size limit
-}).single('image');
+});
 
-// Create Multer instance for multiple file upload
-const uploadMultiple = multer({
-    storage: storage,
-    limits: { fileSize: 1024 * 1024 * 5 } // 5MB file size limit
-}).array('images', 5); // Up to 5 files can be uploaded in a single request
-
-module.exports = {upload, uploadMultiple }
+module.exports = { upload }

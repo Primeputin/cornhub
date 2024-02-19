@@ -75,6 +75,31 @@ const createImage = async (req, res) => {
     }
 };
 
+const createImages = async (req, res) => {
+    try {
+        const uploadedFiles = req.files; // notice: files is an array instead of just one file instance
+        const uploadedImages = [];
+
+        for (const file of uploadedFiles) {
+            const image = new Image({
+                filename: file.originalname,
+                path: file.path,
+            });
+            
+            // Save the image document to MongoDB
+            const savedImage = await Image.create(image);
+            
+            // Push the saved image to the uploadedImages array
+            uploadedImages.push(savedImage);
+        }
+
+        res.status(200).json({ uploadedImages });
+    } catch (error) {
+        console.error('Error uploading images:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+};
+
 // delete an image
 const deleteImage = async (req, res)=>{
     const { id } = req.params;
@@ -134,4 +159,4 @@ const deleteImageById = async (id)=>{
     }
 }
 
-module.exports = { getImages, getImage, getActualImage, createImage, deleteImage, deleteImageById }
+module.exports = { getImages, getImage, getActualImage, createImage, createImages, deleteImage, deleteImageById }

@@ -1,8 +1,18 @@
-import { useCallback, useState, useRef } from 'react';
+import { useCallback, useState, useRef, useContext } from 'react';
 import { Nav } from '../hocs';
 import { useDropzone } from 'react-dropzone';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { AuthContext } from '../hocs';
+
 
 const CreatePost = ()=>{
+
+    const navigate = useNavigate();
+
+    const { userId } = useContext(AuthContext);
+    const [title, setTitle] = useState('');
+    const [desc, setDescBody] = useState('');
 
     // for tags
     const [tags, setTags] = useState([]);
@@ -32,14 +42,56 @@ const CreatePost = ()=>{
         setUploadedFiles(uploadedFiles => uploadedFiles.filter(file => uniqueName !== file.uniqueName))
     }
 
-    const submitImage = (event)=>{
+    const onSubmit = async (event)=>{
         event.preventDefault();
 
         const formData = new FormData();
-        formData.append("image". uploadedFiles);
+        let success = false;
 
-        // this function should be used for onSubmit in the form tag
-        // there are more things to be added here in the future 
+        
+        uploadedFiles.forEach((file) => {
+            // Append a unique name
+            formData.append("images", file); // note: same multiple image will be processed as one image by multer in the backend
+        });
+
+
+        try {
+            let uploadedImages = []
+            if (formData.has("images")) // formData.length doesn't work. It doesn't represent the number of files
+            {
+                const response = await axios.post('http://localhost:3000/api/uploads/multiple', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+                });
+                uploadedImages = response.data.uploadedImages; 
+                console.log('Uploaded images:');
+                
+            }
+            
+
+            const newPost = {
+                user: userId,
+                title: title,
+                desc: desc,
+                tags: tags,
+                postedImages: uploadedImages.map(image => image._id),
+            }
+
+            const post = await axios.post('http://localhost:3000/api/posts/', newPost);
+
+
+            success = true;
+        } catch (error) {
+            console.error('Error uploading image:', error);
+        } finally {
+            // clear formData
+            formData.delete("images");
+        }
+        if (success)
+        {
+            navigate("/Home");
+        }
 
     }
     const onDrop = useCallback((acceptedFiles, rejectedFiles) => {
@@ -49,7 +101,11 @@ const CreatePost = ()=>{
             setUploadedFiles((prevFiles) => [
               ...prevFiles,
               ...acceptedFiles.map((file) => {
-                const uniqueFileName = `${file.name}-${Date.now()}`;
+
+                const fileNameWithoutExtension = file.name.split('.').slice(0, -1).join('.');
+                const fileExtension = file.name.split('.').pop();
+                const uniqueFileName = `${fileNameWithoutExtension}-${Date.now()}.${fileExtension}`;
+
                 return Object.assign(file, {
                   preview: URL.createObjectURL(file),
                   uniqueName: uniqueFileName, // Add a property to store the unique name
@@ -74,17 +130,19 @@ const CreatePost = ()=>{
     }, []);
 
     const { getRootProps, getInputProps, isDragActive } = useDropzone({onDrop,
+            maxFiles: 5,
             accept:{
-                'image/*' : [] // accept any kind of image
-            }
+                'image/*' : [], // accept any kind of image
+            },
+            disabled: uploadedFiles.length >= 5, // Disable dropzone when file limit is reached
     });
 
     
     return (
         <div className='bg-secondary h-screen w-screen'>
                 <div className='bg-secondary h-max w-screen p-28 flex flex-col'>
-                    <form>
-                        <input type="text" name="title" className='rounded-lg px-2 text-2xl font-bold my-2 w-full' placeholder='Add a Title'/>
+                    <form onSubmit={onSubmit} method="post">
+                        <input required onChange={(event)=>{setTitle(event.target.value)}} type="text" name="title" className='rounded-lg px-2 text-2xl font-bold my-2 w-full' placeholder='Add a Title'/>
                         
                         <div>
                                 <div className="flex flex-wrap">
@@ -102,7 +160,7 @@ const CreatePost = ()=>{
                                 </div>
                         </div>
 
-                        <textarea name="desc" className='p-2 mt-5 mb-3 rounded-md w-full h-36 overflow-y-auto resize-none' >Add some Details</textarea>
+                        <textarea required onChange={(event)=>{setDescBody(event.target.value)}} name="desc" className='p-2 mt-5 mb-3 rounded-md w-full h-36 overflow-y-auto resize-none' placeholder="Add some details"></textarea>
                         <div>
                             <label htmlFor="file">Upload Files:</label>
                             {/* Use getRootProps to get the root props for the dropzone */}

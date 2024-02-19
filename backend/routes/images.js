@@ -1,6 +1,6 @@
 const express = require('express');
-const { getImages, getImage, getActualImage, createImage, deleteImage } = require('../controllers/imageController');
-const { upload, uploadMultiple } = require('../multerConfig');
+const { getImages, getImage, getActualImage, createImage, createImages, deleteImage } = require('../controllers/imageController');
+const { upload } = require('../multerConfig');
 
 const router = express.Router();
 
@@ -10,7 +10,9 @@ router.get("/:id", getImage);
 
 router.get("/actual/:filename", getActualImage);
 
-router.post("/", upload, createImage);
+router.post("/", upload.single("image"), createImage);
+
+router.post("/multiple", upload.array("images", 5), createImages);
 
 router.delete("/:id", deleteImage);
 
