@@ -5,7 +5,10 @@ const mongoose = require('mongoose');
 // get all posts
 const getPosts = async (req, res)=>{
 
-    const posts = await Post.find({}).sort({createdAt: -1});
+    const posts = await Post.find({}).populate({
+        path: 'user',
+        populate: { path: 'profpic' }
+    }).populate('postedImages').sort({createdAt: -1});
     res.status(200).json(posts);
 }
 
@@ -31,9 +34,9 @@ const getPost = async (req, res)=>{
 const createPost =  async (req, res)=>{
     try
     {  
-        const {title, desc, tags, postedImages} = req.body 
+        const {user, title, desc, tags, postedImages} = req.body 
 
-        const post = await Post.create({title, desc, tags, postedImages});
+        const post = await Post.create({user, title, desc, tags, postedImages});
 
         res.status(200).json(post);
     }

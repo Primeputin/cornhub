@@ -63,7 +63,7 @@ const createImage = async (req, res) => {
                 
         const image = await Image.create({
             // these properties are given by multer already
-            filename: req.file.filename,
+            filename: req.file.filename, // do not user originalname or else it won't use what multer configured for us
             path: req.file.path,
         });
 
@@ -82,7 +82,7 @@ const createImages = async (req, res) => {
 
         for (const file of uploadedFiles) {
             const image = new Image({
-                filename: file.originalname,
+                filename: file.filename, // do not user originalname or else it won't use what multer configured for us
                 path: file.path,
             });
             

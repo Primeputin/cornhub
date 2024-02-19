@@ -8,7 +8,7 @@ const postSchema = new Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'userModel', 
-        required: false, // change this back to true
+        required: true, 
     },
     title:{
         type: String,
