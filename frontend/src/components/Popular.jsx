@@ -1,10 +1,12 @@
 import { Nav } from '../hocs'
 import PostDetails from './PostDetails';
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
+import { AuthContext } from '../hocs';
 
 const Popular = () => {
 
     const [posts, setPosts] = useState(null);
+    const { userId } = useContext(AuthContext);
     useEffect(()=>{
         const fetchPosts = async()=>{
             const response = await fetch("http://localhost:3000/api/posts/"); // it will forward/ proxy this to localhost:3000 which is the nodejs server defined in the package.json
