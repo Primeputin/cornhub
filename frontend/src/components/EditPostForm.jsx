@@ -1,11 +1,21 @@
-import { useState } from 'react'
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const EditPostForm = ( {post} )=>{
 
+    const navigate = useNavigate();
+    const onDelete = async()=>{
+        try {
+            const response = await axios.delete('http://localhost:3000/api/posts/' + post._id);
+            navigate("/Home");
+        } catch (error) {
+            console.error('Error deleting current post', error);
+        }
+    }
     return (  
         <>
             <div className="bg-tertiary px-5 pt-5 pb-3 rounded-lg max-w-xl w-1/2 my-5 shadow-lg">
-                <form submit="">
                     <div className='flex'>
                         <img src={post && post.user?.profpic ? "http://localhost:3000/api/uploads/actual/" + post.user.profpic.filename :"https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"}
                                 className="rounded-full cursor-pointer mr-2"
@@ -30,8 +40,7 @@ const EditPostForm = ( {post} )=>{
                         ))}
                     </div>
                     <input type="submit" value = "Save" className='bg-primary text-white mt-5 px-2 pt-1 rounded-lg text-lg hover:shadow-lg mr-5'/>
-                    <input type="submit" value = "Delete" className='bg-rose-500 text-white mt-5 px-2 pt-1 rounded-lg text-lg hover:shadow-lg'/>
-                </form>
+                    <input onClick={onDelete} type="submit" value = "Delete" className='bg-rose-500 text-white mt-5 px-2 pt-1 rounded-lg text-lg hover:shadow-lg'/>
                 
             </div>
 
