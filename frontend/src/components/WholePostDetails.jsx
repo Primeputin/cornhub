@@ -64,11 +64,11 @@ const WholePostDetails = ( {post} )=>{
         <>
             <div className="bg-tertiary px-5 pt-5 pb-3 rounded-lg max-w-xl w-1/2 my-5 shadow-lg">
                 <div className='flex'>
-                    <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" 
-                                className="rounded-full cursor-pointer mr-2"
-                                width="25rem" height = "25rem"
-                                />
-                    <span>Username</span>
+                    <img src={post && post.user?.profpic ? "http://localhost:3000/api/uploads/actual/" + post.user.profpic.filename :"https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"}
+                            className="rounded-full cursor-pointer mr-2"
+                            width="25rem" height = "25rem"
+                            />
+                    <span>{post && post.user?.username && post.user.username}</span>
                 </div>
                 
                 <h4 className="text-2xl font-bold">{post.title}</h4>
@@ -81,10 +81,11 @@ const WholePostDetails = ( {post} )=>{
                 <p className='mt-2'>
                     {post.desc}
                 </p>
-                {/* hardcoded image for now */}
-                <div className='w-full h-full flex flex-nowrap gap-2 overflow-x-auto snap snap-x snap-mandatory scroll scroll-smooth rounded-sm'>
-                    <img src='https://cdn.britannica.com/36/167236-050-BF90337E/Ears-corn.jpg' className='w-full h-full rounded-sm snap-center'/>
-                    <img src='https://cdn.britannica.com/36/167236-050-BF90337E/Ears-corn.jpg' className='w-full h-full rounded-sm snap-center'/>
+                
+                <div className='w-full h-full flex flex-nowrap gap-2 items-center overflow-x-auto snap snap-x snap-mandatory scroll scroll-smooth rounded-sm'>
+                    {post.postedImages.map((image)=>(
+                        <img key={image._id} src={"http://localhost:3000/api/uploads/actual/" + image.filename} className='w-full h-full rounded-sm snap-center'/>
+                    ))}
                 </div>
                 <div className="flex items-center justify-around mt-5">
                     <div className="flex items-center justify-center">

@@ -21,7 +21,10 @@ const getPost = async (req, res)=>{
         return res.status(404).json({error: "No such post found :("});
     }
 
-    const post = await Post.findById(id);
+    const post = await Post.findById(id).populate({
+        path: 'user',
+        populate: { path: 'profpic' }
+    }).populate('postedImages').sort({createdAt: -1});;
 
     if (!post)
     {

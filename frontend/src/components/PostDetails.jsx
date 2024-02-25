@@ -45,7 +45,7 @@ const PostDetails = ({ userId, post })=>{
                                 className="rounded-full cursor-pointer mr-2"
                                 width="25rem" height = "25rem"
                                 />
-                    <span>{post.username}</span>
+                    <span>{post && post.user?.username && post.user.username}</span>
                 </div>
                 
                 { userId && post.user?._id && userId === post.user._id && (

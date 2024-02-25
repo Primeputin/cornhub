@@ -7,11 +7,11 @@ const EditPostForm = ( {post} )=>{
             <div className="bg-tertiary px-5 pt-5 pb-3 rounded-lg max-w-xl w-1/2 my-5 shadow-lg">
                 <form submit="">
                     <div className='flex'>
-                        <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" 
-                                    className="rounded-full cursor-pointer mr-2"
-                                    width="25rem" height = "25rem"
-                                    />
-                        <span>Username</span>
+                        <img src={post && post.user?.profpic ? "http://localhost:3000/api/uploads/actual/" + post.user.profpic.filename :"https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"}
+                                className="rounded-full cursor-pointer mr-2"
+                                width="25rem" height = "25rem"
+                                />
+                        <span>{post && post.user?.username && post.user.username}</span>
                     </div>
                     
                     <input type="text" name="title" className='rounded-lg px-2 text-2xl font-bold my-2 w-full' placeholder={post.title} defaultValue={post.title}/>
@@ -21,12 +21,13 @@ const EditPostForm = ( {post} )=>{
                             <span className='bg-yellow-200 rounded-lg px-2 mr-1'>{tag}</span>
                         ))}  */}
                     </div>
+                    
                     <textarea name="desc" className='p-2 mt-5 mb-3 rounded-md w-full h-36 overflow-y-auto resize-none' defaultValue={post.desc}></textarea>
 
-                    {/* hardcoded image for now */}
-                    <div className='w-full h-full flex flex-nowrap gap-2 overflow-x-auto snap snap-x snap-mandatory scroll scroll-smooth rounded-sm'>
-                        <img src='https://cdn.britannica.com/36/167236-050-BF90337E/Ears-corn.jpg' className='w-full h-full rounded-sm snap-center'/>
-                        <img src='https://cdn.britannica.com/36/167236-050-BF90337E/Ears-corn.jpg' className='w-full h-full rounded-sm snap-center'/>
+                    <div className='w-full h-full flex flex-nowrap gap-2 items-center overflow-x-auto snap snap-x snap-mandatory scroll scroll-smooth rounded-sm'>
+                        {post.postedImages.map((image)=>(
+                            <img key={image._id} src={"http://localhost:3000/api/uploads/actual/" + image.filename} className='w-full h-full rounded-sm snap-center'/>
+                        ))}
                     </div>
                     <input type="submit" value = "Save" className='bg-primary text-white mt-5 px-2 pt-1 rounded-lg text-lg hover:shadow-lg mr-5'/>
                     <input type="submit" value = "Delete" className='bg-rose-500 text-white mt-5 px-2 pt-1 rounded-lg text-lg hover:shadow-lg'/>
