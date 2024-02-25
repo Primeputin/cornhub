@@ -25,7 +25,7 @@ const Home = () => {
         <>
             <div className='bg-secondary h-screen w-screen pt-28'>
                 <div className='flex flex-col items-center justify-center bg-secondary'>
-                    {posts && posts.map((post)=>(
+                    {posts && (userId ? posts : posts.slice(0, 16)).map((post)=>(
                         <PostDetails key={post._id} userId={userId} post={post}/>
 
                     ))}
