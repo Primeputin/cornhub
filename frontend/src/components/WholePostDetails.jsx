@@ -6,7 +6,6 @@ import coloreddislike from '../assets/coloreddislike.png'
 import CommentsDetails from './CommentsDetails'
 
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
 
 const WholePostDetails = ( {post} )=>{
 
@@ -33,32 +32,6 @@ const WholePostDetails = ( {post} )=>{
         11: 'November',
         12: 'December'
       };
-
-    // for comments
-    const [comments, setComments] = useState(null);
-    const [loading, setLoading] = useState(true); // Added loading state
-    const params = useParams();
-    useEffect(()=>{
-        const fetchComments = async()=>{
-            try{
-                const response = await fetch(`http://localhost:3000/api/comments/`);
-                if (response.ok)
-                {
-                    const json = await response.json();
-                    setComments(json);
-                }
-            }
-            catch (error)
-            {
-                console.error("Error fetching post:", error);
-            }
-            finally {
-                setLoading(false); // Set loading to false regardless of success or error
-             }
-        }
-        
-        fetchComments();
-    }, [])
 
     return (
         <>
@@ -99,13 +72,7 @@ const WholePostDetails = ( {post} )=>{
                 </div>
             </div>
 
-            {loading ? (
-                        <p>Loading...</p>
-                        ) : post ? (
-                        <CommentsDetails comments={comments} />
-                        ) : (
-                        <p>No comments found</p>
-                        )}
+            <CommentsDetails post={post} />
             
         </>
     )

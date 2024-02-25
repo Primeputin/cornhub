@@ -25,7 +25,7 @@ const getPost = async (req, res)=>{
     const post = await Post.findById(id).populate({
         path: 'user',
         populate: { path: 'profpic' }
-    }).populate('postedImages').sort({createdAt: -1});;
+    }).populate('postedImages').sort({createdAt: -1}).populate('comments').sort(({createdAt: -1}));
 
     if (!post)
     {
@@ -102,6 +102,5 @@ const updatePost = async (req, res)=>{
     }
     res.status(200).json(post);
 }
-
 
 module.exports = { getPosts, getPost, createPost, deletePost, updatePost }

@@ -3,10 +3,10 @@ import reply from '../assets/reply.png'
 import { useState } from 'react';
 import axios from 'axios';
 
-const CommentsDetails = ({comments})=>{
+const CommentsDetails = ({post})=>{
 
     const [commentBody, setCommentBody] = useState('');
-    const [commentsState, setCommentsState] = useState(comments);
+    const [commentsState, setCommentsState] = useState(post.comments);
     const onComment = async ()=>{
         // new comment object
         const newComment = {
@@ -17,7 +17,13 @@ const CommentsDetails = ({comments})=>{
         try {
             // Send HTTP request to create a new comment
             const response = await axios.post('http://localhost:3000/api/comments/', newComment);
+            
+
+            await axios.patch('http://localhost:3000/api/posts/' + post._id, {$push: { comments: response.data._id }});
+
             commentsState.unshift(response.data); // insert in the beginning of the array
+
+            
             // Clear the textarea after successful submission
             setCommentBody('');
         } catch (error) {
