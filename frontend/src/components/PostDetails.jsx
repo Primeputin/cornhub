@@ -7,7 +7,7 @@ import edit from '../assets/edit.png'
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react'
 
-const PostDetails = ({ post })=>{
+const PostDetails = ({ userId, post })=>{
 
     const createdTimeStamp = new Date(post.createdAt);
     const [isLiked, setLiked] = useState(false);
@@ -48,12 +48,19 @@ const PostDetails = ({ post })=>{
                     <span>{post.username}</span>
                 </div>
                 
-                <button className='bg-tertiary' onClick={()=>navigate(`/EditPost/${post._id}`)}>
-                    <img src={edit}
-                                className="rounded-full cursor-pointer"
-                                width="15rem" height = "15rem"
-                                />
-                </button>
+                { userId && post.user?._id && userId === post.user._id && (
+
+
+                    <button className='bg-tertiary' onClick={()=>navigate(`/EditPost/${post._id}`)}>
+                        <img src={edit}
+                                    className="rounded-full cursor-pointer"
+                                    width="15rem" height = "15rem"
+                                    />
+                    </button>
+                )
+
+                }
+                
                 
             </div>
             
@@ -67,7 +74,7 @@ const PostDetails = ({ post })=>{
             <p className='mt-2'>
                 {post.desc}
             </p>
-            {/* hardcoded image for now */}
+            
             <div className='w-full h-full flex flex-nowrap gap-2 items-center overflow-x-auto snap snap-x snap-mandatory scroll scroll-smooth rounded-sm'>
                 {post.postedImages.map((image)=>(
                     <img key={image._id} src={"http://localhost:3000/api/uploads/actual/" + image.filename} className='w-full h-full rounded-sm snap-center'/>

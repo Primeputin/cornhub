@@ -1,9 +1,11 @@
 import { Nav } from '../hocs'
 import PostDetails from './PostDetails';
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
+import { AuthContext } from '../hocs';
 
 const Home = () => {
 
+    const { userId } = useContext(AuthContext);
     const [posts, setPosts] = useState(null);
     useEffect(()=>{
         const fetchPosts = async()=>{
@@ -24,7 +26,7 @@ const Home = () => {
             <div className='bg-secondary h-screen w-screen pt-28'>
                 <div className='flex flex-col items-center justify-center bg-secondary'>
                     {posts && posts.map((post)=>(
-                        <PostDetails key={post._id} post={post}/>
+                        <PostDetails key={post._id} userId={userId} post={post}/>
 
                     ))}
                 </div>
