@@ -22,7 +22,7 @@ function App() {
               <Route path="/About" element={<About />} />
               <Route path="/Profile" element={<Profile />} />
               <Route path="/EditProfPic" element={<EditProfPic />} />
-              <Route path="/Post" element={<Post />} />
+              <Route path="/Post/:id" element={<Post />} />
               <Route path="/CreatePost" element={<CreatePost />} />
               <Route path="/EditPost/:id" element={<EditPost />} />
               <Route path="/SinglePost/:id" element={<SinglePost />} />

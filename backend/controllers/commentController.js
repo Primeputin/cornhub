@@ -22,6 +22,26 @@ const getComments = async (req, res) => {
     }
 }
 
+const getCommentsByUser = async (req, res) => {
+    try {
+        const { id } = req.params
+        // Retrieve comments sorted by createdAt date in descending order
+        const comments = await Comment.find({user: id}).sort({ createdAt: -1 });
+
+        // Check if comments are found
+        if (!comments) {
+            return res.status(404).json({ message: "No comments found" });
+        }
+
+        // Return the comments
+        return res.status(200).json(comments);
+    } catch (error) {
+        console.error("Error while fetching comments:", error);
+        // Return an error response
+        return res.status(500).json({ message: "Internal server error" });
+    }
+}
+
 
 // get a comment
 const getComment = async (req, res)=>{
@@ -113,4 +133,4 @@ const updateComment = async (req, res) => {
 };
 
 
-module.exports = { getComments , getComment, createComment, deleteComment, updateComment }
+module.exports = { getComments, getCommentsByUser, getComment, createComment, deleteComment, updateComment }

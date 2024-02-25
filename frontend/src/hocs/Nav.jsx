@@ -190,7 +190,7 @@ const Nav = (Component) => {
                                 <li onClick={()=>navigate("/Profile")} className='hover:text-white cursor-pointer '>
                                     Edit Profile
                                 </li>
-                                <li onClick={()=>navigate("/Post")} className='hover:text-white cursor-pointer'>
+                                <li onClick={()=>navigate("/Post/" + userId)} className='hover:text-white cursor-pointer'>
                                     My Posts
                                 </li>
                                 <li onClick={()=>{

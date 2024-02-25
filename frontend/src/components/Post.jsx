@@ -7,15 +7,43 @@ import axios from 'axios';
 const Post = () => {
 
     const navigate = useNavigate();
+    const [user, setUser] = useState(null);
     const [posts, setPosts] = useState(null);
+    const params = useParams();
+
+    useEffect(() => {
+        
+        const fetchUser = async()=>{
+            try 
+            {
+                const response = await axios.get("http://localhost:3000/api/users/" + params.id);
+                setUser(response.data);
+            
+            }
+            catch(error)
+            {
+                console.log("Error with getting data about the user: ", error);
+            }
+            
+        }
+
+        fetchUser();
+    
+    }, []);
+
     useEffect(()=>{
         const fetchPosts = async()=>{
-            const response = await fetch("http://localhost:3000/api/posts/");
-            if (response.ok)
+            try 
             {
-                const json = await response.json();
-                setPosts(json);
+                const response = await axios.get("http://localhost:3000/api/posts/user/" + params.id);
+                setPosts(response.data);
+            
             }
+            catch(error)
+            {
+                console.log("Error with getting data about the posts: ", error);
+            }
+            
         }
 
         fetchPosts();
@@ -24,42 +52,41 @@ const Post = () => {
 
     // for comments
     const [comments, setComments] = useState(null);
-    const params = useParams();
-
 
     const fetchComments = async()=>{
-        try{
-            const response = await fetch(`http://localhost:3000/api/comments/`);
-            if (response.ok)
-            {
-                const json = await response.json();
-                setComments(json);
-            }
-        }
-        catch (error)
+        try 
         {
-            console.error("Error fetching post:", error);
+            const response = await axios.get("http://localhost:3000/api/comments/user/" + params.id);
+            setComments(response.data);
+        
         }
+        catch(error)
+        {
+            console.log("Error with getting data about the comments: ", error);
+        }
+        
     }
 
     useEffect(()=>{
         
+
         fetchComments();
+
     }, [])
 
     return (
         <div className='h-screen w-screen bg-secondary pt-24'>
             <div className='flex items-center justify-center bg-secondary'>
                     <div className='flex flex-col items-center justify-center'>
-                        <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" 
-                            className="rounded-full cursor-pointer"
-                            width="150" height = "150"
-                            />
-                        <span>Username</span>
+                        <img src={user && user.profpic ? "http://localhost:3000/api/uploads/actual/" + user.profpic.filename :"https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"}
+                             className="rounded-full cursor-pointer"
+                             width="150" height = "150"
+                        />
+                        <span>{user && user.username}</span>
                     </div>
                     
                     <div className='p-5 mx-9 bg-tertiary rounded-md'>
-                            My description
+                            {user && user.desc ? user.desc : "My description"}
                     </div>
 
             </div>
@@ -70,7 +97,7 @@ const Post = () => {
             
             <div className='flex flex-col items-center justify-center bg-secondary'>
                     
-                    {posts && posts.map((post)=>(
+                    {posts && posts.slice(0, 3).map((post)=>(
                         <PostDetails key={post._id} post={post}/>
 
                     ))}
@@ -86,7 +113,7 @@ const Post = () => {
            
             <div className='flex flex-col items-center justify-center bg-secondary'>
                     
-                    {comments && comments.map((comment)=>{
+                    {comments && comments.slice(0, 3).map((comment)=>{
                         return (
                             <SingleComment key={comment._id} comment={comment} refresh={fetchComments}/>
                         )

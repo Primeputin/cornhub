@@ -13,6 +13,16 @@ const getPosts = async (req, res)=>{
     res.status(200).json(posts);
 }
 
+// get all posts made by the user
+const getPostsByUser = async (req, res)=>{
+    const { id } = req.params
+    const posts = await Post.find({user: id}).populate({
+        path: 'user',
+        populate: { path: 'profpic' }
+    }).populate('postedImages').sort({createdAt: -1});
+    res.status(200).json(posts);
+}
+
 // get a post
 const getPost = async (req, res)=>{
     const { id } = req.params
@@ -103,4 +113,4 @@ const updatePost = async (req, res)=>{
     res.status(200).json(post);
 }
 
-module.exports = { getPosts, getPost, createPost, deletePost, updatePost }
+module.exports = { getPosts, getPostsByUser, getPost, createPost, deletePost, updatePost }
