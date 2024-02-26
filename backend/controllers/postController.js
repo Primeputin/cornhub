@@ -48,9 +48,9 @@ const getPost = async (req, res)=>{
 const createPost =  async (req, res)=>{
     try
     {  
-        const {user, title, desc, tags, postedImages} = req.body 
+        const {user, title, desc, tags, postedImages, likes, dislikes} = req.body 
 
-        const post = await Post.create({user, title, desc, tags, postedImages});
+        const post = await Post.create({user, title, desc, tags, postedImages, likes, dislikes});
 
         res.status(200).json(post);
     }

@@ -24,6 +24,14 @@ const userSchema = new Schema({
         ref: 'imageModel', 
         required: false, 
     },
+    likedPosts: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'postModel',
+    }],
+    dislikedPosts: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'postModel',
+    }],
 
 });
 

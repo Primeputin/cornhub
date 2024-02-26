@@ -75,6 +75,8 @@ const CreatePost = ()=>{
                 title: title,
                 desc: desc,
                 tags: tags,
+                likes: 0,
+                dislikes: 0,
                 postedImages: uploadedImages.map(image => image._id),
             }
 

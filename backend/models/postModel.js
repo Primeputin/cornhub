@@ -35,13 +35,22 @@ const postSchema = new Schema({
     updatedAt:{
         type: Date,
         required: true,
-        immutable: true,
+        immutable: false,
         default: ()=>Date.now(),
     },
     comments: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'commentModel',
     }],
+    likes: {
+        type: Number,
+        required: true,
+    },
+    dislikes: {
+        type: Number,
+        required: true,
+    },
+    
 });
 
 module.exports = mongoose.model("postModel", postSchema);
