@@ -41,11 +41,13 @@ const PostDetails = ({ userId, post })=>{
         <div className="bg-tertiary px-5 pt-5 pb-3 rounded-lg max-w-xl w-1/2 my-5 shadow-lg">
             <div className='flex justify-between'>
                 <div className='flex items-center'>
+                                {/* example basis */}
+            {/* example basis */}
                     <img src={post && post.user?.profpic ? "http://localhost:3000/api/uploads/actual/" + post.user.profpic.filename :"https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"}
                                 className="rounded-full cursor-pointer mr-2"
-                                width="25rem" height = "25rem"
+                                width="25rem" height = "25rem" onClick={()=>navigate(`/Post/${post.user._id}`)}
                                 />
-                    <span>{post && post.user?.username && post.user.username}</span>
+                    <span onClick={()=>navigate(`/Post/${post.user._id}`)} className='cursor-pointer'>{post && post.user?.username && post.user.username}</span>
                 </div>
                 
                 { userId && post.user?._id && userId === post.user._id && (
@@ -63,6 +65,8 @@ const PostDetails = ({ userId, post })=>{
                 
                 
             </div>
+
+
             
             <h4 onClick={()=>navigate(`/SinglePost/${post._id}`)} className="text-2xl font-bold cursor-pointer hover:text-primary">{post.title}</h4>
             <span className="text-teal-400 text-xs">Posted at: {monthMap[month]} {day}, {year}</span>
