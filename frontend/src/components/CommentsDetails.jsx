@@ -3,13 +3,14 @@ import reply from '../assets/reply.png'
 import { useState } from 'react';
 import axios from 'axios';
 
-const CommentsDetails = ({post})=>{
+const CommentsDetails = ({userId, post})=>{
 
-    const [commentBody, setCommentBody] = useState('');
+    const [commentBody, setCommentBody] = useState("");
     const [commentsState, setCommentsState] = useState(post.comments);
     const onComment = async ()=>{
         // new comment object
         const newComment = {
+            user: userId,
             comment: commentBody,
             replies: [],
         };
@@ -22,8 +23,8 @@ const CommentsDetails = ({post})=>{
             await axios.patch('http://localhost:3000/api/posts/' + post._id, {$push: { comments: response.data._id }});
 
             commentsState.unshift(response.data); // insert in the beginning of the array
+            console.log(response.data.user)
 
-            
             // Clear the textarea after successful submission
             setCommentBody('');
         } catch (error) {
@@ -63,7 +64,7 @@ const CommentsDetails = ({post})=>{
 
                     <div className='flex flex-col'>
                         {commentsState && commentsState.map((comment)=>(
-                            <CommentItem key={comment._id} comment={comment} onDeleteComment={onDeleteComment}/>
+                            <CommentItem key={comment._id} userId={userId} comment={comment} onDeleteComment={onDeleteComment}/>
                         ))
 
                         }
@@ -77,7 +78,7 @@ const CommentsDetails = ({post})=>{
     )
 }
 
-const CommentItem = ({ comment, onDeleteComment })=>{
+const CommentItem = ({userId, comment, onDeleteComment })=>{
 
     const [commentState, setCommentState] = useState(comment);
 
@@ -203,7 +204,7 @@ const CommentItem = ({ comment, onDeleteComment })=>{
     };
 
     const [isEditing, setIsEditing] = useState(false);
-    const [editBody, setEditBody] = useState('');
+    const [editBody, setEditBody] = useState(comment.comment);
 
     const onEdit = async ()=>{
 
@@ -219,12 +220,9 @@ const CommentItem = ({ comment, onDeleteComment })=>{
             console.error('Error in editing a comment', error);
         }
 
-        setEditBody('');
         setIsEditing(false);
 
     }
-
-
 
     return (
         <div>
@@ -262,7 +260,7 @@ const CommentItem = ({ comment, onDeleteComment })=>{
             ) : (
                 <div>
                      <section className='bg-tertiary flex items-center py-2'>
-                        <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" 
+                        <img src={comment && comment.user?.profpic ? "http://localhost:3000/api/uploads/actual/" + comment.user.profpic.filename :"https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"} 
                         className="rounded-full cursor-pointer p-1 mx-1 mr-2"
                         width="50"
                         height="50"/>
@@ -293,12 +291,28 @@ const CommentItem = ({ comment, onDeleteComment })=>{
                         <button onClick={()=>setIsReplying((prev)=>!prev)} className='mr-1 mb-2 text-xs'>
                             <img src={reply} width="15rem" height="15rem"/>
                         </button>
+
+                        { userId && comment.user?._id && userId === comment.user._id && (
+
                         <button onClick={()=>setIsEditing(true)} className='mr-1 mb-2 text-xs'>
-                            <p className='underline underline-offset-2'> Edit </p>
+                        <p className='underline underline-offset-2'> Edit </p>
                         </button>
+
+                        )
+
+                        }
+
+                        { userId && comment.user?._id && userId === comment.user._id && (
                         <button onClick={deleteComment}className='mr-1 mb-2 text-xs hover:bg-rose-500 hover:text-white'>
                             <p className='underline underline-offset-2'> Delete </p>
                         </button>
+                        
+                        )
+
+                        }
+
+
+
                         <button onClick={()=>setIsShowReplies((prev)=>!prev)} className='mr-1 mb-2 text-xs'>
                             <p className='underline underline-offset-2'> More replies </p>
                         </button>

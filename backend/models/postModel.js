@@ -53,4 +53,15 @@ const postSchema = new Schema({
     
 });
 
+postSchema.pre('findOneAndUpdate', function(next) {
+    
+    const update = this.getUpdate();
+    if (update.hasOwnProperty('comments')) { 
+      
+      update.updatedAt = new Date();
+    }
+    // Proceed to the next middleware
+    next();
+  });
+
 module.exports = mongoose.model("postModel", postSchema);

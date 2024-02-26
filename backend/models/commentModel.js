@@ -6,7 +6,7 @@ const commentSchema = new Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'userModel', 
-        required: false, // change this back to true
+        required: true, 
     },
     comment: {
         type: String,
@@ -21,7 +21,7 @@ const commentSchema = new Schema({
     updatedAt:{
         type: Date,
         required: true,
-        immutable: true,
+        immutable: false,
         default: ()=>Date.now(),
     },
     replies: [{
@@ -30,10 +30,9 @@ const commentSchema = new Schema({
     }],
 });
 
-// This will run every time the object is being saved
-commentSchema.pre('save', function (next) {
-    this.updatedAt = new Date(); // will the update the updatedAt field every time something is edited
-    next(); // Call the next middleware
+commentSchema.pre('findOneAndUpdate', function(next) {
+    this._update.updatedAt = new Date();
+    next();
 });
 
 module.exports = mongoose.model("commentModel", commentSchema);

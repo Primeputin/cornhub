@@ -37,6 +37,13 @@ const PostDetails = ({ userId, post })=>{
         12: 'December'
       };
 
+    
+    const updated = post.createdAt != post.updatedAt;
+    const updatedTimeStamp = new Date(post.updatedAt);
+    const updatedYear = updatedTimeStamp.getFullYear();
+    const updatedMonth = updatedTimeStamp.getMonth() + 1; // Months are zero-indexed
+    const updatedDay = updatedTimeStamp.getDate();
+
     return (
         <div className="bg-tertiary px-5 pt-5 pb-3 rounded-lg max-w-xl w-1/2 my-5 shadow-lg">
             <div className='flex justify-between'>
@@ -69,7 +76,7 @@ const PostDetails = ({ userId, post })=>{
 
             
             <h4 onClick={()=>navigate(`/SinglePost/${post._id}`)} className="text-2xl font-bold cursor-pointer hover:text-primary">{post.title}</h4>
-            <span className="text-teal-400 text-xs">Posted at: {monthMap[month]} {day}, {year}</span>
+            <span className="text-teal-400 text-xs">{updated?"Edited on: "+ monthMap[updatedMonth]+" "+ updatedDay+", " + updatedYear :"Posted at: "+ monthMap[month]+" "+ day+", " + year}</span>
             <div className='flex flex-wrap'>
                 {post.tags.length > 0 && post.tags.map((tag, index)=>(
                     <span key={index} className='bg-yellow-200 rounded-lg px-2 mr-1 mb-1 max-md:text-xs'>{tag}</span>

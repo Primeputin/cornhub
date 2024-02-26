@@ -35,7 +35,10 @@ const getPost = async (req, res)=>{
     const post = await Post.findById(id).populate({
         path: 'user',
         populate: { path: 'profpic' }
-    }).populate('postedImages').sort({createdAt: -1}).populate('comments').sort(({createdAt: -1}));
+    }).populate('postedImages').sort({createdAt: -1}).populate({
+        path: 'comments',
+        populate: { path: 'user', populate: {path: 'profpic'}}
+    }).sort(({createdAt: -1}));
 
     if (!post)
     {

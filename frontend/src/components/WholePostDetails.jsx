@@ -3,15 +3,23 @@ import coloredlike from '../assets/coloredlike.png'
 import dislike from '../assets/dislike.png'
 import coloreddislike from '../assets/coloreddislike.png'
 
+import { AuthContext } from '../hocs';
+import edit from '../assets/edit.png'
 import CommentsDetails from './CommentsDetails'
 
-import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+import { useState, useEffect , useContext} from 'react';
 
 const WholePostDetails = ( {post} )=>{
 
     const createdTimeStamp = new Date(post.createdAt);
     const [isLiked, setLiked] = useState(false);
     const [isDisliked, setDisliked] = useState(false);
+
+    const { userId } = useContext(AuthContext);
+
+    const navigate = useNavigate();
 
     // Extracting date components
     const year = createdTimeStamp.getFullYear();
@@ -33,19 +41,40 @@ const WholePostDetails = ( {post} )=>{
         12: 'December'
       };
 
+    const updated = post.createdAt != post.updatedAt;
+    const updatedTimeStamp = new Date(post.updatedAt);
+    const updatedYear = updatedTimeStamp.getFullYear();
+    const updatedMonth = updatedTimeStamp.getMonth() + 1; // Months are zero-indexed
+    const updatedDay = updatedTimeStamp.getDate();
+
     return (
         <>
             <div className="bg-tertiary px-5 pt-5 pb-3 rounded-lg max-w-xl w-1/2 my-5 shadow-lg">
-                <div className='flex'>
+                <div className='flex justify-between'>
+                    <div className="flex items-center">
                     <img src={post && post.user?.profpic ? "http://localhost:3000/api/uploads/actual/" + post.user.profpic.filename :"https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"}
                             className="rounded-full cursor-pointer mr-2"
                             width="25rem" height = "25rem"
                             />
                     <span>{post && post.user?.username && post.user.username}</span>
+                    </div>
+
+                    { userId && post.user?._id && userId === post.user._id && (
+                    <button className='bg-tertiary' onClick={()=>navigate(`/EditPost/${post._id}`)}>
+                    <img src={edit}
+                     className="rounded-full cursor-pointer"
+                    width="15rem" height = "15rem"
+                    />
+                    </button>
+                    )
+
+                    }
                 </div>
                 
+                
+
                 <h4 className="text-2xl font-bold">{post.title}</h4>
-                <span className="text-teal-400 text-xs">Posted at: {monthMap[month]} {day}, {year}</span>
+                <span className="text-teal-400 text-xs">{updated?"Edited on: "+ monthMap[updatedMonth]+" "+ updatedDay+", " + updatedYear :"Posted at: "+ monthMap[month]+" "+ day+", " + year}</span>
                 <div className='flex'>
                     {post.tags.length > 0 && post.tags.map((tag, index)=>(
                         <span key={index} className='bg-yellow-200 rounded-lg px-2 mr-1'>{tag}</span>
@@ -72,7 +101,7 @@ const WholePostDetails = ( {post} )=>{
                 </div>
             </div>
 
-            <CommentsDetails post={post} />
+            <CommentsDetails post={post} userId={userId}/>
             
         </>
     )

@@ -64,10 +64,12 @@ const getComment = async (req, res)=>{
 // create a comment
 const createComment =  async (req, res)=>{
 
-    const { comment, replies } = req.body
+    const { user, comment, replies } = req.body
     try
     {   
-        const createdComment = await Comment.create({comment, replies});
+        const createdComment = await Comment.create({user, comment, replies});
+        await createdComment.populate("user");
+        await createdComment.user.populate("profpic");
         res.status(200).json(createdComment);
     }
     catch(error)
