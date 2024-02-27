@@ -53,8 +53,7 @@ const WholePostDetails = ( {post} )=>{
                 <div className='flex justify-between'>
                     <div className="flex items-center">
                     <img src={post && post.user?.profpic ? "http://localhost:3000/api/uploads/actual/" + post.user.profpic.filename :"https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"}
-                            className="rounded-full cursor-pointer mr-2"
-                            width="25rem" height = "25rem"
+                            className="rounded-full cursor-pointer mr-2 max-w-xs max-h-xs w-8 h-8"
                             />
                     <span>{post && post.user?.username && post.user.username}</span>
                     </div>

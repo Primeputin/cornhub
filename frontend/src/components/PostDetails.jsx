@@ -51,8 +51,8 @@ const PostDetails = ({ userId, post })=>{
                                 {/* example basis */}
             {/* example basis */}
                     <img src={post && post.user?.profpic ? "http://localhost:3000/api/uploads/actual/" + post.user.profpic.filename :"https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"}
-                                className="rounded-full cursor-pointer mr-2"
-                                width="25rem" height = "25rem" onClick={()=>navigate(`/Post/${post.user._id}`)}
+                                className="rounded-full cursor-pointer mr-2 max-w-xs max-h-xs w-8 h-8"
+                                onClick={()=>navigate(`/Post/${post.user._id}`)}
                                 />
                     <span onClick={()=>navigate(`/Post/${post.user._id}`)} className='cursor-pointer'>{post && post.user?.username && post.user.username}</span>
                 </div>

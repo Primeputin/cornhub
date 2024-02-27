@@ -79,8 +79,7 @@ const Post = () => {
             <div className='flex items-center justify-center bg-secondary'>
                     <div className='flex flex-col items-center justify-center'>
                         <img src={user && user.profpic ? "http://localhost:3000/api/uploads/actual/" + user.profpic.filename :"https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"}
-                             className="rounded-full cursor-pointer"
-                             width="150" height = "150"
+                             className="rounded-full cursor-pointer max-w-md max-h-md w-32 h-32"
                         />
                         <span>{user && user.username}</span>
                     </div>

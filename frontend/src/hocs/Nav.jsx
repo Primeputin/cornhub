@@ -170,14 +170,14 @@ const Nav = (Component) => {
                         )}
                         
                         <img src={user && user.profpic ? "http://localhost:3000/api/uploads/actual/" + user.profpic.filename :"https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"} 
-                        className="rounded-full cursor-pointer p-1 mx-1"
+                        className="rounded-full cursor-pointer p-1 mx-1 max-w-sm max-h-sm w-14 h-14"
                         onClick = {() => {
                             if (isLoggedIn)
                             {
                                 setToggle((prevToggle) => !prevToggle);
                             }
                         }}
-                        width="50" height = "50"
+                        // width="50" height = "50"
                         ref={sideRef}
                         />
 
