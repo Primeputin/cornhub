@@ -83,7 +83,7 @@ const WholePostDetails = ( {post} )=>{
                     {post.desc}
                 </p>
                 
-                <div className='w-full h-full flex flex-nowrap gap-2 items-center overflow-x-auto snap snap-x snap-mandatory scroll scroll-smooth rounded-sm'>
+                <div className='bg-black w-full h-full flex flex-nowrap gap-2 items-center overflow-x-auto snap snap-x snap-mandatory scroll scroll-smooth rounded-sm'>
                     {post.postedImages.map((image)=>(
                         <img key={image._id} src={"http://localhost:3000/api/uploads/actual/" + image.filename} className='w-full h-full rounded-sm snap-center'/>
                     ))}
