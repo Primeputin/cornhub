@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.get("/", getComments);
 
-router.get("/user/:id", getComments);
+router.get("/user/:id", getCommentsByUser);
 
 router.get("/:id", getComment);
 

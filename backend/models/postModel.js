@@ -50,6 +50,14 @@ const postSchema = new Schema({
         type: Number,
         required: true,
     },
+    likedBy: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'userModel', 
+    }],
+    disLikedBy: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'userModel', 
+    }],
     
 });
 
