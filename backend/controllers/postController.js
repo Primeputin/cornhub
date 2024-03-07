@@ -23,6 +23,33 @@ const getPostsByUser = async (req, res)=>{
     res.status(200).json(posts);
 }
 
+
+const getPostsBySearch = async (req, res)=>{
+    const { searchText } = req.params
+    let searchArr = new Array;
+    
+    for(let i = 0; i< searchText.length; i++){//reformat it back so spaces can be searched
+        if(searchText[i]=="_"){
+            searchArr.push(" ");
+        }else{
+            searchArr.push(searchText[i]);
+        }
+    }
+
+    const regex = new RegExp(searchArr.join(""), 'i');//i is for making it not case sensitive
+    const posts = await Post.find({
+        $or: [
+            { title: { $regex: regex } },//regex makes it so that the fields dont have to be exact to return
+            { desc: { $regex: regex } },
+            { tags: { $in: [regex] } }
+        ]
+    }).populate({
+        path: 'user',
+        populate: { path: 'profpic' }
+    }).populate('postedImages').sort({createdAt: -1});
+    res.status(200).json(posts);
+}
+
 // get a post
 const getPost = async (req, res)=>{
     const { id } = req.params
@@ -116,4 +143,4 @@ const updatePost = async (req, res)=>{
     res.status(200).json(post);
 }
 
-module.exports = { getPosts, getPostsByUser, getPost, createPost, deletePost, updatePost }
+module.exports = { getPosts, getPostsByUser, getPostsBySearch, getPost, createPost, deletePost, updatePost }

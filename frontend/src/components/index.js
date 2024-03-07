@@ -12,6 +12,7 @@ import SinglePost from './SinglePost'
 import EditProfPic from './EditProfPic'
 import AllPosts from './AllPosts'
 import AllComments from './AllComments'
+import SearchResults  from './SearchResults'
 
 export
 {
@@ -29,4 +30,5 @@ export
     EditProfPic,
     AllComments,
     AllPosts,
+    SearchResults
 }
