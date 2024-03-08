@@ -139,6 +139,16 @@ const Nav = (Component) => {
             
         }
         
+        function handleKeyDown(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                const value = e.target.value.trim();
+                if (value) {
+                    navformat(value);
+                    e.target.value = '';
+                }
+            }
+        }
 
         return (
             <>
@@ -176,7 +186,7 @@ const Nav = (Component) => {
                     <div>
                         <form className='bg-white rounded-lg'>
                             <input className="rounded-lg sm:rounded-lg sm:rounded-r-none px-2"
-                            onChange={(event)=>{setSearchText(event.target.value)}} type="text" name="search" placeholder="Search.." defaultValue={searchText}/>
+                            onKeyDown={handleKeyDown} onChange={(event)=>{setSearchText(event.target.value)}} type="text" name="search" placeholder="Search.." defaultValue={searchText}/>
                             <input className="hidden md:inline rounded-r-lg px-2 ml-[3px] ml-[1px] bg-zinc-200 hover:bg-zinc-300 bg-search-icon bg-cover bg-center bg-sm"
                             onClick={()=>navformat(searchText)}type="button" name="search" value = "  "/>
                         </form>
