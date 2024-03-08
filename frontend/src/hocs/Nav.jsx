@@ -20,6 +20,9 @@ const Nav = (Component) => {
 
         const [user, setUser] = useState(null);
 
+        const [searchText, setSearchText] = useState("");
+
+
         useEffect(() => {
         
         
@@ -114,6 +117,28 @@ const Nav = (Component) => {
         
 
         const navigate = useNavigate();
+        
+
+        function navformat(searchText){
+            let searchArr = new Array;
+            for(let i = 0; i< searchText.length; i++){//format to account for spaces
+                if(searchText[i]==" "){
+                    searchArr.push("_");
+                }else{
+                    searchArr.push(searchText[i]);
+                }
+            }
+           
+            if(searchText.length > 0){
+                navigate("/Search/"+ searchArr.join(""))//only searches if the search box has text
+            }
+
+            else{
+                navigate("/Home")
+            }
+            
+        }
+        
 
         return (
             <>
@@ -151,9 +176,9 @@ const Nav = (Component) => {
                     <div>
                         <form className='bg-white rounded-lg'>
                             <input className="rounded-lg sm:rounded-lg sm:rounded-r-none px-2"
-                            type="text" name="search" placeholder="Search.."/>
+                            onChange={(event)=>{setSearchText(event.target.value)}} type="text" name="search" placeholder="Search.." defaultValue={searchText}/>
                             <input className="hidden md:inline rounded-r-lg px-2 ml-[3px] ml-[1px] bg-zinc-200 hover:bg-zinc-300 bg-search-icon bg-cover bg-center bg-sm"
-                            type="button" name="search" value = "  "/>
+                            onClick={()=>navformat(searchText)}type="button" name="search" value = "  "/>
                         </form>
                     </div>
 
