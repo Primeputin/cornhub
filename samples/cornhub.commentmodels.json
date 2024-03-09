@@ -1,0 +1,170 @@
+[{
+  "_id": {
+    "$oid": "65ec00088ed7d9df2c78472e"
+  },
+  "user": {
+    "$oid": "65ebfc7a8ed7d9df2c7845ce"
+  },
+  "comment": "This ain't corn. Get out of here.  I came here for corn. ",
+  "replies": [],
+  "createdAt": {
+    "$date": "2024-03-09T06:22:00.177Z"
+  },
+  "updatedAt": {
+    "$date": "2024-03-09T06:22:40.431Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65ec022f8ed7d9df2c784b68"
+  },
+  "user": {
+    "$oid": "65ebfc6d8ed7d9df2c7845cc"
+  },
+  "comment": "I love corn. I cannot live without eating it. This is gonna save global warming. ",
+  "replies": [],
+  "createdAt": {
+    "$date": "2024-03-09T06:31:11.383Z"
+  },
+  "updatedAt": {
+    "$date": "2024-03-09T06:31:11.383Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65ec02d18ed7d9df2c784bb1"
+  },
+  "user": {
+    "$oid": "65ebfc6d8ed7d9df2c7845cc"
+  },
+  "comment": "I cannot live without corn.",
+  "replies": [],
+  "createdAt": {
+    "$date": "2024-03-09T06:33:53.805Z"
+  },
+  "updatedAt": {
+    "$date": "2024-03-09T06:33:53.805Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65ec03e58ed7d9df2c784d62"
+  },
+  "user": {
+    "$oid": "65ebfc9f8ed7d9df2c7845d2"
+  },
+  "comment": "I love corn too. It is nice to be part of a community that shares my ideals. ",
+  "replies": [],
+  "createdAt": {
+    "$date": "2024-03-09T06:38:29.565Z"
+  },
+  "updatedAt": {
+    "$date": "2024-03-09T06:38:29.565Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65ec05048ed7d9df2c784f2a"
+  },
+  "user": {
+    "$oid": "65ebfc9f8ed7d9df2c7845d2"
+  },
+  "comment": "I love corn. I am glad I am part of a community that also is passionate about it. ",
+  "replies": [],
+  "createdAt": {
+    "$date": "2024-03-09T06:43:16.098Z"
+  },
+  "updatedAt": {
+    "$date": "2024-03-09T06:43:16.098Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65ec06d78ed7d9df2c7851c1"
+  },
+  "user": {
+    "$oid": "65ebfc7f8ed7d9df2c7845d0"
+  },
+  "comment": "Be a creator for CornHub, the next big thing. We are open for sponsorships too. ",
+  "replies": [],
+  "createdAt": {
+    "$date": "2024-03-09T06:51:03.880Z"
+  },
+  "updatedAt": {
+    "$date": "2024-03-09T06:51:03.880Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65ec07188ed7d9df2c785222"
+  },
+  "user": {
+    "$oid": "65ebfc568ed7d9df2c7845ca"
+  },
+  "comment": "Get CornHub premium. Only 349Php per month and get access to exclusive content and behind the scenes. ",
+  "replies": [],
+  "createdAt": {
+    "$date": "2024-03-09T06:52:08.560Z"
+  },
+  "updatedAt": {
+    "$date": "2024-03-09T06:52:08.560Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65ec080f8ed7d9df2c78566f"
+  },
+  "user": {
+    "$oid": "65ebfc6d8ed7d9df2c7845cc"
+  },
+  "comment": "Sir I know how she looks like. \n",
+  "replies": [],
+  "createdAt": {
+    "$date": "2024-03-09T06:56:15.064Z"
+  },
+  "updatedAt": {
+    "$date": "2024-03-09T06:56:15.064Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65ec084d8ed7d9df2c78574a"
+  },
+  "user": {
+    "$oid": "65ebfc7a8ed7d9df2c7845ce"
+  },
+  "comment": "Live Jesus in our hearts, Forever. ",
+  "replies": [],
+  "createdAt": {
+    "$date": "2024-03-09T06:57:17.773Z"
+  },
+  "updatedAt": {
+    "$date": "2024-03-09T06:57:17.773Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65ec085d8ed7d9df2c7857c6"
+  },
+  "user": {
+    "$oid": "65ebfc7f8ed7d9df2c7845d0"
+  },
+  "comment": "Animo Lasalle",
+  "replies": [],
+  "createdAt": {
+    "$date": "2024-03-09T06:57:33.981Z"
+  },
+  "updatedAt": {
+    "$date": "2024-03-09T06:57:33.981Z"
+  },
+  "__v": 0
+}]

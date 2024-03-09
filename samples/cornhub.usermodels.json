@@ -1,0 +1,70 @@
+[{
+  "_id": {
+    "$oid": "65ebfc568ed7d9df2c7845ca"
+  },
+  "username": "Vladimir",
+  "password": "Tang",
+  "likedPosts": [],
+  "dislikedPosts": [],
+  "desc": "I am a programmer. I love CCAPDEV. ",
+  "__v": 0,
+  "profpic": {
+    "$oid": "65ebfe538ed7d9df2c7846af"
+  }
+},
+{
+  "_id": {
+    "$oid": "65ebfc6d8ed7d9df2c7845cc"
+  },
+  "username": "Andrei",
+  "password": "Lim",
+  "likedPosts": [],
+  "dislikedPosts": [],
+  "desc": "I love programming. I love CCPADEV. ",
+  "__v": 0,
+  "profpic": {
+    "$oid": "65ebfdb58ed7d9df2c784636"
+  }
+},
+{
+  "_id": {
+    "$oid": "65ebfc7a8ed7d9df2c7845ce"
+  },
+  "username": "Pierce",
+  "password": "Hokia",
+  "likedPosts": [],
+  "dislikedPosts": [],
+  "desc": "I love programming. I love CCPADEV. ",
+  "__v": 0,
+  "profpic": {
+    "$oid": "65ebfd778ed7d9df2c78461b"
+  }
+},
+{
+  "_id": {
+    "$oid": "65ebfc7f8ed7d9df2c7845d0"
+  },
+  "username": "Dave",
+  "password": "Bolima",
+  "likedPosts": [],
+  "dislikedPosts": [],
+  "desc": "I love programming. I love CCPADEV. ",
+  "__v": 0,
+  "profpic": {
+    "$oid": "65ebfdf38ed7d9df2c784661"
+  }
+},
+{
+  "_id": {
+    "$oid": "65ebfc9f8ed7d9df2c7845d2"
+  },
+  "username": "Patrice",
+  "password": "Lu",
+  "likedPosts": [],
+  "dislikedPosts": [],
+  "desc": "",
+  "__v": 0,
+  "profpic": {
+    "$oid": "65ebfe2a8ed7d9df2c78467d"
+  }
+}]

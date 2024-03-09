@@ -54,4 +54,10 @@ cd frontend
 npm run dev
 ```
 
+## Sample data
+
+All the sample data can be taken under the samples folder. To try, run the backend first. In MongoDB Compass, connect to mongodb://localhost:27017. Then import the json files to its respective collections.
+![alt text](image-1.png)
+Images used for posts and profiles pictures can be taken from the samplesImages folder inside the samples folder too but placed them to the uploads folder (Don't change the name of the files) for it to show in the web.
+
 As always, stay corny:)

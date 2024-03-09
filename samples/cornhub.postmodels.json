@@ -1,0 +1,218 @@
+[{
+  "_id": {
+    "$oid": "65ebff7f8ed7d9df2c7846d9"
+  },
+  "user": {
+    "$oid": "65ebfc568ed7d9df2c7845ca"
+  },
+  "title": "Python is the best programming language.",
+  "desc": "Python is the best programming language, and I will tell you why. Python is easy to learn, write, read, and debug. It has a rich set of libraries and frameworks for almost any task, from web development to data science. It is cross-platform, portable, and scalable. It supports multiple paradigms, such as object-oriented, functional, and procedural. It is expressive, elegant, and powerful. Python is not perfect, of course. It has some drawbacks, such as slow performance, indentation issues, and the GIL. But these are minor compared to the benefits that Python offers. Python is more than just a language, it is a community, a philosophy, and a way of life. Python is the best programming language, and I challenge anyone to prove me wrong.",
+  "tags": [],
+  "postedImages": [
+    {
+      "$oid": "65ebff7f8ed7d9df2c7846d7"
+    }
+  ],
+  "comments": [
+    {
+      "$oid": "65ec00088ed7d9df2c78472e"
+    },
+    {
+      "$oid": "65ec02d18ed7d9df2c784bb1"
+    }
+  ],
+  "likes": 2,
+  "dislikes": 1,
+  "likedBy": [
+    {
+      "$oid": "65ebfc7a8ed7d9df2c7845ce"
+    },
+    {
+      "$oid": "65ebfc7f8ed7d9df2c7845d0"
+    }
+  ],
+  "disLikedBy": [
+    {
+      "$oid": "65ebfc6d8ed7d9df2c7845cc"
+    }
+  ],
+  "createdAt": {
+    "$date": "2024-03-09T06:19:43.404Z"
+  },
+  "updatedAt": {
+    "$date": "2024-03-09T06:55:23.099Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65ec00c28ed7d9df2c784793"
+  },
+  "user": {
+    "$oid": "65ebfc7a8ed7d9df2c7845ce"
+  },
+  "title": "Subscribe for more corn",
+  "desc": "Boiling: Fill a large pot with water and salt, and bring it to a boil. Add the corn and simmer for 4 to 8 minutes, depending on how tender you like it. Drain and enjoy with butter and salt. Joke: Why did the corn stalk get mad at the farmer? Because he kept pulling its ears!\n\nMicrowaving: Place an ear of corn in a microwave-safe dish, with the husk still on. Microwave for 5 minutes on high, then let it stand for 1 to 2 minutes. Cut off the stem end and peel off the husk and silks. Joke: What do you call a corn that joins the army? Kernel!\n\nGrilling: Peel back the husks of the corn, but don’t remove them. Remove the silks and brush the kernels with oil or butter. Pull the husks back over the corn and secure them with a string. Grill over medium-high heat for 15 to 20 minutes, turning occasionally. Joke: How do you make a corn dance? You turn up the beet!",
+  "tags": [
+    "corncob",
+    "hub for corn"
+  ],
+  "postedImages": [
+    {
+      "$oid": "65ec00c28ed7d9df2c784791"
+    }
+  ],
+  "comments": [
+    {
+      "$oid": "65ec022f8ed7d9df2c784b68"
+    },
+    {
+      "$oid": "65ec03ce8ed7d9df2c784d35"
+    },
+    {
+      "$oid": "65ec05048ed7d9df2c784f2a"
+    },
+    {
+      "$oid": "65ec06d78ed7d9df2c7851c1"
+    },
+    {
+      "$oid": "65ec07188ed7d9df2c785222"
+    }
+  ],
+  "likes": 5,
+  "dislikes": 0,
+  "likedBy": [
+    {
+      "$oid": "65ebfc7f8ed7d9df2c7845d0"
+    },
+    {
+      "$oid": "65ebfc568ed7d9df2c7845ca"
+    },
+    {
+      "$oid": "65ebfc568ed7d9df2c7845ca"
+    },
+    {
+      "$oid": "65ebfc7a8ed7d9df2c7845ce"
+    },
+    {
+      "$oid": "65ebfc9f8ed7d9df2c7845d2"
+    },
+    {
+      "$oid": "65ebfc6d8ed7d9df2c7845cc"
+    },
+    {
+      "$oid": "65ebfc6d8ed7d9df2c7845cc"
+    }
+  ],
+  "disLikedBy": [],
+  "createdAt": {
+    "$date": "2024-03-09T06:25:06.305Z"
+  },
+  "updatedAt": {
+    "$date": "2024-03-09T06:54:58.670Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65ec03848ed7d9df2c784c8c"
+  },
+  "user": {
+    "$oid": "65ebfc6d8ed7d9df2c7845cc"
+  },
+  "title": "Corn is life",
+  "desc": "Corn is life, or so they say\nBut I don't really feel that way\nI think corn is overrated\nAnd often contaminated\n\nCorn is everywhere, it's true\nIn every meal and snack you chew\nBut corn is not a healthy choice\nIt makes you fat and hurts your voice\n\nCorn is cheap, that's why it sells\nBut corn is full of GMOs\nAnd pesticides and herbicides\nAnd other things that harm your insides\n\nCorn is life, that's what they claim\nBut corn is just a marketing game\nDon't fall for the corny hype\nCorn is not life, corn is tripe",
+  "tags": [],
+  "postedImages": [
+    {
+      "$oid": "65ec03848ed7d9df2c784c8a"
+    }
+  ],
+  "comments": [
+    {
+      "$oid": "65ec03e58ed7d9df2c784d62"
+    }
+  ],
+  "likes": 1,
+  "dislikes": 0,
+  "likedBy": [
+    {
+      "$oid": "65ebfc9f8ed7d9df2c7845d2"
+    }
+  ],
+  "disLikedBy": [],
+  "createdAt": {
+    "$date": "2024-03-09T06:36:52.990Z"
+  },
+  "updatedAt": {
+    "$date": "2024-03-09T06:55:11.113Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65ec064f8ed7d9df2c785147"
+  },
+  "user": {
+    "$oid": "65ebfc7f8ed7d9df2c7845d0"
+  },
+  "title": "Genshin",
+  "desc": "Hu Tao is the funeral director\nShe likes to play with fire\nShe makes the enemies shiver\nWith her spear and her attire\n\nHu Tao is the funeral director\nShe likes to joke and rhyme\nShe makes the people wonder\nWith her words and her sublime\n\nHu Tao is the funeral director\nShe likes to honor the dead\nShe makes the spirits linger\nWith her rituals and her red",
+  "tags": [],
+  "postedImages": [
+    {
+      "$oid": "65ec064f8ed7d9df2c785145"
+    }
+  ],
+  "comments": [],
+  "likes": 0,
+  "dislikes": 2,
+  "likedBy": [],
+  "disLikedBy": [
+    {
+      "$oid": "65ebfc7f8ed7d9df2c7845d0"
+    },
+    {
+      "$oid": "65ebfc7a8ed7d9df2c7845ce"
+    }
+  ],
+  "createdAt": {
+    "$date": "2024-03-09T06:48:47.612Z"
+  },
+  "updatedAt": {
+    "$date": "2024-03-09T06:54:13.905Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65ec12e293089bba30aa88eb"
+  },
+  "user": {
+    "$oid": "65ebfc9f8ed7d9df2c7845d2"
+  },
+  "title": "Duolingo is overrated.",
+  "desc": "Summer Lesson is a virtual reality game for the PlayStation VR platform, where you interact with a young virtual woman as the tutor. The game has English subtitles and is designed to teach you any language skills. This is better than Duolingo because the virtual tutor has a great personality. ",
+  "tags": [],
+  "postedImages": [
+    {
+      "$oid": "65ec12e293089bba30aa88e9"
+    }
+  ],
+  "comments": [],
+  "likes": 0,
+  "dislikes": 1,
+  "likedBy": [],
+  "disLikedBy": [
+    {
+      "$oid": "65ebfc9f8ed7d9df2c7845d2"
+    }
+  ],
+  "createdAt": {
+    "$date": "2024-03-09T07:42:26.466Z"
+  },
+  "updatedAt": {
+    "$date": "2024-03-09T07:43:13.830Z"
+  },
+  "__v": 0
+}]
