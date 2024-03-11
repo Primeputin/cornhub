@@ -62,7 +62,7 @@ const getComment = async (req, res)=>{
     // If the id is not valid, it sends a 404 status code with a message saying "No such post found :(".
     if (!mongoose.Types.ObjectId.isValid(id))
     {
-        return res.status(404).json({ error: "No such post found :(" });
+        return res.status(404).json({ error: "No such comment found :(" });
     }
 
     // Use the Comment model to find a comment by its id.
@@ -72,7 +72,7 @@ const getComment = async (req, res)=>{
     // Check if the comment was found. If not, send a 404 status code with a message saying "No such post found :(".
     if (!comment)
     {
-        return res.status(404).json({ error: "No such post found :(" });
+        return res.status(404).json({ error: "No such comment found :(" });
     }
 
     // If the comment was found, send a 200 status code (OK) along with the comment in the response.

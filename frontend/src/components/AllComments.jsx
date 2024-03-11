@@ -10,10 +10,9 @@ const AllComments = () => {
     const [comments, setComments] = useState(null);
     const params = useParams();
 
-
     const fetchComments = async()=>{
         try{
-            const response = await fetch(`http://localhost:3000/api/comments/`);
+            const response = await fetch(`http://localhost:3000/api/comments/user/` + params.id);
             if (response.ok)
             {
                 const json = await response.json();

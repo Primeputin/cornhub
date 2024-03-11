@@ -91,7 +91,7 @@ const Post = () => {
             </div>
             <h1 className='bg-secondary m-5 xs:max-lg:text-md'>Latest Posts</h1>
             {/* random number for now */}
-            <button onClick={()=>{navigate('/AllPosts/' + 123)}} className='ml-5 mt-1 bg-primary text-white'>All posts</button>
+            <button onClick={()=>{navigate('/AllPosts/' + user._id)}} className='ml-5 mt-1 bg-primary text-white'>All posts</button>
 
             
             <div className='flex flex-col items-center justify-center bg-secondary'>
@@ -105,7 +105,7 @@ const Post = () => {
             <div className='bg-secondary w-full'>
                  <h1 className='p-5 xs:max-lg:text-md'>Latest Comments</h1>
                  {/* random number for now */}
-                 <button onClick={()=>{navigate('/AllComments/' + 123)}} className='ml-5 mt-1 mb-3 bg-primary text-white'>All comments</button>
+                 <button onClick={()=>{navigate('/AllComments/' +  user._id)}} className='ml-5 mt-1 mb-3 bg-primary text-white'>All comments</button>
 
             </div>
             

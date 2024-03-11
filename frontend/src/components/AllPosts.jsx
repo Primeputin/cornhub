@@ -1,18 +1,27 @@
 import { Nav } from '../hocs'
 import PostDetails from './PostDetails';
 import { useState, useEffect } from 'react'
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
 
 const AllPosts = () => {
 
     const [posts, setPosts] = useState(null);
+    const params = useParams();
+
     useEffect(()=>{
         const fetchPosts = async()=>{
-            const response = await fetch("http://localhost:3000/api/posts/"); // it will forward/ proxy this to localhost:3000 which is the nodejs server defined in the package.json
-            if (response.ok)
+            try 
             {
-                const json = await response.json();
-                setPosts(json);
+                const response = await axios.get("http://localhost:3000/api/posts/user/" + params.id);
+                setPosts(response.data);
+            
             }
+            catch(error)
+            {
+                console.log("Error with getting data about the posts: ", error);
+            }
+            
         }
 
         fetchPosts();

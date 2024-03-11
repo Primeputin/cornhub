@@ -52,24 +52,27 @@ const WholePostDetails = ( {post} )=>{
 
     useEffect(()=>{
         const CheckLikeDislike = async()=>{
-            try
+            if (userId)
             {
-                const response = await axios.get("http://localhost:3000/api/users/" + userId);
-                    
-                // Check if the user has already liked the post
-                if (post.likedBy && post.likedBy.includes(userId)) {
-                    console.log('You have already liked this post');
-                    setLiked(true);
-                }  
-                if (post.disLikedBy && post.disLikedBy.includes(userId)) {
-                    console.log('You have already disliked this post');
-                    setDisliked(true);
-                    
-                } 
-            }
-            catch (error)
-            {
-                console.error('Error in fetching user data', error);
+                try
+                {
+                    const response = await axios.get("http://localhost:3000/api/users/" + userId);
+                        
+                    // Check if the user has already liked the post
+                    if (post.likedBy && post.likedBy.includes(userId)) {
+                        console.log('You have already liked this post');
+                        setLiked(true);
+                    }  
+                    if (post.disLikedBy && post.disLikedBy.includes(userId)) {
+                        console.log('You have already disliked this post');
+                        setDisliked(true);
+                        
+                    } 
+                }
+                catch (error)
+                {
+                    console.error('Error in fetching user data', error);
+                }
             }
                
         }
