@@ -83,9 +83,11 @@ const WholePostDetails = ( {post} )=>{
 
     const Like_and_Dislike_Post = async (newNumLiked, newNumDisliked) => {
         try {
-    
             // Update the likes of the post
-            await axios.patch('http://localhost:3000/api/posts/' + post._id, { ...post, likes: newNumLiked, dislikes: newNumDisliked });
+            if (post._id != NULL)
+            {
+                await axios.patch('http://localhost:3000/api/posts/' + post._id, { ...post, likes: newNumLiked, dislikes: newNumDisliked });
+            }
 
         } catch (error) {
             console.error('Error in editing Likes and Dislikes', error);
@@ -136,62 +138,68 @@ const WholePostDetails = ( {post} )=>{
             <div className="flex items-center justify-around mt-5">
                 <div className="flex items-center justify-center">
                 <button onClick={() => {
-                    setLiked((prevToggle) => {
-                        let newNumLiked = numLiked;
-                        let newNumDisliked = numDisliked;
-                        if (prevToggle) // if to stop like
-                        {
-                            newNumLiked = numLiked - 1;
-                            post.likedBy = post.likedBy.filter(user => user !== userId)                    
-                        }
-                        if (!prevToggle) // if liked
-                        {
-                            if (isDisliked)
+                    if(userId != NULL)
+                    {
+                        setLiked((prevToggle) => {
+                            let newNumLiked = numLiked;
+                            let newNumDisliked = numDisliked;
+                            if (prevToggle) // if to stop like
                             {
-                                setNumDisliked(newNumDisliked - 1);
-                                newNumDisliked = newNumDisliked - 1;
-                                post.disLikedBy = post.disLikedBy.filter(user => user !== userId);
+                                newNumLiked = numLiked - 1;
+                                post.likedBy = post.likedBy.filter(user => user !== userId)                    
                             }
-                            setDisliked(false);
-                            newNumLiked = numLiked + 1;
-                            post.likedBy.push(userId);
+                            if (!prevToggle) // if liked
+                            {
+                                if (isDisliked)
+                                {
+                                    setNumDisliked(newNumDisliked - 1);
+                                    newNumDisliked = newNumDisliked - 1;
+                                    post.disLikedBy = post.disLikedBy.filter(user => user !== userId);
+                                }
+                                setDisliked(false);
+                                newNumLiked = numLiked + 1;
+                                post.likedBy.push(userId);
+                                Like_and_Dislike_Post(newNumLiked, newNumDisliked);
+                            }
+                            setNumLiked(newNumLiked);
                             Like_and_Dislike_Post(newNumLiked, newNumDisliked);
-                        }
-                        setNumLiked(newNumLiked);
-                        Like_and_Dislike_Post(newNumLiked, newNumDisliked);
-                        return !prevToggle;
-                    });
+                            return !prevToggle;
+                        });
+                    } 
                         
                     }} className='mr-1'>
                         <img src={isLiked ? coloredlike : like} width="12rem" height="12rem"/>
                     </button>
                     <span className='px-2 text-xs'>{numLiked}</span>
                     <button onClick={() => {
-                        setDisliked((prevToggle)=>{
-                            let newNumLiked = numLiked;
-                            let newNumDisliked = numDisliked;
-                            if (prevToggle) // if to stop dislike
-                            {
-                                newNumDisliked = numDisliked - 1;
-                                post.disLikedBy = post.disLikedBy.filter(user => user !== userId) 
-                            }
-                            if (!prevToggle) // if disliked
-                            {
-                                if (isLiked)
+                        if(userId != NULL)
+                        {
+                            setDisliked((prevToggle)=>{
+                                let newNumLiked = numLiked;
+                                let newNumDisliked = numDisliked;
+                                if (prevToggle) // if to stop dislike
                                 {
-                                    setNumLiked(newNumLiked - 1);
-                                    newNumLiked = newNumLiked - 1;
-                                    post.likedBy = post.likedBy.filter(user => user !== userId);
+                                    newNumDisliked = numDisliked - 1;
+                                    post.disLikedBy = post.disLikedBy.filter(user => user !== userId) 
                                 }
-                                setLiked(false);
-                                newNumDisliked = numDisliked + 1;
-                                post.disLikedBy.push(userId);
+                                if (!prevToggle) // if disliked
+                                {
+                                    if (isLiked)
+                                    {
+                                        setNumLiked(newNumLiked - 1);
+                                        newNumLiked = newNumLiked - 1;
+                                        post.likedBy = post.likedBy.filter(user => user !== userId);
+                                    }
+                                    setLiked(false);
+                                    newNumDisliked = numDisliked + 1;
+                                    post.disLikedBy.push(userId);
+                                    Like_and_Dislike_Post(newNumLiked, newNumDisliked);
+                                }
+                                setNumDisliked(newNumDisliked);
                                 Like_and_Dislike_Post(newNumLiked, newNumDisliked);
-                            }
-                            setNumDisliked(newNumDisliked);
-                            Like_and_Dislike_Post(newNumLiked, newNumDisliked);
-                            return !prevToggle;
-                        });
+                                return !prevToggle;
+                            });               
+                        }
 
                     }}>
                         <img src={isDisliked ? coloreddislike : dislike} width="12rem" height="12rem"/>
