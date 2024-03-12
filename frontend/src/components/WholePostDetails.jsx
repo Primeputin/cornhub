@@ -138,7 +138,7 @@ const WholePostDetails = ( {post} )=>{
             <div className="flex items-center justify-around mt-5">
                 <div className="flex items-center justify-center">
                 <button onClick={() => {
-                    if(userId != NULL)
+                    if(userId)
                     {
                         setLiked((prevToggle) => {
                             let newNumLiked = numLiked;
@@ -172,7 +172,7 @@ const WholePostDetails = ( {post} )=>{
                     </button>
                     <span className='px-2 text-xs'>{numLiked}</span>
                     <button onClick={() => {
-                        if(userId != NULL)
+                        if(userId)
                         {
                             setDisliked((prevToggle)=>{
                                 let newNumLiked = numLiked;
