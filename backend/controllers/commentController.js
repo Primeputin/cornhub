@@ -67,14 +67,17 @@ const getComment = async (req, res)=>{
 
     // Use the Comment model to find a comment by its id.
     // The findById method returns a promise that resolves to the comment document if found, or to null if not found.
-    const comment = await Comment.findById(id);
+    const comment = await Comment.findById(id).populate("user");
+    
+
 
     // Check if the comment was found. If not, send a 404 status code with a message saying "No such post found :(".
     if (!comment)
     {
         return res.status(404).json({ error: "No such post found :(" });
     }
-
+     comment.user = await comment.user.populate("profpic"); 
+     console.log(comment);
     // If the comment was found, send a 200 status code (OK) along with the comment in the response.
     res.status(200).json(comment);
 }
@@ -90,13 +93,10 @@ const createComment =  async (req, res)=>{
     {   
         // Use the Comment model to create a new comment with the given user, comment, and replies. The create method returns a promise that resolves to the created comment document.
         const createdComment = await Comment.create({user, comment, replies});
-
         // Populate the user field of the created comment. This replaces the user id with the actual user document. The populate method returns a promise that resolves to the comment document with the populated user field.
         await createdComment.populate("user");
-
         // Populate the profpic field of the user document. This replaces the profpic id with the actual profpic document. The populate method returns a promise that resolves to the user document with the populated profpic field.
         await createdComment.user.populate("profpic");
-
         // If the comment was created successfully, send a 200 status code (OK) along with the created comment in the response.
         res.status(200).json(createdComment);
     }
