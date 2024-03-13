@@ -44,7 +44,9 @@ const CommentsDetails = ({userId, post})=>{
              <div className='p-5 w-full'>
                 <h2 className='bg-primary rounded-t-lg px-5 text-white p-3 text-lg'>Comments</h2>
                 <div className='flex flex-col w-full h-full bg-slate-100'>
-                   <div className='flex flex-col'>
+                    
+                   { userId && (
+                        <div className='flex flex-col'>
                         <section className='bg-primary px-2 py-4'>
                             {/* create comment */}
                             <div>
@@ -60,6 +62,8 @@ const CommentsDetails = ({userId, post})=>{
                         </section>
 
                     </div>
+                    )
+                    }
 
                     <div className='flex flex-col'>
                         {commentsState && commentsState.map((comment)=>(
@@ -291,9 +295,13 @@ const CommentItem = ({userId, comment, onDeleteComment })=>{
                     </section>
 
                     <div className='bg-tertiary flex justify-around'> 
+                        { userId && (
                         <button onClick={()=>setIsReplying((prev)=>!prev)} className='mr-1 mb-2 text-xs'>
                             <img src={reply} width="15rem" height="15rem"/>
                         </button>
+
+                        )
+                        }
 
                         { userId && comment.user?._id && userId === comment.user._id && (
 
