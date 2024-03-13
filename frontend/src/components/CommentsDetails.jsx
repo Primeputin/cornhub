@@ -1,6 +1,6 @@
 import reply from '../assets/reply.png'
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 const CommentsDetails = ({userId, post})=>{
@@ -23,7 +23,6 @@ const CommentsDetails = ({userId, post})=>{
             await axios.patch('http://localhost:3000/api/posts/' + post._id, {$push: { comments: response.data._id }});
 
             commentsState.unshift(response.data); // insert in the beginning of the array
-            console.log(response.data.user)
 
             // Clear the textarea after successful submission
             setCommentBody('');
@@ -45,7 +44,9 @@ const CommentsDetails = ({userId, post})=>{
              <div className='p-5 w-full'>
                 <h2 className='bg-primary rounded-t-lg px-5 text-white p-3 text-lg'>Comments</h2>
                 <div className='flex flex-col w-full h-full bg-slate-100'>
-                   <div className='flex flex-col'>
+                    
+                   { userId && (
+                        <div className='flex flex-col'>
                         <section className='bg-primary px-2 py-4'>
                             {/* create comment */}
                             <div>
@@ -61,6 +62,8 @@ const CommentsDetails = ({userId, post})=>{
                         </section>
 
                     </div>
+                    )
+                    }
 
                     <div className='flex flex-col'>
                         {commentsState && commentsState.map((comment)=>(
@@ -81,7 +84,6 @@ const CommentsDetails = ({userId, post})=>{
 const CommentItem = ({userId, comment, onDeleteComment })=>{
 
     const [commentState, setCommentState] = useState(comment);
-
     const getThreeTime = (timeString)=>{
         const createdTimeStamp = new Date(timeString);
 
@@ -123,8 +125,9 @@ const CommentItem = ({userId, comment, onDeleteComment })=>{
     const onComment = async ()=>{
         // new comment object for the reply
         const newComment = {
+            user: userId,
             comment: commentBody,
-            replies: [],
+            replies: [],    
         };
 
         try {
@@ -150,6 +153,10 @@ const CommentItem = ({userId, comment, onDeleteComment })=>{
         setIsReplying(false);
 
     }
+    useEffect(()=>{
+        
+        fetchReplies(repliesState);
+    }, [])
     const [isShowReplies, setIsShowReplies] = useState(false);
 
 
@@ -288,9 +295,13 @@ const CommentItem = ({userId, comment, onDeleteComment })=>{
                     </section>
 
                     <div className='bg-tertiary flex justify-around'> 
+                        { userId && (
                         <button onClick={()=>setIsReplying((prev)=>!prev)} className='mr-1 mb-2 text-xs'>
                             <img src={reply} width="15rem" height="15rem"/>
                         </button>
+
+                        )
+                        }
 
                         { userId && comment.user?._id && userId === comment.user._id && (
 
@@ -323,7 +334,7 @@ const CommentItem = ({userId, comment, onDeleteComment })=>{
             )}
            
             {/* reply to a comment */}
-            {isReplying && 
+            {isReplying  && 
                 (
                     <div className='px-2 py-4 bg-secondary'>
                         <textarea
@@ -342,7 +353,8 @@ const CommentItem = ({userId, comment, onDeleteComment })=>{
 
             {isShowReplies && repliesData && repliesData.map(reply => (
                 <div className='ml-2' key={`reply-${reply._id}`}>
-                    <CommentItem comment={reply} onDeleteComment={onDeleteReplies}/>
+                    <CommentItem  comment={reply} userId={userId} onDeleteComment={onDeleteReplies}/>
+                    
                 </div>
             ))}
            
