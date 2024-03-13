@@ -1,5 +1,5 @@
 import reply from '../assets/reply.png'
-
+import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
@@ -82,7 +82,7 @@ const CommentsDetails = ({userId, post})=>{
 }
 
 const CommentItem = ({userId, comment, onDeleteComment })=>{
-
+    const navigate = useNavigate();
     const [commentState, setCommentState] = useState(comment);
     const getThreeTime = (timeString)=>{
         const createdTimeStamp = new Date(timeString);
@@ -269,6 +269,7 @@ const CommentItem = ({userId, comment, onDeleteComment })=>{
                      <section className='bg-tertiary flex items-center py-2'>
                         <img src={comment && comment.user?.profpic ? "http://localhost:3000/api/uploads/actual/" + comment.user.profpic.filename :"https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"} 
                         className="rounded-full cursor-pointer p-1 mx-1 mr-2"
+                        onClick={()=>navigate(`/Post/${comment.user._id}`)}
                         width="50"
                         height="50"/>
                         <div className='flex flex-col'>
@@ -286,6 +287,7 @@ const CommentItem = ({userId, comment, onDeleteComment })=>{
                                 )
 
                             }
+                            <span onClick={()=>navigate(`/Post/${comment.user._id}`)} className='cursor-pointer font-bold'>{comment && comment.user?.username && comment.user.username}</span>
                             <p>{commentState.comment}</p>
                             
                         </div>

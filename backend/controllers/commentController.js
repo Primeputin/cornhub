@@ -34,11 +34,16 @@ const getCommentsByUser = async (req, res) => {
         const { id } = req.params
 
         // Use the Comment model to find all comments made by the user with the given id. The comments are sorted by the createdAt field in descending order (most recent first).
-        const comments = await Comment.find({user: id}).sort({ createdAt: -1 });
+        const comments = await Comment.find({user: id}).populate("user").sort({ createdAt: -1 });
 
         // Check if any comments were found. If not, send a 404 status code with a message saying "No comments found".
         if (!comments) {
             return res.status(404).json({ message: "No comments found" });
+        }
+
+        for (let i = 0; i < comments.length; i ++)
+        {
+            comments[i].user = await comments[i].user.populate("profpic"); 
         }
 
         // If comments were found, send a 200 status code (OK) along with the comments in the response.

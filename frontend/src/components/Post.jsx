@@ -1,8 +1,9 @@
 import { Nav } from '../hocs'
 import PostDetails from './PostDetails';
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
+import { AuthContext } from '../hocs';
 
 const Post = () => {
 
@@ -125,7 +126,9 @@ const Post = () => {
 
 const SingleComment = ({ comment, refresh })=>{
 
+    const navigate = useNavigate();
     const [commentState, setCommentState] = useState(comment);
+    const { userId } = useContext(AuthContext);
 
     const getThreeTime = (timeString)=>{
         const createdTimeStamp = new Date(timeString);
@@ -201,6 +204,7 @@ const SingleComment = ({ comment, refresh })=>{
 
     }
 
+    
 
 
     return (
@@ -239,8 +243,9 @@ const SingleComment = ({ comment, refresh })=>{
             ) : (
                 <div>
                      <section className='bg-tertiary flex items-center py-2'>
-                        <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" 
-                        className="rounded-full cursor-pointer p-1 mx-1 mr-2"
+                        <img src={comment && comment.user?.profpic ? "http://localhost:3000/api/uploads/actual/" + comment.user.profpic.filename :"https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"} 
+                        className="rounded-full cursor-pointer mr-2 max-w-xs max-h-xs w-8 h-8"
+                        onClick={()=>navigate(`/Post/${comment.user._id}`)}
                         width="50"
                         height="50"/>
                         <div className='flex flex-col'>
@@ -258,6 +263,7 @@ const SingleComment = ({ comment, refresh })=>{
                                 )
 
                             }
+                            <span onClick={()=>navigate(`/Post/${comment.user._id}`)} className='cursor-pointer font-bold'>{comment && comment.user?.username && comment.user.username}</span>
                             <p>{commentState.comment}</p>
                             
                         </div>
@@ -267,12 +273,21 @@ const SingleComment = ({ comment, refresh })=>{
                     </section>
 
                     <div className='bg-tertiary flex justify-around'> 
-                        <button onClick={()=>setIsEditing(true)} className='mr-1 mb-2 text-xs'>
+                        { userId && comment.user?._id && userId === comment.user._id && (
+
+                            <button onClick={()=>setIsEditing(true)} className='mr-1 mb-2 text-xs'>
                             <p className='underline underline-offset-2'> Edit </p>
-                        </button>
-                        <button onClick={deleteComment} className='mr-1 mb-2 text-xs hover:bg-rose-500 hover:text-white'>
+                            </button>
+
+                        )}
+                        { userId && comment.user?._id && userId === comment.user._id && (
+
+                            <button onClick={deleteComment} className='mr-1 mb-2 text-xs hover:bg-rose-500 hover:text-white'>
                             <p className='underline underline-offset-2'> Delete </p>
-                        </button>
+                            </button>
+                        )}
+
+                        
                         
                     </div>
 
