@@ -1,4 +1,6 @@
+const { json } = require("express");
 const Comment = require("../models/commentModel");
+const Post = require("../models/postModel");
 const mongoose = require('mongoose');
 
 
@@ -127,6 +129,14 @@ const deleteComment = async (req, res) => {
 
     // Try block starts here. If there's an error anywhere within this block, it will be caught and handled in the catch block.
     try {
+        
+
+        const commentTemp = await Comment.findById({ _id: id });
+
+        for(let i = 0; i < commentTemp.replies.length; i++){
+            deleteReplies(commentTemp.replies[i]._id);
+        }
+
 
         // Use the Comment model to find a comment by its id and delete it.
         // The findOneAndDelete method returns a promise that resolves to the deleted comment document if found, or to null if not found.
@@ -141,6 +151,7 @@ const deleteComment = async (req, res) => {
         // The updateMany method updates all documents in the collection that match the given filter.
         // The $pull operator removes from an existing array all instances of a value or values that match a specified condition.
         await Comment.updateMany({}, { $pull: { replies: id } });
+        await Post.updateMany({}, { $pull: { comments: id } });
 
         // If the comment and its associated replies were deleted successfully, send a 200 status code (OK) along with a success message in the response.
         return res.status(200).json({ message: "Comment and associated replies deleted successfully." });
@@ -157,6 +168,54 @@ const deleteComment = async (req, res) => {
     }
 };
 
+async function deleteReplies(replyID){
+
+    // Destructure the id from the request parameters. This is the id of the comment we want to delete.
+    const id = replyID;
+    
+    
+    
+    if (!mongoose.Types.ObjectId.isValid(id))
+    {
+        return {replies: []};
+    }    
+
+    // Try block starts here. If there's an error anywhere within this block, it will be caught and handled in the catch block.
+    try {
+        
+        console.log("fuck")
+        const commentTemp = await Comment.findOne({ _id: id });
+        console.log("kms");
+        
+        for(let i = 0; i < commentTemp.replies.length; i++){
+            deleteReplies(commentTemp.replies[i]._id);
+        }
+        
+        // Use the Comment model to find a comment by its id and delete it.
+        // The findOneAndDelete method returns a promise that resolves to the deleted comment document if found, or to null if not found.
+        const comment = await Comment.findOneAndDelete({ _id: id });
+
+        // Check if the comment was found and deleted. If not, send a 404 status code with a message saying "No such post found :(".
+        if (!comment) {
+            return {replies: []};
+        }
+
+        // Iterate over all comments in the database and remove the id of the deleted comment from the replies array of each comment.
+        // The updateMany method updates all documents in the collection that match the given filter.
+        // The $pull operator removes from an existing array all instances of a value or values that match a specified condition.
+        await Comment.updateMany({}, { $pull: { replies: id } });
+        await Post.updateMany({}, { $pull: { comments: id } });
+    } 
+
+    // Catch block starts here. If there's an error in the try block, it will be caught here.
+    catch (error) {
+
+        // Log the error to the console.
+        console.error("Error deleting comment and associated replies:", error);
+
+        // Send a 500 status code (Internal Server Error) along with an error message in the response.
+    }
+};
 
 // This is an asynchronous function named updateComment. It's an Express.js route handler that takes in a request (req) and a response (res) object.
 const updateComment = async (req, res) => {
