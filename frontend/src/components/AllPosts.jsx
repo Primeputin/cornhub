@@ -1,13 +1,15 @@
 import { Nav } from '../hocs'
 import PostDetails from './PostDetails';
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import { AuthContext } from '../hocs';
 
 const AllPosts = () => {
 
     const [posts, setPosts] = useState(null);
     const params = useParams();
+    const { userId } = useContext(AuthContext);
 
     useEffect(()=>{
         const fetchPosts = async()=>{
@@ -33,7 +35,7 @@ const AllPosts = () => {
             <div className='bg-secondary h-screen w-screen pt-28'>
                 <div className='flex flex-col items-center justify-center bg-secondary'>
                     {posts && posts.map((post)=>(
-                        <PostDetails key={post._id} post={post}/>
+                        <PostDetails key={post._id} userId={userId} post={post}/>
 
                     ))}
                 </div>

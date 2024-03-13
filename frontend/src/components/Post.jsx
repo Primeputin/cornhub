@@ -11,6 +11,7 @@ const Post = () => {
     const [user, setUser] = useState(null);
     const [posts, setPosts] = useState(null);
     const params = useParams();
+    const { userId } = useContext(AuthContext);
 
     useEffect(() => {
         
@@ -98,7 +99,7 @@ const Post = () => {
             <div className='flex flex-col items-center justify-center bg-secondary'>
                     
                     {posts && posts.slice(0, 3).map((post)=>(
-                        <PostDetails key={post._id} post={post}/>
+                        <PostDetails key={post._id} userId={userId} post={post}/>
 
                     ))}
             </div>
