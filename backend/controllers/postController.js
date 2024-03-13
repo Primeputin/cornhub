@@ -1,6 +1,8 @@
+const User = require("../models/userModel");
 const Post = require("../models/postModel");
 const { deleteImageById } = require("./imageController")
 const mongoose = require('mongoose');
+const { deleteReplies } = require('./commentController');
 
 
 // get all posts
@@ -100,8 +102,17 @@ const deletePost = async (req, res)=>{
     }
 
     try {
+
         // Find the post and populate the imageModel field
         const post = await Post.findById(id).populate('postedImages');
+       
+        await User.updateMany({}, { $pull: { likedPosts: id } });
+        await User.updateMany({}, { $pull: { dislikedPosts: id } });
+
+        for(let i = 0; i < post.comments.length; i++){
+            console.log(i);
+            deleteReplies(post.comments[i]);
+        }
 
         if (!post) {
             return res.status(404).json({ error: "No such post found :(" });

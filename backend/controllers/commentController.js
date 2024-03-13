@@ -183,14 +183,12 @@ async function deleteReplies(replyID){
     // Try block starts here. If there's an error anywhere within this block, it will be caught and handled in the catch block.
     try {
         
-        console.log("fuck")
         const commentTemp = await Comment.findOne({ _id: id });
-        console.log("kms");
         
         for(let i = 0; i < commentTemp.replies.length; i++){
             deleteReplies(commentTemp.replies[i]._id);
         }
-        
+
         // Use the Comment model to find a comment by its id and delete it.
         // The findOneAndDelete method returns a promise that resolves to the deleted comment document if found, or to null if not found.
         const comment = await Comment.findOneAndDelete({ _id: id });
@@ -261,4 +259,4 @@ const updateComment = async (req, res) => {
     }
 }; 
 
-module.exports = { getComments, getCommentsByUser, getComment, createComment, deleteComment, updateComment }
+module.exports = { getComments, getCommentsByUser, getComment, createComment, deleteComment, updateComment, deleteReplies }

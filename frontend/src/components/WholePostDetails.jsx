@@ -84,7 +84,7 @@ const WholePostDetails = ( {post} )=>{
     const Like_and_Dislike_Post = async (newNumLiked, newNumDisliked) => {
         try {
             // Update the likes of the post
-            if (post._id != NULL)
+            if (post._id)
             {
                 await axios.patch('http://localhost:3000/api/posts/' + post._id, { ...post, likes: newNumLiked, dislikes: newNumDisliked });
             }
