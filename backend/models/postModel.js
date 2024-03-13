@@ -64,9 +64,11 @@ const postSchema = new Schema({
 postSchema.pre('findOneAndUpdate', function(next) {
     
     const update = this.getUpdate();
+
+    // MUST FIX THE like and dislike and comment not saying "edited on"
     if (update.hasOwnProperty('comments')) { 
       
-      update.updatedAt = new Date();
+        update.updatedAt = new Date();
     }
     // Proceed to the next middleware
     next();

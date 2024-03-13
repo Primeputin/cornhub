@@ -81,12 +81,58 @@ const WholePostDetails = ( {post} )=>{
 
     }, [])
 
-    const Like_and_Dislike_Post = async (newNumLiked, newNumDisliked) => {
+    const Update_Post = async (newNumLiked, newNumDisliked) => {
+        try {
+            // Update the likes of the post
+            if (post._id)
+            {
+                await axios.patch('http://localhost:3000/api/posts/' + post._id, { ...post, likes: newNumLiked, dislikes: newNumDisliked});
+
+            }
+
+        } catch (error) {
+            console.error('Error in editing Likes and Dislikes', error);
+            
+        }
+    }
+
+    const Like_Post = async (newNumLiked, newNumDisliked, like_or_unlike) => {
+        try {
+            // Update the likes of the post
+            if (post._id)
+            {
+                await axios.patch('http://localhost:3000/api/posts/' + post._id, { ...post, likes: newNumLiked, dislikes: newNumDisliked});
+                if (like_or_unlike)
+                {
+                    await axios.patch('http://localhost:3000/api/users/' + userId, { $push: {likedPosts: post._id }});  
+                }     
+                else
+                {
+                    await axios.patch('http://localhost:3000/api/users/' + userId, { $pull: {likedPosts: post._id }});
+                }       
+            }
+
+        } catch (error) {
+            console.error('Error in editing Likes and Dislikes', error);
+            
+        }
+    }
+    
+    const Dislike_Post = async (newNumLiked, newNumDisliked, dislike_or_unDislike) => {
         try {
             // Update the likes of the post
             if (post._id)
             {
                 await axios.patch('http://localhost:3000/api/posts/' + post._id, { ...post, likes: newNumLiked, dislikes: newNumDisliked });
+                if (dislike_or_unDislike)
+                {
+                    await axios.patch('http://localhost:3000/api/users/' + userId, {$push: {dislikedPosts: post._id }});
+                }
+                else
+                {
+                    await axios.patch('http://localhost:3000/api/users/' + userId, {$pull: {dislikedPosts: post._id }});
+                }
+                
             }
 
         } catch (error) {
@@ -147,7 +193,8 @@ const WholePostDetails = ( {post} )=>{
                             if (prevToggle) // if to stop like
                             {
                                 newNumLiked = numLiked - 1;
-                                post.likedBy = post.likedBy.filter(user => user !== userId)                    
+                                post.likedBy = post.likedBy.filter(user => user !== userId)  
+                                Like_Post(newNumLiked, newNumDisliked, false);                  
                             }
                             if (!prevToggle) // if liked
                             {
@@ -156,18 +203,19 @@ const WholePostDetails = ( {post} )=>{
                                     setNumDisliked(newNumDisliked - 1);
                                     newNumDisliked = newNumDisliked - 1;
                                     post.disLikedBy = post.disLikedBy.filter(user => user !== userId);
+                                    console.log("ahahahahahah");
+                                    Dislike_Post(newNumLiked, newNumDisliked, false);
                                 }
                                 setDisliked(false);
                                 newNumLiked = numLiked + 1;
                                 post.likedBy.push(userId);
-                                Like_and_Dislike_Post(newNumLiked, newNumDisliked);
+                                Like_Post(newNumLiked, newNumDisliked, true);
                             }
                             setNumLiked(newNumLiked);
-                            Like_and_Dislike_Post(newNumLiked, newNumDisliked);
+                            Update_Post(newNumLiked, newNumDisliked);
                             return !prevToggle;
                         });
-                    } 
-                        
+                    }               
                     }} className='mr-1'>
                         <img src={isLiked ? coloredlike : like} width="12rem" height="12rem"/>
                     </button>
@@ -182,6 +230,7 @@ const WholePostDetails = ( {post} )=>{
                                 {
                                     newNumDisliked = numDisliked - 1;
                                     post.disLikedBy = post.disLikedBy.filter(user => user !== userId) 
+                                    Dislike_Post(newNumLiked, newNumDisliked, false);
                                 }
                                 if (!prevToggle) // if disliked
                                 {
@@ -190,18 +239,18 @@ const WholePostDetails = ( {post} )=>{
                                         setNumLiked(newNumLiked - 1);
                                         newNumLiked = newNumLiked - 1;
                                         post.likedBy = post.likedBy.filter(user => user !== userId);
+                                        Like_Post(newNumLiked, newNumDisliked, false);
                                     }
                                     setLiked(false);
                                     newNumDisliked = numDisliked + 1;
                                     post.disLikedBy.push(userId);
-                                    Like_and_Dislike_Post(newNumLiked, newNumDisliked);
+                                    Dislike_Post(newNumLiked, newNumDisliked, true);
                                 }
                                 setNumDisliked(newNumDisliked);
-                                Like_and_Dislike_Post(newNumLiked, newNumDisliked);
+                                Update_Post(newNumLiked, newNumDisliked);
                                 return !prevToggle;
                             });               
                         }
-
                     }}>
                         <img src={isDisliked ? coloreddislike : dislike} width="12rem" height="12rem"/>
                     </button>
