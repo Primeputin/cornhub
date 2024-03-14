@@ -84,7 +84,6 @@ const getComment = async (req, res)=>{
         return res.status(404).json({ error: "No such comment found :(" });
     }
      comment.user = await comment.user.populate("profpic"); 
-     console.log(comment);
     // If the comment was found, send a 200 status code (OK) along with the comment in the response.
     res.status(200).json(comment);
 }

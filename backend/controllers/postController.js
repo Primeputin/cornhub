@@ -110,7 +110,6 @@ const deletePost = async (req, res)=>{
         await User.updateMany({}, { $pull: { dislikedPosts: id } });
 
         for(let i = 0; i < post.comments.length; i++){
-            console.log(i);
             deleteReplies(post.comments[i]);
         }
 
