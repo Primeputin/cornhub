@@ -14,7 +14,7 @@ const Login = () => {
     const apiUrl = import.meta.env.VITE_API_URL;
     useEffect(()=>{
         if (isLoggedIn) {
-            navigate("/Home/" + userId);  
+            navigate("/Home");  
         }
     }, [])
     

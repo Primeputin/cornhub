@@ -19,7 +19,7 @@ const Begin = () =>{
 
     useEffect(()=>{
         if (isLoggedIn) {
-            navigate("/Home/" + userId);  
+            navigate("/Home");  
         }
     }, [isLoggedIn])
     
