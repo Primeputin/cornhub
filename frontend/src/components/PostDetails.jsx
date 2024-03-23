@@ -49,18 +49,22 @@ const PostDetails = ({ userId, post })=>{
         const CheckLikeDislike = async()=>{
             try
             {
-                const response = await axios.get("http://localhost:3000/api/users/" + userId);
+                if (userId)
+                {
+                    const response = await axios.get("http://localhost:3000/api/users/" + userId);
                     
-                // Check if the user has already liked the post
-                if (post.likedBy && post.likedBy.includes(userId)) {
-                    console.log('You have already liked this post');
-                    setLiked(true);
-                }  
-                if (post.disLikedBy && post.disLikedBy.includes(userId)) {
-                    console.log('You have already disliked this post');
-                    setDisliked(true);
-                    
-                } 
+                    // Check if the user has already liked the post
+                    if (post.likedBy && post.likedBy.includes(userId)) {
+                        console.log('You have already liked this post');
+                        setLiked(true);
+                    }  
+                    if (post.disLikedBy && post.disLikedBy.includes(userId)) {
+                        console.log('You have already disliked this post');
+                        setDisliked(true);
+                        
+                    } 
+                }
+                
             }
             catch (error)
             {

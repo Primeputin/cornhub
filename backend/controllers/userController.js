@@ -61,13 +61,22 @@ const createUser =  async (req, res)=>{
 // check if valid user
 const checkUser =  async (req, res)=>{
 
-    const {username, password} = req.body
+    const {username, password, remember} = req.body
     try
     {   
         const user = await User.findOne({ username, password });
         if (!user)
         {
             return res.status(404).json({error: "No such user found :("});
+        }
+        req.session.user = user._id;
+        if (remember)
+        {
+            req.session.remember = true;
+        }
+        else
+        {
+            req.session.remember = false;
         }
         res.status(200).json(user);
     }
@@ -76,6 +85,52 @@ const checkUser =  async (req, res)=>{
         console.log(error);
     }
 }
+
+const logout = (req, res)=>{
+
+    if (req.session) {
+        req.session.destroy((err) => {
+            if (err) {
+                res.status(500).json({ success: false, error: 'Failed to destroy session' });
+            } else {
+                res.json({ success: true, message: 'Session destroyed successfully' });
+            }
+        });
+    } else {
+        res.status(400).json({ success: false, error: 'No active session to destroy' });
+    }
+}
+
+const checkSession = (req, res)=>{
+    if (req.session.user) {
+        res.json({ user: req.session.user });
+    } else {
+        res.status(401).json({ message: 'Session expired' });
+    }
+}
+
+const Session = mongoose.connection.collection('session');
+
+const updateSession = async (req, res) => {
+    try {
+      // Update session data to set initialAccess to false
+      if (req.session && req.session.remember)
+      {
+        const newExpirationDate = new Date(Date.now() + 1000 * 60 * 60 * 24 * 21);
+        await Session.updateOne({ "session.user": req.session.user }, { $set: { expires: newExpirationDate } });
+        // req.session.expires = new Date(Date.now() + 24 * 60 * 60 * 1000);
+        res.status(200).send("Session expiration updated successfully");
+
+      }
+      else
+      {
+        res.status(404).send("No session found");
+      }
+    } catch (error) {
+      console.error('Error updating session data:', error);
+      res.status(500).send('Internal server error');
+    }
+};
 
 // delete a user
 const deleteUser = async (req, res)=>{
@@ -128,4 +183,4 @@ const updateUser = async (req, res)=>{
 }
 
 
-module.exports = { getUsers, getUser, createUser, checkUser, deleteUser, updateUser }
+module.exports = { getUsers, getUser, createUser, checkUser, logout, checkSession, updateSession, deleteUser, updateUser }

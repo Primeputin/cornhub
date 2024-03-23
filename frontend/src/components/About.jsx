@@ -26,6 +26,12 @@ const About = () =>{
                     <li>
                         mongoose
                     </li>
+                    <li>
+                        express-session
+                    </li>
+                    <li>
+                        connect-mongodb-session
+                    </li>
                 </ul>
                 <h3 className='mx-5 font-bold'>React Libraries:</h3>
                 <ul className='items-start mx-8'>

@@ -39,7 +39,7 @@ const Nav = (Component) => {
                 fetchUser();
             }
         
-        }, []);
+        }, [userId]); // needed when authcontext sets this up
 
         useEffect(()=>{
             const handleClickOutside = (event) => {
