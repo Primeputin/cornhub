@@ -18,6 +18,7 @@ multer,
 mongoose,
 express-session,
 connect-mongodb-session
+bcrypt
 
 `React Libraries`:
 react-dom,

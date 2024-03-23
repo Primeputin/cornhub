@@ -3,6 +3,7 @@
         "start": "cd backend && npm run dev & cd frontend && npm run dev"
     },
     "dependencies": {
+        "bcrypt": "^5.1.1",
         "react-dropzone": "^14.2.3"
     }
 }

@@ -32,6 +32,9 @@ const About = () =>{
                     <li>
                         connect-mongodb-session
                     </li>
+                    <li>
+                        bcrypt
+                    </li>
                 </ul>
                 <h3 className='mx-5 font-bold'>React Libraries:</h3>
                 <ul className='items-start mx-8'>

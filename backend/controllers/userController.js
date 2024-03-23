@@ -6,6 +6,9 @@ const mongoose = require('mongoose');
 const { deleteReplies } = require('./commentController');
 
 
+const bcrypt = require('bcrypt');
+const SALTROUNDS = 10;
+
 // get all users
 const getUsers = async (req, res)=>{
 
@@ -44,8 +47,14 @@ const createUser =  async (req, res)=>{
     const {username, password} = req.body
     try
     {   
-        const user = await User.create({username, password});
-        res.status(200).json(user);
+        
+        let encrypted_pass = ""
+        bcrypt.hash(password, SALTROUNDS, async function(err, hash) {
+            encrypted_pass = hash;
+            const user = await User.create({username: username, password: encrypted_pass});
+            res.status(200).json(user);
+        });
+        
     }
     catch(error)
     {
@@ -67,21 +76,33 @@ const checkUser =  async (req, res)=>{
     const {username, password, remember} = req.body
     try
     {   
-        const user = await User.findOne({ username, password });
+        const user = await User.findOne({ username });;
         if (!user)
         {
             return res.status(404).json({error: "No such user found :("});
         }
-        req.session.user = user._id;
-        if (remember)
-        {
-            req.session.remember = true;
-        }
-        else
-        {
-            req.session.remember = false;
-        }
-        res.status(200).json(user);
+
+        bcrypt.compare(password, user.password, function(err, result) {
+            if (result)
+            {
+                req.session.user = user._id;
+                if (remember)
+                {
+                    req.session.remember = true;
+                }
+                else
+                {
+                    req.session.remember = false;
+                }
+                res.status(200).json(user);
+            }
+            else
+            {
+                res.status(404).json({error: "No such user found :("});
+            }
+            
+        })
+        
     }
     catch(error)
     {
