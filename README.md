@@ -15,7 +15,9 @@ cors,
 dotenv,
 express,
 multer,
-mongoose
+mongoose,
+express-session,
+connect-mongodb-session
 
 `React Libraries`:
 react-dom,

@@ -1,9 +1,11 @@
 import { useNavigate } from 'react-router-dom';
 import corn from '../assets/corn.png'
-
+import { AuthContext } from '../hocs';
+import { useEffect, useContext } from 'react';
 
 const Begin = () =>{
     const navigate = useNavigate();
+    const { isLoggedIn, userId } = useContext(AuthContext);
 
     function toRegister()
     {
@@ -14,6 +16,12 @@ const Begin = () =>{
     {
         navigate("/Login");
     }
+
+    useEffect(()=>{
+        if (isLoggedIn) {
+            navigate("/Home/" + userId);  
+        }
+    }, [isLoggedIn])
     
     return (
         <div className='flex flex-col items-center justify-center w-screen h-screen bg-lime-50'>

@@ -37,7 +37,7 @@ const getActualImage = async (req, res) => {
         const imagePath = path.join(__dirname, '../uploads', filename);
 
         // Log the imagePath for debugging
-        console.log('Image Path:', imagePath);
+        // console.log('Image Path:', imagePath);
 
         // Check if the file exists
         try {

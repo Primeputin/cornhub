@@ -7,6 +7,7 @@ const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [invalid, setInvalid] = useState(false);
+    const [remember, setRemember] = useState(false);
     const navigate = useNavigate();
     const { isLoggedIn, login, userId } = useContext(AuthContext);
 
@@ -26,7 +27,7 @@ const Login = () => {
     
         try {
             // Send HTTP request to check users
-            const response = await axios.post('http://localhost:3000/api/users/check/', user);
+            const response = await axios.post('http://localhost:3000/api/users/check/', {...user, remember: remember});
             // set login state to true for context
             login(response.data._id); 
             // go the home page
@@ -50,6 +51,7 @@ const Login = () => {
                     <input
                         type="checkbox"
                         value="Remember me"
+                        onClick = {()=>{setRemember(prev => !prev)}}
                     />
                     <label className='text-xs ml-2'>Remember me</label>
                 </div>

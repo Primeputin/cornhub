@@ -68,13 +68,13 @@ const PostDetails = ({ userId, post })=>{
                 {
                     console.error('Error in fetching user data', error);
                 }
-            }
+
                
         }
 
         CheckLikeDislike();
 
-    }, [])
+    }}, [])
 
     const Update_Post = async (newNumLiked, newNumDisliked) => {
         try {
