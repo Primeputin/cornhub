@@ -30,6 +30,8 @@ mongoose.connect(process.env.MONGURI).then(()=>{
 const session = require('express-session');
 const mongoStore = require('connect-mongodb-session')(session);
 
+app.set("trust proxy", 1); // for render deployment
+
 //connect the sessions with the mongoose connection. This will save the
 //sessions on the server on its own schema.
 //For expires, a common value is 14 days or 14*24*60*60*1000,
