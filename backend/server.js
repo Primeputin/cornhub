@@ -40,23 +40,8 @@ const mongoStore = require('connect-mongodb-session')(session);
 //    the session was never modified during the request.
 //store -> collection - the collection where the sessions are stored in mongo.
 //store -> expires - the life duration of a session.
-// app.use(session({
-//     secret: 'I love corns so much because it is delicious',
-//     saveUninitialized: false, 
-//     resave: false,
-//     store: new mongoStore({ 
-//       uri: process.env.MONGURI,
-//       collection: 'session',
-//       expires: 1000 * 60 * 60 * 24 * 21
-      
-//     }),
-//     // 1000 * 60 * 60 * 24 * 21 // 21 days in milliseconds 
-// }));
-
 app.use((req, res, next) => {
     const remember = req.body && req.body.remember;
-    const isSecure = req.secure || req.headers['x-forwarded-proto'] === 'https'; // Check if request is HTTPS
-
     const sessionConfig = {
         secret: 'I love corns so much because it is delicious',
         saveUninitialized: false, 
@@ -64,11 +49,7 @@ app.use((req, res, next) => {
         store: new mongoStore({ 
           uri: process.env.MONGURI,
           collection: 'session',
-          expires: remember ? 1000 * 60 * 60 * 24 * 21 : 1000 * 60 * 60,
-          cookie: {
-            secure: isSecure, // Set secure flag based on request being HTTPS
-            sameSite: "none" // no restriction in sending cookies to
-        }
+          expires: remember ? 1000 * 60 * 60 * 24 * 21 : 1000 * 60 * 60
         })
         
     };
