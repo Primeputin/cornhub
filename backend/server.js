@@ -52,11 +52,13 @@ app.use((req, res, next) => {
           uri: process.env.MONGURI,
           collection: 'session',
           expires: remember ? 1000 * 60 * 60 * 24 * 21 : 1000 * 60 * 60
-        })
+        }),
+        cookie: {
+            sameSite: 'none'
+        }
         
     };
     
-    // Apply session middleware with dynamically configured options
     session(sessionConfig)(req, res, next);
 });
 
