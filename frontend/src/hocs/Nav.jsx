@@ -21,13 +21,14 @@ const Nav = (Component) => {
         const [user, setUser] = useState(null);
 
         const [searchText, setSearchText] = useState("");
+        const apiUrl = import.meta.env.VITE_API_URL;
 
 
         useEffect(() => {
         
         
             const fetchUser = async()=>{
-                const response = await fetch("http://localhost:3000/api/users/" + userId);
+                const response = await fetch(apiUrl+ "/api/users/" + userId);
                 if (response.ok)
                 {
                     const json = await response.json();
@@ -204,7 +205,7 @@ const Nav = (Component) => {
                             </button>
                         )}
                         
-                        <img src={user && user.profpic ? "http://localhost:3000/api/uploads/actual/" + user.profpic.filename :"https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"} 
+                        <img src={user && user.profpic ? apiUrl + "/api/uploads/actual/" + user.profpic.filename :"https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"} 
                         className="rounded-full cursor-pointer p-1 mx-1 max-w-sm max-h-sm w-14 h-14"
                         onClick = {() => {
                             if (isLoggedIn)

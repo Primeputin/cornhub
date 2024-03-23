@@ -17,10 +17,11 @@ export const AuthProvider = ({ children }) => {
         setIsLoggedIn(true);
         setUserId(id);
     };
+    const apiUrl = import.meta.env.VITE_API_URL;
 
     const logout = async() => {
         try {
-            await axios.get('http://localhost:3000/api/users/session/logout');
+            await axios.get(apiUrl + '/api/users/session/logout');
             setIsLoggedIn(false);
             setUserId(null);
             sessionStorage.setItem('visited', 'false');
@@ -34,7 +35,7 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
         const checkSession = async () => {
           try {
-            const response = await axios.get('http://localhost:3000/api/users/check_session/check');
+            const response = await axios.get(apiUrl+'/api/users/check_session/check');
             login(response.data.user)
             console.log("logged in")
           } catch (error) {
@@ -50,7 +51,7 @@ export const AuthProvider = ({ children }) => {
   
       const updateSession = async () => {
         try {
-          const response = await axios.patch('http://localhost:3000/api/users//session/update');
+          const response = await axios.patch(apiUrl+'/api/users//session/update');
         } catch (error) {
           console.log("Error updating session")
         }

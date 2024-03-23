@@ -7,7 +7,7 @@ const Register = () => {
     const [password, setPassword] = useState('');
     const [invalid, setInvalid] = useState(false);
     const navigate = useNavigate();
-
+    const apiUrl = import.meta.env.VITE_API_URL;
     const registerUser = async ()=>{
         // new user object
         const newUser = {
@@ -17,7 +17,7 @@ const Register = () => {
     
         try {
             // Send HTTP request to create a new user
-            const response = await axios.post('http://localhost:3000/api/users/', newUser);
+            const response = await axios.post(apiUrl + '/api/users/', newUser);
     
             // go the beginning page
             navigate("/");

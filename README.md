@@ -25,6 +25,9 @@ react-dom,
 react-router-dom
 react-dropzone
 
+Vite plugins:
+@rollup/plugin-replace
+
 **To install dependencies**
 
 - Run these commands in the main folder directory

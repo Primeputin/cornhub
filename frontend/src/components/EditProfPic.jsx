@@ -13,6 +13,7 @@ const EditProfPic = ()=>{
     const navigate = useNavigate();
 
     const { userId } = useContext(AuthContext);
+    const apiUrl = import.meta.env.VITE_API_URL;
 
     const submitImage = async (event)=>{
         event.preventDefault();
@@ -21,20 +22,20 @@ const EditProfPic = ()=>{
         formData.append("image", toBeUploadedFile); // first parameter will say that the fieldname for this file is image
         let success = false;
         try {
-            const response = await axios.post('http://localhost:3000/api/uploads/', formData, {
+            const response = await axios.post(apiUrl+'/api/uploads/', formData, {
               headers: {
                 'Content-Type': 'multipart/form-data'
               }
             });
             console.log('Image uploaded:', response.data.filename);
-            const user = await axios.get("http://localhost:3000/api/users/" + userId);
+            const user = await axios.get(apiUrl+"/api/users/" + userId);
 
             if (user.data.hasOwnProperty('profpic'))
             {
-                await axios.delete('http://localhost:3000/api/uploads/' + user.data.profpic._id);
+                await axios.delete(apiUrl+'/api/uploads/' + user.data.profpic._id);
                 console.log("Changed Image")
             }
-            await axios.patch('http://localhost:3000/api/users/' + userId, {profpic: response.data._id});
+            await axios.patch(apiUrl+'/api/users/' + userId, {profpic: response.data._id});
             success = true;
         } catch (error) {
             console.error('Error uploading image:', error);

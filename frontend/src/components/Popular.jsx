@@ -7,10 +7,11 @@ const Popular = () => {
 
     const { userId } = useContext(AuthContext);
     const [posts, setPosts] = useState(null);
+    const apiUrl = import.meta.env.VITE_API_URL;
 
     useEffect(()=>{
         const fetchPosts = async()=>{
-            const response = await fetch("http://localhost:3000/api/posts/"); // it will forward/ proxy this to localhost:3000 which is the nodejs server defined in the package.json
+            const response = await fetch(apiUrl+"/api/posts/"); // it will forward/ proxy this to localhost:3000 which is the nodejs server defined in the package.json
             if (response.ok)
             {
                 const json = await response.json();

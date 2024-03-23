@@ -8,10 +8,12 @@ const SinglePost = () => {
     const [post, setPost] = useState(null);
     const [loading, setLoading] = useState(true); // Added loading state
     const params = useParams();
+    const apiUrl = import.meta.env.VITE_API_URL;
+
     useEffect(()=>{
         const fetchPost = async()=>{
             try{
-                const response = await fetch(`http://localhost:3000/api/posts/${params.id}`);
+                const response = await fetch(apiUrl+`/api/posts/${params.id}`);
                 if (response.ok)
                 {
                     const json = await response.json();

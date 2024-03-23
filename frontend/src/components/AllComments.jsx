@@ -9,10 +9,10 @@ const AllComments = () => {
     // for comments
     const [comments, setComments] = useState(null);
     const params = useParams();
-
+    const apiUrl = import.meta.env.VITE_API_URL;
     const fetchComments = async()=>{
         try{
-            const response = await fetch(`http://localhost:3000/api/comments/user/` + params.id);
+            const response = await fetch(apiUrl+ `/api/comments/user/` + params.id);
             if (response.ok)
             {
                 const json = await response.json();
@@ -58,6 +58,7 @@ const SingleComment = ({ comment, refresh })=>{
     const navigate = useNavigate();
     const [commentState, setCommentState] = useState(comment);
     const { userId } = useContext(AuthContext);
+    const apiUrl = import.meta.env.VITE_API_URL;
 
     const getThreeTime = (timeString)=>{
         const createdTimeStamp = new Date(timeString);
@@ -101,7 +102,7 @@ const SingleComment = ({ comment, refresh })=>{
         try {
             // future: still needs to check the replies of the comments that will be affected
             // also the comments that the comment is replied to
-            await axios.delete('http://localhost:3000/api/comments/' + commentState._id);  
+            await axios.delete(apiUrl+ '/api/comments/' + commentState._id);  
             refresh();   
             
 
@@ -118,7 +119,7 @@ const SingleComment = ({ comment, refresh })=>{
 
         try {
             // update the comment being replied to
-            const response = await axios.patch('http://localhost:3000/api/comments/' + commentState._id, { comment: editBody });
+            const response = await axios.patch(apiUrl+ '/api/comments/' + commentState._id, { comment: editBody });
             setCommentState(response.data);
             // put parenthesis around or else js will get confused
             ({ year: updatedYear, month: updatedMonth, day: updatedDay, time: updatedTime } = getThreeTime(commentState.updatedAt));
@@ -172,7 +173,7 @@ const SingleComment = ({ comment, refresh })=>{
             ) : (
                 <div>
                      <section className='bg-tertiary flex items-center py-2'>
-                        <img src={comment && comment.user?.profpic ? "http://localhost:3000/api/uploads/actual/" + comment.user.profpic.filename :"https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"} 
+                        <img src={comment && comment.user?.profpic ? apiUrl+ "/api/uploads/actual/" + comment.user.profpic.filename :"https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"} 
                         className="rounded-full cursor-pointer mr-2 max-w-xs max-h-xs w-8 h-8"
                         onClick={()=>navigate(`/Post/${comment.user._id}`)}
                         width="50"

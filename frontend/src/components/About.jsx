@@ -4,7 +4,7 @@ const About = () =>{
 
     return (
         <>
-            <div className='flex flex-col bg-secondary h-screen w-screen p-10'>
+            <div className='flex flex-col bg-secondary h-full w-screen p-10'>
                 <h1 className='mt-36 mb-8 font-bold'>Corn Hub</h1>
                 <h2 className='font-bold'>NPM Packages & Third party Library used</h2>
                 <p className='mx-5'>Vite</p>
@@ -48,6 +48,14 @@ const About = () =>{
                         react-dropzone
                     </li>
                 </ul>
+                <h3 className='mx-5 font-bold'>Vite plugins:</h3>
+                <ul className='items-start mx-8'>
+                    <li>
+                        @rollup/plugin-replace
+                    </li>
+                  
+                </ul>
+
 
                 <h3 className='mx-5 font-bold'>Contributors:</h3>
                 <ul className='items-start mx-8'>

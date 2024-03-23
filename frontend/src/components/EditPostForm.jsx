@@ -9,12 +9,13 @@ const EditPostForm = ( {post} )=>{
     const [tags, setTags] = useState(post.tags);
 
     const navigate = useNavigate();
+    const apiUrl = import.meta.env.VITE_API_URL;
 
     const updatePost = async ()=>{
 
         try {
             // update the description of the post
-            const response = await axios.patch('http://localhost:3000/api/posts/' + post._id, { ...post, title: title, desc: desc, tags:tags});
+            const response = await axios.patch(apiUrl+'/api/posts/' + post._id, { ...post, title: title, desc: desc, tags:tags});
             navigate("/Home");
 
         } catch (error) {
@@ -25,7 +26,7 @@ const EditPostForm = ( {post} )=>{
 
     const onDelete = async()=>{
         try {
-            const response = await axios.delete('http://localhost:3000/api/posts/' + post._id);
+            const response = await axios.delete(apiUrl+'/api/posts/' + post._id);
             navigate("/Home");
         } catch (error) {
             console.error('Error deleting current post', error);
@@ -54,7 +55,7 @@ const EditPostForm = ( {post} )=>{
         <>
             <div className="bg-tertiary px-5 pt-5 pb-3 rounded-lg max-w-xl w-1/2 my-5 shadow-lg">
                     <div className='flex'>
-                        <img src={post && post.user?.profpic ? "http://localhost:3000/api/uploads/actual/" + post.user.profpic.filename :"https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"}
+                        <img src={post && post.user?.profpic ? apiUrl+"/api/uploads/actual/" + post.user.profpic.filename :"https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"}
                                 className="rounded-full cursor-pointer mr-2"
                                 width="25rem" height = "25rem"
                                 />
@@ -87,7 +88,7 @@ const EditPostForm = ( {post} )=>{
 
                     <div className='bg-black w-full h-full flex flex-nowrap gap-2 items-center overflow-x-auto snap snap-x snap-mandatory scroll scroll-smooth rounded-sm'>
                         {post.postedImages.map((image)=>(
-                            <img key={image._id} src={"http://localhost:3000/api/uploads/actual/" + image.filename} className='w-full h-full rounded-sm snap-center'/>
+                            <img key={image._id} src={apiUrl+"/api/uploads/actual/" + image.filename} className='w-full h-full rounded-sm snap-center'/>
                         ))}
                     </div>
                     <input onClick={updatePost} type="submit" value = "Save" className='bg-primary text-white mt-5 px-2 pt-1 rounded-lg text-lg hover:shadow-lg mr-5'/>

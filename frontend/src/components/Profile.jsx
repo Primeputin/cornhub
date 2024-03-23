@@ -10,7 +10,7 @@ const Profile = ({userProp}) => {
     const [descBody, setDescBody] = useState('description');
 
     const { userId, logout } = useContext(AuthContext);
-
+    const apiUrl = import.meta.env.VITE_API_URL;
 
     useEffect(() => {
         
@@ -18,7 +18,7 @@ const Profile = ({userProp}) => {
         const fetchUser = async()=>{
             try
             {
-                const response = await axios.get("http://localhost:3000/api/users/" + userId);
+                const response = await axios.get(apiUrl+"/api/users/" + userId);
 
                 setUser(response.data);
                 setDescBody(response.data.desc);
@@ -41,7 +41,7 @@ const Profile = ({userProp}) => {
 
         try {
             // update the description of the user
-            const response = await axios.patch('http://localhost:3000/api/users/' + userId, { ...user, desc: descBody });
+            const response = await axios.patch(apiUrl+'/api/users/' + userId, { ...user, desc: descBody });
             setUser(response.data);
 
 
@@ -54,7 +54,7 @@ const Profile = ({userProp}) => {
 
     const deleteUser = async ()=>{
         try {
-            const response = await axios.delete('http://localhost:3000/api/users/' + userId);
+            const response = await axios.delete(apiUrl+'/api/users/' + userId);
             logout();
             navigate("/");
         } catch (error) {
@@ -66,7 +66,7 @@ const Profile = ({userProp}) => {
         <div className='bg-secondary h-screen w-screen flex flex-col justify-center items-center'>
             <div className='flex items-center justify-center bg-secondary flex-wrap'>
                 <div className='flex flex-col items-center justify-center'>
-                    <img src={user && user.profpic ? "http://localhost:3000/api/uploads/actual/" + user.profpic.filename :"https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"}
+                    <img src={user && user.profpic ? apiUrl+"/api/uploads/actual/" + user.profpic.filename :"https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"}
                         className="rounded-full cursor-pointer max-w-md max-h-md w-32 h-32"
                         />
                     <span className='my-3 font-bold'>{user ? user.username: "username"}</span>

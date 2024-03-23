@@ -29,6 +29,8 @@ const WholePostDetails = ( {post} )=>{
     const month = createdTimeStamp.getMonth() + 1; // Months are zero-indexed
     const day = createdTimeStamp.getDate();
 
+    const apiUrl = import.meta.env.VITE_API_URL;
+
     const monthMap = {
         1: 'January',
         2: 'February',
@@ -56,7 +58,7 @@ const WholePostDetails = ( {post} )=>{
             {
                 try
                 {
-                    const response = await axios.get("http://localhost:3000/api/users/" + userId);
+                    const response = await axios.get(apiUrl + "/api/users/" + userId);
                         
                     // Check if the user has already liked the post
                     if (post.likedBy && post.likedBy.includes(userId)) {
@@ -86,7 +88,7 @@ const WholePostDetails = ( {post} )=>{
             // Update the likes of the post
             if (post._id)
             {
-                await axios.patch('http://localhost:3000/api/posts/' + post._id, { ...post, likes: newNumLiked, dislikes: newNumDisliked});
+                await axios.patch(apiUrl + '/api/posts/' + post._id, { ...post, likes: newNumLiked, dislikes: newNumDisliked});
 
             }
 
@@ -101,14 +103,14 @@ const WholePostDetails = ( {post} )=>{
             // Update the likes of the post
             if (post._id)
             {
-                await axios.patch('http://localhost:3000/api/posts/' + post._id, { ...post, likes: newNumLiked, dislikes: newNumDisliked});
+                await axios.patch(apiUrl+'/api/posts/' + post._id, { ...post, likes: newNumLiked, dislikes: newNumDisliked});
                 if (like_or_unlike)
                 {
-                    await axios.patch('http://localhost:3000/api/users/' + userId, { $push: {likedPosts: post._id }});  
+                    await axios.patch(apiUrl+'/api/users/' + userId, { $push: {likedPosts: post._id }});  
                 }     
                 else
                 {
-                    await axios.patch('http://localhost:3000/api/users/' + userId, { $pull: {likedPosts: post._id }});
+                    await axios.patch(apiUrl+'/api/users/' + userId, { $pull: {likedPosts: post._id }});
                 }       
             }
 
@@ -123,14 +125,14 @@ const WholePostDetails = ( {post} )=>{
             // Update the likes of the post
             if (post._id)
             {
-                await axios.patch('http://localhost:3000/api/posts/' + post._id, { ...post, likes: newNumLiked, dislikes: newNumDisliked });
+                await axios.patch(apiUrl+'/api/posts/' + post._id, { ...post, likes: newNumLiked, dislikes: newNumDisliked });
                 if (dislike_or_unDislike)
                 {
-                    await axios.patch('http://localhost:3000/api/users/' + userId, {$push: {dislikedPosts: post._id }});
+                    await axios.patch(apiUrl+'/api/users/' + userId, {$push: {dislikedPosts: post._id }});
                 }
                 else
                 {
-                    await axios.patch('http://localhost:3000/api/users/' + userId, {$pull: {dislikedPosts: post._id }});
+                    await axios.patch(apiUrl+'/api/users/' + userId, {$pull: {dislikedPosts: post._id }});
                 }
                 
             }
@@ -146,7 +148,7 @@ const WholePostDetails = ( {post} )=>{
             <div className="bg-tertiary px-5 pt-5 pb-3 rounded-lg max-w-xl w-1/2 my-5 shadow-lg">
                 <div className='flex justify-between'>
                     <div className="flex items-center">
-                    <img src={post && post.user?.profpic ? "http://localhost:3000/api/uploads/actual/" + post.user.profpic.filename :"https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"}
+                    <img src={post && post.user?.profpic ? apiUrl+"/api/uploads/actual/" + post.user.profpic.filename :"https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"}
                             onClick={()=>navigate(`/Post/${post.user._id}`)}
                             className="rounded-full cursor-pointer mr-2 max-w-xs max-h-xs w-8 h-8"
                             />
@@ -178,7 +180,7 @@ const WholePostDetails = ( {post} )=>{
                 
                 <div className='bg-black w-full h-full flex flex-nowrap gap-2 items-center overflow-x-auto snap snap-x snap-mandatory scroll scroll-smooth rounded-sm'>
                     {post.postedImages.map((image)=>(
-                        <img key={image._id} src={"http://localhost:3000/api/uploads/actual/" + image.filename} className='w-full h-full rounded-sm snap-center'/>
+                        <img key={image._id} src={apiUrl+"/api/uploads/actual/" + image.filename} className='w-full h-full rounded-sm snap-center'/>
                     ))}
                 </div>
 

@@ -10,12 +10,13 @@ const AllPosts = () => {
     const [posts, setPosts] = useState(null);
     const params = useParams();
     const { userId } = useContext(AuthContext);
+    const apiUrl = import.meta.env.VITE_API_URL;
 
     useEffect(()=>{
         const fetchPosts = async()=>{
             try 
             {
-                const response = await axios.get("http://localhost:3000/api/posts/user/" + params.id);
+                const response = await axios.get(apiUrl+"/api/posts/user/" + params.id);
                 setPosts(response.data);
             
             }

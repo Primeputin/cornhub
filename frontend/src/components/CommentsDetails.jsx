@@ -7,6 +7,8 @@ const CommentsDetails = ({userId, post})=>{
 
     const [commentBody, setCommentBody] = useState("");
     const [commentsState, setCommentsState] = useState(post.comments);
+    const apiUrl = import.meta.env.VITE_API_URL;
+
     const onComment = async ()=>{
         // new comment object
         const newComment = {
@@ -17,10 +19,10 @@ const CommentsDetails = ({userId, post})=>{
 
         try {
             // Send HTTP request to create a new comment
-            const response = await axios.post('http://localhost:3000/api/comments/', newComment);
+            const response = await axios.post(apiUrl+'/api/comments/', newComment);
             
 
-            await axios.patch('http://localhost:3000/api/posts/' + post._id, {$push: { comments: response.data._id }});
+            await axios.patch(apiUrl+'/api/posts/' + post._id, {$push: { comments: response.data._id }});
 
             commentsState.unshift(response.data); // insert in the beginning of the array
 
@@ -84,6 +86,7 @@ const CommentsDetails = ({userId, post})=>{
 const CommentItem = ({userId, comment, onDeleteComment })=>{
     const navigate = useNavigate();
     const [commentState, setCommentState] = useState(comment);
+    const apiUrl = import.meta.env.VITE_API_URL;
     const getThreeTime = (timeString)=>{
         const createdTimeStamp = new Date(timeString);
 
@@ -132,14 +135,14 @@ const CommentItem = ({userId, comment, onDeleteComment })=>{
 
         try {
             // Send HTTP request to create a new comment/reply
-            const response = await axios.post('http://localhost:3000/api/comments/', newComment);
+            const response = await axios.post(apiUrl+'/api/comments/', newComment);
 
             // Get the newly created comment/reply from the response
             const createdComment = response.data;
 
             const newReplies = [...repliesState, createdComment._id]
             // update the comment being replied to
-            await axios.patch('http://localhost:3000/api/comments/' + commentState._id, { replies: newReplies });
+            await axios.patch(apiUrl+'/api/comments/' + commentState._id, { replies: newReplies });
             // Update the comment being replied to
             setRepliesState(newReplies);
 
@@ -168,7 +171,7 @@ const CommentItem = ({userId, comment, onDeleteComment })=>{
                 // Fetch comment data for each reply ObjectId
                 const promises = newRepliesState.map(async (replyId) => {
                     
-                    const response = await axios.get(`http://localhost:3000/api/comments/${replyId}`);
+                    const response = await axios.get(apiUrl+`/api/comments/${replyId}`);
                     return response.data;
                 });
                 const commentsData = await Promise.all(promises);
@@ -189,7 +192,7 @@ const CommentItem = ({userId, comment, onDeleteComment })=>{
         try {
             // delete comment
             onDeleteComment(commentState._id); // to update the top level comment if ever
-            await axios.delete('http://localhost:3000/api/comments/' + commentState._id);
+            await axios.delete(apiUrl+'/api/comments/' + commentState._id);
             
             
 
@@ -217,7 +220,7 @@ const CommentItem = ({userId, comment, onDeleteComment })=>{
 
         try {
             // update the comment being replied to
-            const response = await axios.patch('http://localhost:3000/api/comments/' + commentState._id, { comment: editBody });
+            const response = await axios.patch(apiUrl+'/api/comments/' + commentState._id, { comment: editBody });
             setCommentState(response.data);
             // put parenthesis around or else js will get confused
             ({ year: updatedYear, month: updatedMonth, day: updatedDay, time: updatedTime } = getThreeTime(commentState.updatedAt));
@@ -267,7 +270,7 @@ const CommentItem = ({userId, comment, onDeleteComment })=>{
             ) : (
                 <div>
                      <section className='bg-tertiary flex items-center py-2'>
-                        <img src={comment && comment.user?.profpic ? "http://localhost:3000/api/uploads/actual/" + comment.user.profpic.filename :"https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"} 
+                        <img src={comment && comment.user?.profpic ? apiUrl+"/api/uploads/actual/" + comment.user.profpic.filename :"https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"} 
                         className="rounded-full cursor-pointer p-1 mx-1 mr-2"
                         onClick={()=>navigate(`/Post/${comment.user._id}`)}
                         width="50"

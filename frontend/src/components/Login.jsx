@@ -11,6 +11,7 @@ const Login = () => {
     const navigate = useNavigate();
     const { isLoggedIn, login, userId } = useContext(AuthContext);
 
+    const apiUrl = import.meta.env.VITE_API_URL;
     useEffect(()=>{
         if (isLoggedIn) {
             navigate("/Home/" + userId);  
@@ -27,7 +28,7 @@ const Login = () => {
     
         try {
             // Send HTTP request to check users
-            const response = await axios.post('http://localhost:3000/api/users/check/', {...user, remember: remember});
+            const response = await axios.post(apiUrl + '/api/users/check/', {...user, remember: remember});
             // set login state to true for context
             login(response.data._id); 
             // go the home page

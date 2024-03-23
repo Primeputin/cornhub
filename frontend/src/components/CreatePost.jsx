@@ -17,6 +17,7 @@ const CreatePost = ()=>{
     // for tags
     const [tags, setTags] = useState([]);
     const inputId = "tagInput"; // Define a constant for input id
+    const apiUrl = import.meta.env.VITE_API_URL;
 
     function handleKeyDown(e) {
         if (e.key === 'Enter') {
@@ -59,7 +60,7 @@ const CreatePost = ()=>{
             let uploadedImages = []
             if (formData.has("images")) // formData.length doesn't work. It doesn't represent the number of files
             {
-                const response = await axios.post('http://localhost:3000/api/uploads/multiple', formData, {
+                const response = await axios.post(apiUrl + '/api/uploads/multiple', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
@@ -80,7 +81,7 @@ const CreatePost = ()=>{
                 postedImages: uploadedImages.map(image => image._id),
             }
 
-            const post = await axios.post('http://localhost:3000/api/posts/', newPost);
+            const post = await axios.post(apiUrl +'/api/posts/', newPost);
 
 
             success = true;

@@ -12,13 +12,14 @@ const Post = () => {
     const [posts, setPosts] = useState(null);
     const params = useParams();
     const { userId } = useContext(AuthContext);
+    const apiUrl = import.meta.env.VITE_API_URL;
 
     useEffect(() => {
         
         const fetchUser = async()=>{
             try 
             {
-                const response = await axios.get("http://localhost:3000/api/users/" + params.id);
+                const response = await axios.get(apiUrl+"/api/users/" + params.id);
                 setUser(response.data);
             
             }
@@ -37,7 +38,7 @@ const Post = () => {
         const fetchPosts = async()=>{
             try 
             {
-                const response = await axios.get("http://localhost:3000/api/posts/user/" + params.id);
+                const response = await axios.get(apiUrl+"/api/posts/user/" + params.id);
                 setPosts(response.data);
             
             }
@@ -58,7 +59,7 @@ const Post = () => {
     const fetchComments = async()=>{
         try 
         {
-            const response = await axios.get("http://localhost:3000/api/comments/user/" + params.id);
+            const response = await axios.get(apiUrl+"/api/comments/user/" + params.id);
             setComments(response.data);
         
         }
@@ -80,7 +81,7 @@ const Post = () => {
         <div className='h-screen w-screen bg-secondary pt-24'>
             <div className='flex items-center justify-center bg-secondary'>
                     <div className='flex flex-col items-center justify-center'>
-                        <img src={user && user.profpic ? "http://localhost:3000/api/uploads/actual/" + user.profpic.filename :"https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"}
+                        <img src={user && user.profpic ? apiUrl+"/api/uploads/actual/" + user.profpic.filename :"https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"}
                              className="rounded-full cursor-pointer max-w-md max-h-md w-32 h-32"
                         />
                         <span>{user && user.username}</span>
@@ -173,7 +174,7 @@ const SingleComment = ({ comment, refresh })=>{
         try {
             // future: still needs to check the replies of the comments that will be affected
             // also the comments that the comment is replied to
-            await axios.delete('http://localhost:3000/api/comments/' + commentState._id);  
+            await axios.delete(apiUrl+'/api/comments/' + commentState._id);  
             refresh();   
             
 
@@ -190,7 +191,7 @@ const SingleComment = ({ comment, refresh })=>{
 
         try {
             // update the comment being replied to
-            const response = await axios.patch('http://localhost:3000/api/comments/' + commentState._id, { comment: editBody });
+            const response = await axios.patch(apiUrl+'/api/comments/' + commentState._id, { comment: editBody });
             setCommentState(response.data);
             // put parenthesis around or else js will get confused
             ({ year: updatedYear, month: updatedMonth, day: updatedDay, time: updatedTime } = getThreeTime(commentState.updatedAt));
@@ -244,7 +245,7 @@ const SingleComment = ({ comment, refresh })=>{
             ) : (
                 <div>
                      <section className='bg-tertiary flex items-center py-2'>
-                        <img src={comment && comment.user?.profpic ? "http://localhost:3000/api/uploads/actual/" + comment.user.profpic.filename :"https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"} 
+                        <img src={comment && comment.user?.profpic ? apiUrl+"/api/uploads/actual/" + comment.user.profpic.filename :"https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"} 
                         className="rounded-full cursor-pointer mr-2 max-w-xs max-h-xs w-8 h-8"
                         onClick={()=>navigate(`/Post/${comment.user._id}`)}
                         width="50"
