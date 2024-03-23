@@ -55,6 +55,8 @@ const mongoStore = require('connect-mongodb-session')(session);
 
 app.use((req, res, next) => {
     const remember = req.body && req.body.remember;
+    const isSecure = req.secure || req.headers['x-forwarded-proto'] === 'https'; // Check if request is HTTPS
+
     const sessionConfig = {
         secret: 'I love corns so much because it is delicious',
         saveUninitialized: false, 
@@ -62,8 +64,13 @@ app.use((req, res, next) => {
         store: new mongoStore({ 
           uri: process.env.MONGURI,
           collection: 'session',
-          expires: remember ? 1000 * 60 * 60 * 24 * 21 : 1000 * 60 * 60
+          expires: remember ? 1000 * 60 * 60 * 24 * 21 : 1000 * 60 * 60,
+          cookie: {
+            secure: isSecure, // Set secure flag based on request being HTTPS
+            sameSite: "none" // no restriction in sending cookies to
+        }
         })
+        
     };
     
     // Apply session middleware with dynamically configured options

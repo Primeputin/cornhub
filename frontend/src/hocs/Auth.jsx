@@ -51,7 +51,7 @@ export const AuthProvider = ({ children }) => {
   
       const updateSession = async () => {
         try {
-          const response = await axios.patch(apiUrl+'/api/users//session/update');
+          const response = await axios.patch(apiUrl+'/api/users/session/update');
         } catch (error) {
           console.log("Error updating session")
         }
