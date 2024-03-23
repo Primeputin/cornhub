@@ -28,7 +28,13 @@ const Login = () => {
     
         try {
             // Send HTTP request to check users
-            const response = await axios.post(apiUrl + '/api/users/check/', {...user, remember: remember});
+            const response = await axios.post(apiUrl + '/api/users/check/', {...user, remember: remember}, {
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                withCredentials: true
+              }
+            );
             // set login state to true for context
             login(response.data._id); 
             // go the home page
