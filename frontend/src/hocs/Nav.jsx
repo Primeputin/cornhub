@@ -205,7 +205,7 @@ const Nav = (Component) => {
                             </button>
                         )}
                         
-                        <img src={user && user.profpic ? apiUrl + "/api/uploads/actual/" + user.profpic.filename :"https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"} 
+                        <img src={userId && user && user.profpic ? apiUrl + "/api/uploads/actual/" + user.profpic.filename :"https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"} 
                         className="rounded-full cursor-pointer p-1 mx-1 max-w-sm max-h-sm w-14 h-14"
                         onClick = {() => {
                             if (isLoggedIn)

@@ -82,7 +82,7 @@ const checkUser =  async (req, res)=>{
             return res.status(404).json({error: "No such user found :("});
         }
 
-        bcrypt.compare(password, user.password, function(err, result) {
+        await bcrypt.compare(password, user.password, function(err, result) {
             if (result)
             {
                 req.session.user = user._id;
