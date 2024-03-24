@@ -8,13 +8,16 @@ const commentRoutes = require('./routes/comments');
 const imageRoutes = require('./routes/images');
 const userRoutes = require('./routes/users');
 const cors = require('cors');
+const path = require('path');
 
 // express app
 const app = express();
 
+app.set("trust proxy", 1); // for render deployment
+
 app.use(cors(
     {
-        origin: ["http://localhost:5173", "https://cornhub-frontend.onrender.com"],
+        origin: ["http://localhost:5173"],
         credentials: true,
     }
 )); // for allowing Cross-Origin Resource Sharing
@@ -29,8 +32,6 @@ mongoose.connect(process.env.MONGURI).then(()=>{
 
 const session = require('express-session');
 const mongoStore = require('connect-mongodb-session')(session);
-
-app.set("trust proxy", 1); // for render deployment
 
 //connect the sessions with the mongoose connection. This will save the
 //sessions on the server on its own schema.
@@ -54,13 +55,7 @@ app.use((req, res, next) => {
           collection: 'session',
           expires: remember ? 1000 * 60 * 60 * 24 * 21 : 1000 * 60 * 60
         }),
-        cookie: {
-            secure: false,
-            sameSite: 'none',
-            httpOnly: false,
-            domain: req.hostname == 'localhost' ? 'localhost' : 'cornhub-frontend.onrender.com',
-        
-    }};
+    };
     
     session(sessionConfig)(req, res, next);
 });
@@ -76,6 +71,14 @@ app.use("/api/posts", postRoutes)
 app.use("/api/comments", commentRoutes)
 app.use("/api/uploads", imageRoutes)
 app.use("/api/users", userRoutes)
+
+if (process.env.NODE_ENV === 'production')
+{
+    const _dirname = path.resolve();
+    app.use(express.static(path.join(__dirname, '../frontend/dist')))
+
+    app.get('*', (req, res)=> res.sendFile(path.resolve(__dirname, '../frontend', 'dist', 'index.html')))
+}
 
 // listens for request
 app.listen(process.env.PORT, ()=>{
