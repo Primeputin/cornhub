@@ -58,7 +58,7 @@ app.use((req, res, next) => {
             secure: false,
             sameSite: 'none',
             httpOnly: false,
-            domain: req.hostname == 'localhost' ? 'localhost' : 'onrender.com',
+            domain: req.hostname == 'localhost' ? 'localhost' : '.onrender.com',
         
     }};
     
