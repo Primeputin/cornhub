@@ -54,10 +54,12 @@ app.use((req, res, next) => {
           expires: remember ? 1000 * 60 * 60 * 24 * 21 : 1000 * 60 * 60
         }),
         cookie: {
-            sameSite: 'none'
-        }
+            secure: false,
+            sameSite: 'none',
+            domain: req.hostname === 'localhost' ? 'localhost' : '.onrender.com', 
+            path: '/' 
         
-    };
+    }};
     
     session(sessionConfig)(req, res, next);
 });
