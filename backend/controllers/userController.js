@@ -94,6 +94,7 @@ const checkUser =  async (req, res)=>{
                 {
                     req.session.remember = false;
                 }
+                console.log(req.session);
                 res.status(200).json(user);
             }
             else

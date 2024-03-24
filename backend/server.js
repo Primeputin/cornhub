@@ -54,10 +54,9 @@ app.use((req, res, next) => {
           expires: remember ? 1000 * 60 * 60 * 24 * 21 : 1000 * 60 * 60
         }),
         cookie: {
-            secure: true,
+            secure: false,
             sameSite: 'none',
-            domain: req.hostname === 'localhost' ? 'localhost' : '.onrender.com', 
-            path: '/' 
+            httpOnly: false,
         
     }};
     
