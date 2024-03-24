@@ -44,6 +44,7 @@ app.set("trust proxy", 1); // for render deployment
 //store -> expires - the life duration of a session.
 app.use((req, res, next) => {
     const remember = req.body && req.body.remember;
+    console.log(req.hostname)
     const sessionConfig = {
         secret: 'I love corns so much because it is delicious',
         saveUninitialized: false, 
