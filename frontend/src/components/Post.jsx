@@ -132,6 +132,8 @@ const SingleComment = ({ comment, refresh })=>{
     const [commentState, setCommentState] = useState(comment);
     const { userId } = useContext(AuthContext);
 
+    const apiUrl = import.meta.env.VITE_API_URL;
+    
     const getThreeTime = (timeString)=>{
         const createdTimeStamp = new Date(timeString);
 
