@@ -24,6 +24,8 @@ bcrypt
 react-dom,
 react-router-dom
 react-dropzone
+@tsparticles/react
+@tsparticles/slim
 
 Vite plugins:
 @rollup/plugin-replace

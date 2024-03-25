@@ -1,11 +1,12 @@
 import Nav from '../hocs/Nav';
-
+import ParticlesComp from './Particles'
 const About = () =>{
 
     return (
         <>
-            <div className='flex flex-col bg-secondary h-full w-screen p-10'>
-                <h1 className='mt-36 mb-8 font-bold'>Corn Hub</h1>
+            <ParticlesComp className='h-full w-full -z-10' id="About"/>
+            <div className='flex flex-col bg-secondary h-screen w-screen p-10'>
+                <h1 className='mt-20 mb-8 font-bold'>Corn Hub</h1>
                 <h2 className='font-bold'>NPM Packages & Third party Library used</h2>
                 <p className='mx-5'>Vite</p>
                 <p className='mx-5'>Tailwind</p>
@@ -46,6 +47,10 @@ const About = () =>{
                     </li>
                     <li>
                         react-dropzone
+                    </li>
+                    <li>
+                        @tsparticles/react
+                        @tsparticles/slim
                     </li>
                 </ul>
                 <h3 className='mx-5 font-bold'>Vite plugins:</h3>

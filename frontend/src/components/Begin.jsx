@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import corn from '../assets/corn.png'
 import { AuthContext } from '../hocs';
 import { useEffect, useContext } from 'react';
+import ParticlesComp from './Particles'
 
 const Begin = () =>{
     const navigate = useNavigate();
@@ -25,6 +26,7 @@ const Begin = () =>{
     
     return (
         <div className='flex flex-col items-center justify-center w-screen h-screen bg-lime-50'>
+        <ParticlesComp className='h-full w-full -z-10' id="Register"/>
           <div >
               <img src={corn} className="mx-auto size-64 hover:drop-shadow-yellow" alt="Corn logo" />
           </div>
