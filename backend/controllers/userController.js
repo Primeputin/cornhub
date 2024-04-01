@@ -41,34 +41,39 @@ const getUser = async (req, res)=>{
 
 }
 
-// create a user
-const createUser =  async (req, res)=>{
-
-    const {username, password} = req.body
-    try
-    {   
-        
-        let encrypted_pass = ""
-        bcrypt.hash(password, SALTROUNDS, async function(err, hash) {
+// create user
+const createUser = async (req, res) => {
+    const { username, password } = req.body;
+    try {
+        let encrypted_pass = "";
+        bcrypt.hash(password, SALTROUNDS, async function (err, hash) {
             encrypted_pass = hash;
-            const user = await User.create({username: username, password: encrypted_pass});
-            res.status(200).json(user);
+            try {
+                const user = await User.create({ username: username, password: encrypted_pass });
+                res.status(200).json(user);
+            } catch (error) {
+                // mongoose doesn't catch duplicated errors by default
+                if (error.code === 11000) {
+                    // MongoDB duplicate key error
+                    return res.status(400).json({ error: 'Username already exists' });
+                }
+                // other errors
+                console.error(error);
+                res.status(500).json({ error: 'Internal server error' });
+            }
         });
-        
-    }
-    catch(error)
-    {
+    } catch (error) {
         if (error.name === 'ValidationError') {
-            // If the model invalidation happened, return 400 status code
+            // If the model validation failed, return 400 status code
             const validationErrors = Object.values(error.errors).map(err => err.message);
             return res.status(400).json({ error: 'Validation failed', details: validationErrors });
         }
         // For other types of errors, log the error and return a 500 status code
         console.error(error);
         res.status(500).json({ error: 'Internal server error' });
-    
     }
 }
+
 
 // check if valid user
 const checkUser =  async (req, res)=>{
