@@ -10,6 +10,7 @@ const Home = () => {
     const apiUrl = import.meta.env.VITE_API_URL;
     useEffect(()=>{
         const fetchPosts = async()=>{
+            
             const response = await fetch(apiUrl + "/api/posts/"); // it will forward/ proxy this to localhost:3000 which is the nodejs server defined in the package.json
             if (response.ok)
             {
@@ -20,7 +21,7 @@ const Home = () => {
 
         fetchPosts();
 
-    }, [])
+    }, [userId])
 
     return (
         <>

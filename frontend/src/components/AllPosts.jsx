@@ -29,7 +29,7 @@ const AllPosts = () => {
 
         fetchPosts();
 
-    }, [])
+    }, [userId])
 
     return (
         <>

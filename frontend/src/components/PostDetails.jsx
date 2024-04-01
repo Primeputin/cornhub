@@ -48,6 +48,7 @@ const PostDetails = ({ userId, post })=>{
 
     useEffect(()=>{
         const CheckLikeDislike = async()=>{
+            
             if (userId)
             {
                 try
@@ -71,11 +72,11 @@ const PostDetails = ({ userId, post })=>{
                 }
 
                
-        }
+            }
 
-        CheckLikeDislike();
-
-    }}, [])
+    }
+    CheckLikeDislike();
+}, [userId])
 
     const Update_Post = async (newNumLiked, newNumDisliked) => {
         try {
@@ -205,7 +206,6 @@ const PostDetails = ({ userId, post })=>{
                                     setNumDisliked(newNumDisliked - 1);
                                     newNumDisliked = newNumDisliked - 1;
                                     post.disLikedBy = post.disLikedBy.filter(user => user !== userId);
-                                    console.log("ahahahahahah");
                                     Dislike_Post(newNumLiked, newNumDisliked, false);
                                 }
                                 setDisliked(false);
