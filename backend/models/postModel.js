@@ -61,17 +61,5 @@ const postSchema = new Schema({
     
 });
 
-postSchema.pre('findOneAndUpdate', function(next) {
-    const update = this.getUpdate();
-
-    // Fix for the like, dislike and comment not saying "edited on"
-    if (update.hasOwnProperty('comments') && !(update.hasOwnProperty('likes')) && !(update.hasOwnProperty('dislikes'))) { 
-        update.updatedAt = new Date();
-    }
-    // Proceed to the next middleware
-    next();
-});
-
-
 
 module.exports = mongoose.model("postModel", postSchema);

@@ -138,18 +138,29 @@ const deletePost = async (req, res)=>{
 // update a post
 const updatePost = async (req, res)=>{
     const { id } = req.params
+
     // checks if the obj id is valid before proceeind to prevent an error in the db side
     if (!mongoose.Types.ObjectId.isValid(id))
     {
         return res.status(404).json({error: "No such post found :("});
     }
 
-    const post = await Post.findOneAndUpdate({_id: id}, {...req.body});
-
-    if (!post)
+    const findpost = await Post.findOne({_id: id});
+    
+    if (!findpost)
     {
         return res.status(404).json({error: "No such post found :("});
     }
+
+    //console.log(req.body);
+    
+    if ((req.body.title && findpost.title != req.body.title) || (req.body.desc && findpost.desc != req.body.desc)){
+        req.body.updatedAt = new Date();
+       
+    }
+
+    const post = await Post.findOneAndUpdate({_id: id}, {...req.body});
+
     res.status(200).json(post);
 }
 
