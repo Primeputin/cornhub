@@ -40,7 +40,7 @@ const Register = () => {
 
     return (
         <div className='flex flex-col items-center justify-center w-screen h-screen gap-y-8 bg-lime-50'>
-          <h1 className='text-center'>Register your new 🌽ny account!</h1>
+          <h1 className='text-center'>Register your new Kernel Hub account!</h1>
           <form className="flex flex-col items-center justify-center gap-y-3">
                 <input onChange={(event)=>{setUsername(event.target.value)}} type="text" placeholder="username" className="border border-primary rounded-md"/>
                 <input onChange={(event)=>{setPassword(event.target.value)}} type="password" placeholder="password" className="border border-primary rounded-md"/>

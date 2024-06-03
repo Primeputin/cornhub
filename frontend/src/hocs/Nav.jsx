@@ -246,7 +246,7 @@ const Nav = (Component) => {
                         <div>
                             <img src={corn} className="mx-auto size-32 hover:drop-shadow-yellow" alt="Corn logo" />
                         </div>
-                        <h2 className='text-center'>Welcome to Corn Hub 🌽</h2>
+                        <h2 className='text-center'>Welcome to Kernel Hub 🌽</h2>
                         <div className="flex gap-x-8 mt-4">
                             <button onClick={()=>navigate("/Register")}>Register</button>
                             <button onClick={()=>navigate("/Login")}>Login</button>

@@ -30,7 +30,7 @@ const Begin = () =>{
           <div >
               <img src={corn} className="mx-auto size-64 hover:drop-shadow-yellow" alt="Corn logo" />
           </div>
-          <h1 className='text-center'>Welcome to Corn Hub 🌽</h1>
+          <h1 className='text-center'>Welcome to Kernel Hub 🌽</h1>
           <div className="flex gap-x-8 mt-4">
               <button onClick = {toRegister}>Register</button>
               <button onClick = {toLogin}>Login</button>
